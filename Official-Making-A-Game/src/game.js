@@ -14,6 +14,8 @@ var platforms;
 var player;
 var cursors;
 
+var stars;
+
 function create() {
 	// Enable arcade physics.
 	game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -44,6 +46,22 @@ function create() {
 	ledge = platforms.create(-150, 250, 'platform');
 	ledge.body.immovable = true;
 
+	// Create a group for the stars.
+	stars = game.add.group();
+	stars.enableBody = true;
+
+	// Create 12 stars, evenly spaced.
+	for (var i = 0; i < 12; i++) {
+		// Create a star.
+		var star = stars.create(i * 70, 0, 'star');
+
+		// Give them gravity.
+		star.body.gravity.y = 6;
+
+		// Give each star a random bounce amount. 0 = no bounce and 1 = full bounce.
+		star.body.bounce.y = 0.7 + Math.random() * 0.2;
+	}
+
 	// Create the player.
 	player = game.add.sprite(32, game.world.height - 150, 'dude');
 
@@ -64,6 +82,9 @@ function create() {
 function update() {
 	// The player and platforms should collide.
 	game.physics.arcade.collide(player, platforms);
+
+	// The stars and platforms should collide.
+	game.physics.arcade.collide(stars, platforms);
 
 	// Reset the player's velocity.
 	player.body.velocity.x = 0;
