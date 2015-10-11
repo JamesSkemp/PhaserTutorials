@@ -86,6 +86,9 @@ function update() {
 	// The stars and platforms should collide.
 	game.physics.arcade.collide(stars, platforms);
 
+	// Collect stars if the player overlaps them.
+	game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
 	// Reset the player's velocity.
 	player.body.velocity.x = 0;
 
@@ -108,4 +111,9 @@ function update() {
 	if (cursors.up.isDown && player.body.touching.down) {
 		player.body.velocity.y = -350;
 	}
+}
+
+function collectStar(player, star) {
+	// Remove the star from the screen.
+	star.kill();
 }
