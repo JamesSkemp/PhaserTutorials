@@ -16,6 +16,9 @@ var cursors;
 
 var stars;
 
+var score = 0;
+var scoreText;
+
 function create() {
 	// Enable arcade physics.
 	game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -61,6 +64,9 @@ function create() {
 		// Give each star a random bounce amount. 0 = no bounce and 1 = full bounce.
 		star.body.bounce.y = 0.7 + Math.random() * 0.2;
 	}
+
+	// Display the score in the top right corner (starting at 16x16). Use default browser font.
+	scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
 
 	// Create the player.
 	player = game.add.sprite(32, game.world.height - 150, 'dude');
@@ -116,4 +122,9 @@ function update() {
 function collectStar(player, star) {
 	// Remove the star from the screen.
 	star.kill();
+
+	// Update the score.
+	score += 10;
+	scoreText.text = 'Score: ' + score;
+
 }
