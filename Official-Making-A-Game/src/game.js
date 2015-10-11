@@ -55,9 +55,9 @@ function create() {
 	// Player has walk animations, at 10 frames per second.
 	player.animations.add('left', [0, 1, 2, 3], 10, true);
 	player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-
 }
 
 function update() {
+	// The player and platforms should collide.
+	game.physics.arcade.collide(player, platforms);
 }
