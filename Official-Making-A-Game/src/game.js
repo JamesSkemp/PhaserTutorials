@@ -1,4 +1,4 @@
-﻿/// <reference path="../lib/phaser.min.js" />
+﻿/// <reference path="../lib/phaser-2.4.3.js" />
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 	preload: preload, create: create, update: update
 });
