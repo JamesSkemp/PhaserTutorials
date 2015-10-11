@@ -12,6 +12,7 @@ function preload() {
 
 var platforms;
 var player;
+var cursors;
 
 function create() {
 	// Enable arcade physics.
@@ -55,9 +56,35 @@ function create() {
 	// Player has walk animations, at 10 frames per second.
 	player.animations.add('left', [0, 1, 2, 3], 10, true);
 	player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+	// Enable keyboard cursor support.
+	cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
 	// The player and platforms should collide.
 	game.physics.arcade.collide(player, platforms);
+
+	// Reset the player's velocity.
+	player.body.velocity.x = 0;
+
+	if (cursors.left.isDown) {
+		// Move to the left.
+		player.body.velocity.x = -150;
+		player.animations.play('left');
+	} else if (cursors.right.isDown) {
+		// Move to the right.
+		player.body.velocity.x = 150;
+		player.animations.play('right');
+	} else {
+		// Standing still.
+		player.animations.stop();
+
+		player.frame = 4;
+	}
+
+	// Player can jump if they're touching ground.
+	if (cursors.up.isDown && player.body.touching.down) {
+		player.body.velocity.y = -350;
+	}
 }
