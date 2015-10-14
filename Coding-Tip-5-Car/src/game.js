@@ -31,6 +31,8 @@ game.state.add('play', {
 		this.physics.arcade.enable(this.car);
 
 		this.speed = 150;
+		// Allow a bit of slip in the numbers for turning.
+		this.threshold = 3;
 		this.turnSpeed = 150;
 
 		this.marker = new Phaser.Point();
@@ -71,6 +73,26 @@ game.state.add('play', {
 	},
 
 	render: function () {
+		// Loops through all directions and overlaps a box denoting whether a direction can be moved in or not.
+		for (var t = 1; t < 5; t++) {
+			if (this.directions[t] === null) {
+				continue;
+			}
+
+			var color = 'rgba(0,255,0,0.3)';
+
+			if (this.directions[t].index !== this.roadTile) {
+				color = 'rgba(255,0,0,0.3)';
+			}
+
+			if (t === this.current) {
+				color = 'rgba(255,255,255,0.3)';
+			}
+
+			this.game.debug.geom(new Phaser.Rectangle(this.directions[t].worldX, this.directions[t].worldY, 32, 32), color, true);
+		}
+
+		this.game.debug.geom(this.turnPoint, '#ffff00');
 	},
 
 	checkKeys: function () {
@@ -87,7 +109,6 @@ game.state.add('play', {
 			this.checkDirection(Phaser.DOWN);
 		}
 		else {
-			//  This forces them to hold the key down to turn the corner
 			this.turning = Phaser.NONE;
 		}
 	},
