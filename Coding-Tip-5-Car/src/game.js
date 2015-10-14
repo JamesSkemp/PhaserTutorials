@@ -18,7 +18,7 @@ game.state.add('play', {
 		this.map = this.add.tilemap('map');
 		this.map.addTilesetImage('tiles', 'tiles');
 
-		// Actually triggers the tilemap to render. Only 3 or 5 lines? Yowsa.
+		// Actually triggers the tilemap to render. Only 5 lines? Yowsa.
 		this.layer = this.map.createLayer('Tile Layer 1');
 
 		// 20 = id of the tile to collide with. Multiple ids can be passed in.
@@ -30,14 +30,56 @@ game.state.add('play', {
 
 		this.physics.arcade.enable(this.car);
 
+		this.speed = 150;
+		this.turnSpeed = 150;
+
+		this.opposites = [Phaser.NONE, Phaser.RIGHT, Phaser.LEFT, Phaser.DOWN, Phaser.UP];
+
+		this.current = Phaser.UP;
+
 		// Enable base keyboard support.
 		this.cursors = this.input.keyboard.createCursorKeys();
+
+		this.move(Phaser.DOWN);
 	},
 
 	update: function () {
 	},
 
 	render: function () {
+	},
+
+	move: function (direction) {
+		var speed = this.speed;
+
+		if (direction === Phaser.LEFT || direction == Phaser.UP) {
+			speed = -speed;
+		}
+
+		if (direction === Phaser.LEFT || direction === Phaser.RIGHT) {
+			this.car.body.velocity.x = speed;
+		} else {
+			this.car.body.velocity.y = speed;
+		}
+
+		this.add.tween(this.car).to({ angle: this.getAngle(direction) }, this.turnSpeed, "Linear", true);
+
+		this.current = direction;
+	},
+	
+	getAngle: function (to) {
+		if (this.current === this.opposites[to]) {
+			return "180";
+		}
+
+		if ((this.current === Phaser.UP && to === Phaser.LEFT)
+			|| (this.current === Phaser.DOWN && to === Phaser.RIGHT)
+			|| (this.current === Phaser.LEFT && to === Phaser.DOWN)
+			|| (this.current === Phaser.RIGHT && to === Phaser.UP)) {
+			return "-90";
+		}
+
+		return "90";
 	}
 });
 
