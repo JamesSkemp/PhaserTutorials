@@ -44,6 +44,7 @@ game.state.add('play', {
 	},
 
 	update: function () {
+		this.physics.arcade.collide(this.car, this.layer);
 	},
 
 	render: function () {
