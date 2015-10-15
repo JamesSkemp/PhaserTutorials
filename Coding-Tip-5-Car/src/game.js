@@ -44,7 +44,9 @@ game.state.add('play', {
 		this.directions = [null, null, null, null, null];
 		this.opposites = [Phaser.NONE, Phaser.RIGHT, Phaser.LEFT, Phaser.DOWN, Phaser.UP];
 
+		// The current direction the car is facing.
 		this.current = Phaser.UP;
+		// Direction the car is turning to.
 		this.turning = Phaser.NONE;
 
 		// Enable base keyboard support.
@@ -54,6 +56,7 @@ game.state.add('play', {
 	},
 
 	update: function () {
+		// The car and the layer (which had certain tiles set to collision) should collide.
 		this.physics.arcade.collide(this.car, this.layer);
 
 		this.marker.x = this.math.snapToFloor(Math.floor(this.car.x), this.gridsize) / this.gridsize;
@@ -79,12 +82,15 @@ game.state.add('play', {
 				continue;
 			}
 
+			// Default to a green overlay.
 			var color = 'rgba(0,255,0,0.3)';
 
+			// If we can't drive on the tile, show a red overlay.
 			if (this.directions[t].index !== this.roadTile) {
 				color = 'rgba(255,0,0,0.3)';
 			}
 
+			// If it's the current tile, don't set an overlay.
 			if (t === this.current) {
 				color = 'rgba(255,255,255,0.3)';
 			}
@@ -92,6 +98,7 @@ game.state.add('play', {
 			this.game.debug.geom(new Phaser.Rectangle(this.directions[t].worldX, this.directions[t].worldY, 32, 32), color, true);
 		}
 
+		// Put a yellow dot where the car last turned (reverse doesn't count).
 		this.game.debug.geom(this.turnPoint, '#ffff00');
 	},
 
