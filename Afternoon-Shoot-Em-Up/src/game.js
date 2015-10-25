@@ -81,6 +81,11 @@ BasicGame.Game.prototype = {
 		} else if (this.cursors.down.isDown) {
 			this.player.body.velocity.y = this.player.speed;
 		}
+
+		// Move to where the user is clicking/touching.
+		if (this.input.activePointer.isDown) {
+			this.physics.arcade.moveToPointer(this.player, this.player.speed);
+		}
 	},
 	
 	render: function () {
