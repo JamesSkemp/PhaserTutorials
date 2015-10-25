@@ -83,7 +83,9 @@ BasicGame.Game.prototype = {
 		}
 
 		// Move to where the user is clicking/touching.
-		if (this.input.activePointer.isDown) {
+		if (this.input.activePointer.isDown
+			// Fudge so that the player doesn't bounce around.
+			&& this.physics.arcade.distanceToPointer(this.player) > 15) {
 			this.physics.arcade.moveToPointer(this.player, this.player.speed);
 		}
 	},
