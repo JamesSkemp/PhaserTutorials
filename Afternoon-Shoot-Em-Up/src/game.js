@@ -29,6 +29,7 @@ BasicGame.Game.prototype = {
 		this.load.image('bullet');
 		// Each tile is 32x32 pixels.
 		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
+		this.load.spritesheet('explosion', 'explosion.png', 32, 32);
 	},
 
 	create: function () {
@@ -44,8 +45,8 @@ BasicGame.Game.prototype = {
 		this.bullet = this.add.sprite(400, 300, 'bullet');
 		this.bullet.anchor.setTo(0.5);
 		this.physics.enable(this.bullet, Phaser.Physics.ARCADE);
-		// 500 pixels/second.
-		this.bullet.body.velocity.y = -500;
+		// 100 pixels/second.
+		this.bullet.body.velocity.y = -100;
 	},
 
 	update: function () {
@@ -64,6 +65,12 @@ BasicGame.Game.prototype = {
 	enemyHit: function (bullet, enemy) {
 		bullet.kill();
 		enemy.kill();
+
+		var explosion = this.add.sprite(enemy.x, enemy.y, 'explosion');
+		explosion.anchor.setTo(0.5);
+		explosion.animations.add('boom');
+		// Run at 15 fps, don't loop, and kill the explosion sprite once the animation has stopped.
+		explosion.play('boom', 15, false, true);
 	},
 
 	quitGame: function (pointer) {
