@@ -35,15 +35,20 @@ BasicGame.Game.prototype = {
 		this.sea = this.add.tileSprite(0, 0, 800, 600, 'sea');
 
 		this.enemy = this.add.sprite(400, 200, 'greenEnemy');
+		// Animation runs at 20 frames/second, and loops.
 		this.enemy.animations.add('fly', [0, 1, 2], 20, true);
 		this.enemy.play('fly');
+		this.enemy.anchor.setTo(0.5);
 
 		this.bullet = this.add.sprite(400, 300, 'bullet');
+		this.bullet.anchor.setTo(0.5);
 	},
 
 	update: function () {
 		// Scroll the sea background.
 		this.sea.tilePosition.y += 0.2;
+
+		this.bullet.y -= 1;
 	},
 
 	quitGame: function (pointer) {
