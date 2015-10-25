@@ -15,6 +15,6 @@ BasicGame.Boot.prototype = {
 	},
 
 	create: function () {
-
+		this.state.start('Preloader');
 	}
 };
