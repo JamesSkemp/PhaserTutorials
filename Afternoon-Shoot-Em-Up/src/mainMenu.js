@@ -1,5 +1,4 @@
 ﻿BasicGame.MainMenu = function (game) {
-
 };
 
 BasicGame.MainMenu.prototype = {
