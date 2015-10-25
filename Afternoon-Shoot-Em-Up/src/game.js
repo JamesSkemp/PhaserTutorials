@@ -39,16 +39,24 @@ BasicGame.Game.prototype = {
 		this.enemy.animations.add('fly', [0, 1, 2], 20, true);
 		this.enemy.play('fly');
 		this.enemy.anchor.setTo(0.5);
+		this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
 
 		this.bullet = this.add.sprite(400, 300, 'bullet');
 		this.bullet.anchor.setTo(0.5);
+		this.physics.enable(this.bullet, Phaser.Physics.ARCADE);
+		// 500 pixels/second.
+		this.bullet.body.velocity.y = -500;
 	},
 
 	update: function () {
 		// Scroll the sea background.
 		this.sea.tilePosition.y += 0.2;
+	},
 
-		this.bullet.y -= 1;
+	render: function () {
+		// Render debugging boxes.
+		this.game.debug.body(this.bullet);
+		this.game.debug.body(this.enemy);
 	},
 
 	quitGame: function (pointer) {
