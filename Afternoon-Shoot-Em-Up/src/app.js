@@ -6,5 +6,6 @@
 	game.state.add('MainMenu', BasicGame.MainMenu);
 	game.state.add('Game', BasicGame.Game);
 
-	game.state.start('Boot');
+	//game.state.start('Boot');
+	game.state.start('Game');
 };
