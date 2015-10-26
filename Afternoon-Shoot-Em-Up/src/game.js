@@ -34,83 +34,18 @@ BasicGame.Game.prototype = {
 	},
 
 	create: function () {
-		this.sea = this.add.tileSprite(0, 0, 800, 600, 'sea');
-
-		this.player = this.add.sprite(400, 550, 'player');
-		this.player.anchor.setTo(0.5);
-		this.player.animations.add('fly', [0, 1, 2], 20, true);
-		this.player.play('fly');
-		this.physics.enable(this.player, Phaser.Physics.ARCADE);
-		this.player.speed = 300;
-		this.player.body.collideWorldBounds = true;
-		// Decrease the size of the player's hitbox. Width, height, and then offset based upon anchor.
-		this.player.body.setSize(20, 20, 0, -5);
-
-		this.enemyPool = this.add.group();
-		this.enemyPool.enableBody = true;
-		this.enemyPool.physicsBodyType = Phaser.Physics.ARCADE;
-		// Start our pool with 50 enemies.
-		this.enemyPool.createMultiple(50, 'greenEnemy');
-		this.enemyPool.setAll('anchor.x', 0.5);
-		this.enemyPool.setAll('anchor.y', 0.5);
-		this.enemyPool.setAll('outOfBoundsKill', true);
-		this.enemyPool.setAll('checkWorldBounds', true);
-
-		this.enemyPool.forEach(function (enemy) {
-			// Animation runs at 20 frames/second, and loops.
-			enemy.animations.add('fly', [0, 1, 2], 20, true);
-		});
-
-		this.nextEnemyAt = 0;
-		// 1 second delay when spawning enemies.
-		this.enemyDelay = 1000;
-
-		// Add a pool for all bullets, with physics.
-		this.bulletPool = this.add.group();
-		this.bulletPool.enableBody = true;
-		this.bulletPool.physicsBodyType = Phaser.Physics.ARCADE;
-		// Start with a pool of 100 bullets, using the first frame in the sprite (if applicable).
-		this.bulletPool.createMultiple(100, 'bullet');
-
-		// Set the anchor to the middle for all bullets.
-		this.bulletPool.setAll('anchor.x', 0.5);
-		this.bulletPool.setAll('anchor.y', 0.5);
-
-		// Kill bullets when they go out of bounds.
-		this.bulletPool.setAll('outOfBoundsKill', true);
-		this.bulletPool.setAll('checkWorldBounds', true);
-
-		this.nextShotAt = 0;
-		this.shotDelay = 100;
-
-		// Add a pool for our explosion animations.
-		this.explosionPool = this.add.group();
-		this.explosionPool.enableBody = true;
-		this.explosionPool.physicsBodyType = Phaser.Physics.ARCADE;
-		this.explosionPool.createMultiple(100, 'explosion');
-		this.explosionPool.setAll('anchor.x', 0.5);
-		this.explosionPool.setAll('anchor.y', 0.5);
-		this.explosionPool.forEach(function (explosion) {
-			explosion.animations.add('boom');
-		});
+		this.setupBackground();
+		this.setupPlayer();
+		this.setupEnemies();
+		this.setupBullets();
+		this.setupExplosions();
+		this.setupText();
 
 		// Enable keyboard support.
 		this.cursors = this.input.keyboard.createCursorKeys();
-
-		this.instructions = this.add.text(400, 500,
-			'Use Arrow Keys to Move, Press Z to Fire\n'
-			+ 'Tapping/clicking does both',
-			{ font: '20px monospace', fill: '#fff', align: 'center' }
-		);
-		this.instructions.anchor.setTo(0.5);
-		// Expire 10 seconds after displaying.
-		this.instExpire = this.time.now + 10000;
 	},
 
 	update: function () {
-		// Scroll the sea background.
-		this.sea.tilePosition.y += 0.2;
-
 		// Bullets kill enemies.
 		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
 		// Enemies kill the player.
@@ -165,6 +100,97 @@ BasicGame.Game.prototype = {
 		//this.game.debug.body(this.enemy);
 		//this.game.debug.body(this.player);
 	},
+
+	setupBackground: function () {
+		this.sea = this.add.tileSprite(0, 0, 800, 600, 'sea');
+		// Automatically scroll the background. Replaces the following in the update():
+		// this.sea.tilePosition.y += 0.2;
+		this.sea.autoScroll(0, 12);
+	},
+
+	setupPlayer: function () {
+		this.player = this.add.sprite(400, 550, 'player');
+		this.player.anchor.setTo(0.5);
+		this.player.animations.add('fly', [0, 1, 2], 20, true);
+		this.player.play('fly');
+		this.physics.enable(this.player, Phaser.Physics.ARCADE);
+		this.player.speed = 300;
+		this.player.body.collideWorldBounds = true;
+		// Decrease the size of the player's hitbox. Width, height, and then offset based upon anchor.
+		this.player.body.setSize(20, 20, 0, -5);
+	},
+
+	setupEnemies: function () {
+		this.enemyPool = this.add.group();
+		this.enemyPool.enableBody = true;
+		this.enemyPool.physicsBodyType = Phaser.Physics.ARCADE;
+		// Start our pool with 50 enemies.
+		this.enemyPool.createMultiple(50, 'greenEnemy');
+		this.enemyPool.setAll('anchor.x', 0.5);
+		this.enemyPool.setAll('anchor.y', 0.5);
+		this.enemyPool.setAll('outOfBoundsKill', true);
+		this.enemyPool.setAll('checkWorldBounds', true);
+
+		this.enemyPool.forEach(function (enemy) {
+			// Animation runs at 20 frames/second, and loops.
+			enemy.animations.add('fly', [0, 1, 2], 20, true);
+		});
+
+		this.nextEnemyAt = 0;
+		// 1 second delay when spawning enemies.
+		this.enemyDelay = 1000;
+	},
+
+	setupBullets: function () {
+		// Add a pool for all bullets, with physics.
+		this.bulletPool = this.add.group();
+		this.bulletPool.enableBody = true;
+		this.bulletPool.physicsBodyType = Phaser.Physics.ARCADE;
+		// Start with a pool of 100 bullets, using the first frame in the sprite (if applicable).
+		this.bulletPool.createMultiple(100, 'bullet');
+
+		// Set the anchor to the middle for all bullets.
+		this.bulletPool.setAll('anchor.x', 0.5);
+		this.bulletPool.setAll('anchor.y', 0.5);
+
+		// Kill bullets when they go out of bounds.
+		this.bulletPool.setAll('outOfBoundsKill', true);
+		this.bulletPool.setAll('checkWorldBounds', true);
+
+		this.nextShotAt = 0;
+		this.shotDelay = 100;
+	},
+
+	setupExplosions: function () {
+		// Add a pool for our explosion animations.
+		this.explosionPool = this.add.group();
+		this.explosionPool.enableBody = true;
+		this.explosionPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.explosionPool.createMultiple(100, 'explosion');
+		this.explosionPool.setAll('anchor.x', 0.5);
+		this.explosionPool.setAll('anchor.y', 0.5);
+		this.explosionPool.forEach(function (explosion) {
+			explosion.animations.add('boom');
+		});
+	},
+
+	setupText: function () {
+		this.instructions = this.add.text(400, 500,
+			'Use Arrow Keys to Move, Press Z to Fire\n'
+			+ 'Tapping/clicking does both',
+			{ font: '20px monospace', fill: '#fff', align: 'center' }
+		);
+		this.instructions.anchor.setTo(0.5);
+		// Expire 10 seconds after displaying.
+		this.instExpire = this.time.now + 10000;
+	},
+
+
+
+
+
+
+
 
 	fire: function () {
 		if (!this.player.alive || this.nextShotAt > this.time.now) {
