@@ -46,52 +46,10 @@ BasicGame.Game.prototype = {
 	},
 
 	update: function () {
-		// Bullets kill enemies.
-		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
-		// Enemies kill the player.
-		this.physics.arcade.overlap(this.player, this.enemyPool, this.playerHit, null, this);
-
-		if (this.nextEnemyAt < this.time.now && this.enemyPool.countDead() > 0) {
-			this.nextEnemyAt = this.time.now + this.enemyDelay;
-			
-			// Spawn an enemy at the top of the screen, in a random position.
-			var enemy = this.enemyPool.getFirstExists(false);
-			enemy.reset(this.rnd.integerInRange(20, 780), 0);
-			// Randomize the speed of the enemy.
-			enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
-			enemy.play('fly');
-		}
-
-		this.player.body.velocity.x = 0;
-		this.player.body.velocity.y = 0;
-
-		if (this.cursors.left.isDown) {
-			this.player.body.velocity.x = -this.player.speed;
-		} else if (this.cursors.right.isDown) {
-			this.player.body.velocity.x = this.player.speed;
-		}
-
-		if (this.cursors.up.isDown) {
-			this.player.body.velocity.y = -this.player.speed;
-		} else if (this.cursors.down.isDown) {
-			this.player.body.velocity.y = this.player.speed;
-		}
-
-		// Move to where the user is clicking/touching.
-		if (this.input.activePointer.isDown
-			// Fudge so that the player doesn't bounce around.
-			&& this.physics.arcade.distanceToPointer(this.player) > 15) {
-			this.physics.arcade.moveToPointer(this.player, this.player.speed);
-		}
-
-		if (this.input.keyboard.isDown(Phaser.Keyboard.Z)
-			|| this.input.activePointer.isDown) {
-			this.fire();
-		}
-
-		if (this.instructions.exists && this.time.now > this.instExpire) {
-			this.instructions.destroy();
-		}
+		this.checkCollisions();
+		this.spawnEnemies();
+		this.processPlayerInput();
+		this.processDelayedEffects();
 	},
 	
 	render: function () {
@@ -185,12 +143,60 @@ BasicGame.Game.prototype = {
 		this.instExpire = this.time.now + 10000;
 	},
 
+	checkCollisions: function () {
+		// Bullets kill enemies.
+		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
+		// Enemies kill the player.
+		this.physics.arcade.overlap(this.player, this.enemyPool, this.playerHit, null, this);
+	},
 
+	spawnEnemies: function () {
+		if (this.nextEnemyAt < this.time.now && this.enemyPool.countDead() > 0) {
+			this.nextEnemyAt = this.time.now + this.enemyDelay;
 
+			// Spawn an enemy at the top of the screen, in a random position.
+			var enemy = this.enemyPool.getFirstExists(false);
+			enemy.reset(this.rnd.integerInRange(20, 780), 0);
+			// Randomize the speed of the enemy.
+			enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
+			enemy.play('fly');
+		}
+	},
 
+	processPlayerInput: function () {
+		this.player.body.velocity.x = 0;
+		this.player.body.velocity.y = 0;
 
+		if (this.cursors.left.isDown) {
+			this.player.body.velocity.x = -this.player.speed;
+		} else if (this.cursors.right.isDown) {
+			this.player.body.velocity.x = this.player.speed;
+		}
 
+		if (this.cursors.up.isDown) {
+			this.player.body.velocity.y = -this.player.speed;
+		} else if (this.cursors.down.isDown) {
+			this.player.body.velocity.y = this.player.speed;
+		}
 
+		// Move to where the user is clicking/touching.
+		if (this.input.activePointer.isDown
+			// Fudge so that the player doesn't bounce around.
+			&& this.physics.arcade.distanceToPointer(this.player) > 15) {
+			this.physics.arcade.moveToPointer(this.player, this.player.speed);
+		}
+
+		if (this.input.keyboard.isDown(Phaser.Keyboard.Z)
+			|| this.input.activePointer.isDown) {
+			this.fire();
+		}
+	},
+
+	processDelayedEffects: function () {
+		if (this.instructions.exists && this.time.now > this.instExpire) {
+			this.instructions.destroy();
+		}
+	},
 
 	fire: function () {
 		if (!this.player.alive || this.nextShotAt > this.time.now) {
