@@ -51,7 +51,21 @@ BasicGame.Game.prototype = {
 		this.enemy.anchor.setTo(0.5);
 		this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
 
-		this.bullets = [];
+		// Add a pool for all bullets, with physics.
+		this.bulletPool = this.add.group();
+		this.bulletPool.enableBody = true;
+		this.bulletPool.physicsBodyType = Phaser.Physics.ARCADE;
+		// Start with a pool of 100 bullets, using the first frame in the sprite (if applicable).
+		this.bulletPool.createMultiple(100, 'bullet');
+
+		// Set the anchor to the middle for all bullets.
+		this.bulletPool.setAll('anchor.x', 0.5);
+		this.bulletPool.setAll('anchor.y', 0.5);
+
+		// Kill bullets when they go out of bounds.
+		this.bulletPool.setAll('outOfBoundsKill', true);
+		this.bulletPool.setAll('checkWorldBounds', true);
+
 		this.nextShotAt = 0;
 		this.shotDelay = 100;
 
@@ -72,9 +86,7 @@ BasicGame.Game.prototype = {
 		// Scroll the sea background.
 		this.sea.tilePosition.y += 0.2;
 
-		for (var i = 0; i < this.bullets.length; i++) {
-			this.physics.arcade.overlap(this.bullets[i], this.enemy, this.enemyHit, null, this);
-		}
+		this.physics.arcade.overlap(this.bulletPool, this.enemy, this.enemyHit, null, this);
 
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
@@ -121,12 +133,11 @@ BasicGame.Game.prototype = {
 		// Add a delay between shots, in ms.
 		this.nextShotAt = this.time.now + this.shotDelay;
 
-		var bullet = this.add.sprite(this.player.x, this.player.y - 20, 'bullet');
-		bullet.anchor.setTo(0.5);
-		this.physics.enable(bullet, Phaser.Physics.ARCADE);
-		// 100 pixels/second.
+		// Get an available bullet from our pool, and position it where needed.
+		var bullet = this.bulletPool.getFirstExists(false);
+		bullet.reset(this.player.x, this.player.y - 20);
+		// Move up at 500 pixels/second.
 		bullet.body.velocity.y = -500;
-		this.bullets.push(bullet);
 	},
 
 	enemyHit: function (bullet, enemy) {
