@@ -92,6 +92,11 @@ BasicGame.Game.prototype = {
 		this.enemyPool.forEach(function (enemy) {
 			// Animation runs at 20 frames/second, and loops.
 			enemy.animations.add('fly', [0, 1, 2], 20, true);
+			// Animiation runs at 20 fps and doesn't loop.
+			enemy.animations.add('hit', [3, 1, 3, 2], 20, false);
+			enemy.events.onAnimationComplete.add(function (e) {
+				e.play('fly');
+			}, this);
 		});
 
 		this.nextEnemyAt = 0;
@@ -156,7 +161,9 @@ BasicGame.Game.prototype = {
 
 			// Spawn an enemy at the top of the screen, in a random position.
 			var enemy = this.enemyPool.getFirstExists(false);
-			enemy.reset(this.rnd.integerInRange(20, this.game.width - 20), 0);
+			// Enemies are placed randomly, with starting health set.
+			// enemy.health would be another way to set this. Defaults to 1.
+			enemy.reset(this.rnd.integerInRange(20, this.game.width - 20), 0, BasicGame.ENEMY_HEALTH);
 			// Randomize the speed of the enemy.
 			enemy.body.velocity.y = this.rnd.integerInRange(BasicGame.ENEMY_MIN_Y_VELOCITY, BasicGame.ENEMY_MAX_Y_VELOCITY);
 			enemy.play('fly');
@@ -219,15 +226,26 @@ BasicGame.Game.prototype = {
 
 	enemyHit: function (bullet, enemy) {
 		bullet.kill();
+		this.damageEnemy(enemy, BasicGame.BULLET_DAMAGE);
 		this.explode(enemy);
-		enemy.kill();
 	},
 
 	playerHit: function (player, enemy) {
-		this.explode(enemy);
-		enemy.kill();
+		// Deal crash damage to enemies instead of just killing them.
+		this.damageEnemy(enemy, BasicGame.CRASH_DAMAGE);
+		// The player still dies.
 		this.explode(player);
 		player.kill();
+	},
+
+	damageEnemy: function (enemy, damage) {
+		// damage() will automatically kill if needed.
+		enemy.damage(damage);
+		if (enemy.alive) {
+			enemy.play('hit');
+		} else {
+			this.explode(enemy);
+		}
 	},
 
 	explode: function (sprite) {
