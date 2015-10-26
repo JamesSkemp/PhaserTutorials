@@ -83,6 +83,17 @@ BasicGame.Game.prototype = {
 		this.nextShotAt = 0;
 		this.shotDelay = 100;
 
+		// Add a pool for our explosion animations.
+		this.explosionPool = this.add.group();
+		this.explosionPool.enableBody = true;
+		this.explosionPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.explosionPool.createMultiple(100, 'explosion');
+		this.explosionPool.setAll('anchor.x', 0.5);
+		this.explosionPool.setAll('anchor.y', 0.5);
+		this.explosionPool.forEach(function (explosion) {
+			explosion.animations.add('boom');
+		});
+
 		// Enable keyboard support.
 		this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -152,7 +163,7 @@ BasicGame.Game.prototype = {
 		// Render debugging boxes.
 		//this.game.debug.body(this.bullet);
 		//this.game.debug.body(this.enemy);
-		this.game.debug.body(this.player);
+		//this.game.debug.body(this.player);
 	},
 
 	fire: function () {
@@ -176,25 +187,29 @@ BasicGame.Game.prototype = {
 
 	enemyHit: function (bullet, enemy) {
 		bullet.kill();
+		this.explode(enemy);
 		enemy.kill();
-
-		var explosion = this.add.sprite(enemy.x, enemy.y, 'explosion');
-		explosion.anchor.setTo(0.5);
-		explosion.animations.add('boom');
-		// Run at 15 fps, don't loop, and kill the explosion sprite once the animation has stopped.
-		explosion.play('boom', 15, false, true);
 	},
 
 	playerHit: function (player, enemy) {
+		this.explode(enemy);
 		enemy.kill();
+		this.explode(player);
+		player.kill();
+	},
 
-		var explosion = this.add.sprite(player.x, player.y, 'explosion');
-		explosion.anchor.setTo(0.5);
-		explosion.animations.add('boom');
+	explode: function (sprite) {
+		if (this.explosionPool.countDead() === 0) {
+			return;
+		}
+
+		var explosion = this.explosionPool.getFirstExists(false);
+		explosion.reset(sprite.x, sprite.y);
 		// Run at 15 fps, don't loop, and kill the explosion sprite once the animation has stopped.
 		explosion.play('boom', 15, false, true);
-		
-		player.kill();
+		// Add the original sprites velocity to the explosion.
+		explosion.body.velocity.x = sprite.body.velocity.x;
+		explosion.body.velocity.y = sprite.body.velocity.y;
 	},
 
 	quitGame: function (pointer) {
