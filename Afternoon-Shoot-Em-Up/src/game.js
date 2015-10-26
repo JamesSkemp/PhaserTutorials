@@ -44,12 +44,24 @@ BasicGame.Game.prototype = {
 		this.player.speed = 300;
 		this.player.body.collideWorldBounds = true;
 
-		this.enemy = this.add.sprite(400, 200, 'greenEnemy');
-		// Animation runs at 20 frames/second, and loops.
-		this.enemy.animations.add('fly', [0, 1, 2], 20, true);
-		this.enemy.play('fly');
-		this.enemy.anchor.setTo(0.5);
-		this.physics.enable(this.enemy, Phaser.Physics.ARCADE);
+		this.enemyPool = this.add.group();
+		this.enemyPool.enableBody = true;
+		this.enemyPool.physicsBodyType = Phaser.Physics.ARCADE;
+		// Start our pool with 50 enemies.
+		this.enemyPool.createMultiple(50, 'greenEnemy');
+		this.enemyPool.setAll('anchor.x', 0.5);
+		this.enemyPool.setAll('anchor.y', 0.5);
+		this.enemyPool.setAll('outOfBoundsKill', true);
+		this.enemyPool.setAll('checkWorldBounds', true);
+
+		this.enemyPool.forEach(function (enemy) {
+			// Animation runs at 20 frames/second, and loops.
+			enemy.animations.add('fly', [0, 1, 2], 20, true);
+		});
+
+		this.nextEnemyAt = 0;
+		// 1 second delay when spawning enemies.
+		this.enemyDelay = 1000;
 
 		// Add a pool for all bullets, with physics.
 		this.bulletPool = this.add.group();
@@ -86,7 +98,18 @@ BasicGame.Game.prototype = {
 		// Scroll the sea background.
 		this.sea.tilePosition.y += 0.2;
 
-		this.physics.arcade.overlap(this.bulletPool, this.enemy, this.enemyHit, null, this);
+		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
+
+		if (this.nextEnemyAt < this.time.now && this.enemyPool.countDead() > 0) {
+			this.nextEnemyAt = this.time.now + this.enemyDelay;
+			
+			// Spawn an enemy at the top of the screen, in a random position.
+			var enemy = this.enemyPool.getFirstExists(false);
+			enemy.reset(this.rnd.integerInRange(20, 780), 0);
+			// Randomize the speed of the enemy.
+			enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
+			enemy.play('fly');
+		}
 
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
