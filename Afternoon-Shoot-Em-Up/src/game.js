@@ -43,6 +43,8 @@ BasicGame.Game.prototype = {
 		this.physics.enable(this.player, Phaser.Physics.ARCADE);
 		this.player.speed = 300;
 		this.player.body.collideWorldBounds = true;
+		// Decrease the size of the player's hitbox. Width, height, and then offset based upon anchor.
+		this.player.body.setSize(20, 20, 0, -5);
 
 		this.enemyPool = this.add.group();
 		this.enemyPool.enableBody = true;
@@ -98,7 +100,10 @@ BasicGame.Game.prototype = {
 		// Scroll the sea background.
 		this.sea.tilePosition.y += 0.2;
 
+		// Bullets kill enemies.
 		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
+		// Enemies kill the player.
+		this.physics.arcade.overlap(this.player, this.enemyPool, this.playerHit, null, this);
 
 		if (this.nextEnemyAt < this.time.now && this.enemyPool.countDead() > 0) {
 			this.nextEnemyAt = this.time.now + this.enemyDelay;
@@ -147,12 +152,18 @@ BasicGame.Game.prototype = {
 		// Render debugging boxes.
 		//this.game.debug.body(this.bullet);
 		//this.game.debug.body(this.enemy);
+		this.game.debug.body(this.player);
 	},
 
 	fire: function () {
-		if (this.nextShotAt > this.time.now) {
+		if (!this.player.alive || this.nextShotAt > this.time.now) {
 			return;
 		}
+
+		if (this.bulletPool.countDead() === 0) {
+			return;
+		}
+
 		// Add a delay between shots, in ms.
 		this.nextShotAt = this.time.now + this.shotDelay;
 
@@ -172,6 +183,18 @@ BasicGame.Game.prototype = {
 		explosion.animations.add('boom');
 		// Run at 15 fps, don't loop, and kill the explosion sprite once the animation has stopped.
 		explosion.play('boom', 15, false, true);
+	},
+
+	playerHit: function (player, enemy) {
+		enemy.kill();
+
+		var explosion = this.add.sprite(player.x, player.y, 'explosion');
+		explosion.anchor.setTo(0.5);
+		explosion.animations.add('boom');
+		// Run at 15 fps, don't loop, and kill the explosion sprite once the animation has stopped.
+		explosion.play('boom', 15, false, true);
+		
+		player.kill();
 	},
 
 	quitGame: function (pointer) {
