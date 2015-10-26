@@ -63,7 +63,7 @@ BasicGame.Game.prototype = {
 		this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
 		// Automatically scroll the background. Replaces the following in the update():
 		// this.sea.tilePosition.y += 0.2;
-		this.sea.autoScroll(0, 12);
+		this.sea.autoScroll(0, BasicGame.SEA_SCROLL_SPEED);
 	},
 
 	setupPlayer: function () {
@@ -72,7 +72,7 @@ BasicGame.Game.prototype = {
 		this.player.animations.add('fly', [0, 1, 2], 20, true);
 		this.player.play('fly');
 		this.physics.enable(this.player, Phaser.Physics.ARCADE);
-		this.player.speed = 300;
+		this.player.speed = BasicGame.PLAYER_SPEED;
 		this.player.body.collideWorldBounds = true;
 		// Decrease the size of the player's hitbox. Width, height, and then offset based upon anchor.
 		this.player.body.setSize(20, 20, 0, -5);
@@ -96,7 +96,7 @@ BasicGame.Game.prototype = {
 
 		this.nextEnemyAt = 0;
 		// 1 second delay when spawning enemies.
-		this.enemyDelay = 1000;
+		this.enemyDelay = BasicGame.SPAWN_ENEMY_DELAY;
 	},
 
 	setupBullets: function () {
@@ -116,7 +116,7 @@ BasicGame.Game.prototype = {
 		this.bulletPool.setAll('checkWorldBounds', true);
 
 		this.nextShotAt = 0;
-		this.shotDelay = 100;
+		this.shotDelay = BasicGame.SHOT_DELAY;
 	},
 
 	setupExplosions: function () {
@@ -140,7 +140,7 @@ BasicGame.Game.prototype = {
 		);
 		this.instructions.anchor.setTo(0.5);
 		// Expire 10 seconds after displaying.
-		this.instExpire = this.time.now + 10000;
+		this.instExpire = this.time.now + BasicGame.INSTRUCTION_EXPIRE;
 	},
 
 	checkCollisions: function () {
@@ -158,7 +158,7 @@ BasicGame.Game.prototype = {
 			var enemy = this.enemyPool.getFirstExists(false);
 			enemy.reset(this.rnd.integerInRange(20, this.game.width - 20), 0);
 			// Randomize the speed of the enemy.
-			enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
+			enemy.body.velocity.y = this.rnd.integerInRange(BasicGame.ENEMY_MIN_Y_VELOCITY, BasicGame.ENEMY_MAX_Y_VELOCITY);
 			enemy.play('fly');
 		}
 	},
@@ -214,7 +214,7 @@ BasicGame.Game.prototype = {
 		var bullet = this.bulletPool.getFirstExists(false);
 		bullet.reset(this.player.x, this.player.y - 20);
 		// Move up at 500 pixels/second.
-		bullet.body.velocity.y = -500;
+		bullet.body.velocity.y = -BasicGame.BULLET_VELOCITY;
 	},
 
 	enemyHit: function (bullet, enemy) {
