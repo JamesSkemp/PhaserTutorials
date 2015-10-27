@@ -29,6 +29,7 @@ BasicGame.Game.prototype = {
 		this.load.image('bullet');
 		// Each tile is 32x32 pixels.
 		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
+		this.load.spritesheet('whiteEnemy', 'shooting-enemy.png', 32, 32);
 		this.load.spritesheet('explosion', 'explosion.png', 32, 32);
 		this.load.spritesheet('player', 'player.png', 64, 64);
 	},
@@ -110,6 +111,35 @@ BasicGame.Game.prototype = {
 		this.nextEnemyAt = 0;
 		// 1 second delay when spawning enemies.
 		this.enemyDelay = BasicGame.SPAWN_ENEMY_DELAY;
+
+		this.shooterPool = this.add.group();
+		this.shooterPool.enableBody = true;
+		this.shooterPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.shooterPool.createMultiple(20, 'whiteEnemy');
+		this.shooterPool.setAll('anchor.x', 0.5);
+		this.shooterPool.setAll('anchor.y', 0.5);
+		this.shooterPool.setAll('outOfBoundsKill', true);
+		this.shooterPool.setAll('checkWorldBounds', true);
+		// Set a new property on all enemies.
+		this.shooterPool.setAll('reward', BasicGame.SHOOTER_REWARD
+			// No matter whether they're alive or visible, and replace the current value (all defaults).
+			, false, false, 0
+			// Force it, since the property doesn't exist.
+			, true);
+
+		this.enemyPool.forEach(function (enemy) {
+			// Animation runs at 20 frames/second, and loops.
+			enemy.animations.add('fly', [0, 1, 2], 20, true);
+			// Animiation runs at 20 fps and doesn't loop.
+			enemy.animations.add('hit', [3, 1, 3, 2], 20, false);
+			enemy.events.onAnimationComplete.add(function (e) {
+				e.play('fly');
+			}, this);
+		});
+
+		// Start spawning these enemies after 5 seconds.
+		this.nextShooterAt = Phaser.Timer.SECOND * 5;
+		this.shooterDelay = BasicGame.SPAWN_SHOOTER_DELAY;
 	},
 
 	setupBullets: function () {
@@ -177,6 +207,7 @@ BasicGame.Game.prototype = {
 	checkCollisions: function () {
 		// Bullets kill enemies.
 		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
+		this.physics.arcade.overlap(this.bulletPool, this.shooterPool, this.enemyHit, null, this);
 		// Enemies kill the player.
 		this.physics.arcade.overlap(this.player, this.enemyPool, this.playerHit, null, this);
 	},
@@ -193,6 +224,33 @@ BasicGame.Game.prototype = {
 			// Randomize the speed of the enemy.
 			enemy.body.velocity.y = this.rnd.integerInRange(BasicGame.ENEMY_MIN_Y_VELOCITY, BasicGame.ENEMY_MAX_Y_VELOCITY);
 			enemy.play('fly');
+		}
+
+		if (this.nextShooterAt < this.time.now && this.shooterPool.countDead() > 0) {
+			this.nextShooterAt = this.time.now + this.shooterDelay;
+
+			var shooter = this.shooterPool.getFirstExists(false);
+			shooter.reset(this.rnd.integerInRange(20, this.game.width - 20), 0, BasicGame.SHOOTER_HEALTH);
+
+			// Choose a random location at the bottom of the screen to move to (X coordinate).
+			var target = this.rnd.integerInRange(20, this.game.width - 20);
+
+			shooter.rotation = this.physics.arcade.moveToXY(
+				// Object to move
+				shooter
+				// Random X coordinate from above.
+				, target
+				// Our Y coordinate will be the bottom of the screen.
+				, this.game.height
+				// Speed in pixels/second. Defaults to 60.
+				, this.rnd.integerInRange(BasicGame.SHOOTER_MIN_VELOCITY, BasicGame.SHOOTER_MAX_VELOCITY)
+				// Since our sprites are rotated down, instead of right, initially, take that into account.
+			) - Math.PI / 2;
+
+			shooter.play('fly');
+
+			// Each of these enemies has their own shot timer.
+			shooter.nextShotAt = 0;
 		}
 	},
 
