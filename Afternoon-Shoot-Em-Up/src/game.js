@@ -221,7 +221,12 @@ BasicGame.Game.prototype = {
 
 		if (this.input.keyboard.isDown(Phaser.Keyboard.Z)
 			|| this.input.activePointer.isDown) {
-			this.fire();
+			
+			if (this.returnText && this.returnText.exists) {
+				this.quitGame();
+			} else {
+				this.fire();
+			}
 		}
 	},
 
@@ -233,6 +238,15 @@ BasicGame.Game.prototype = {
 		if (this.ghostUntil && this.ghostUntil < this.time.now) {
 			this.ghostUntil = null;
 			this.player.play('fly');
+		}
+
+		if (this.showReturn && this.time.now > this.showReturn) {
+			this.returnText = this.add.text(this.game.width / 2, this.game.height / 2 + 20,
+				'Press Z or Tap Game to go back to the Main Menu',
+				{ font: '16px sans-serif', fill: '#fff' }
+			);
+			this.returnText.anchor.setTo(0.5);
+			this.showReturn = false;
 		}
 	},
 
@@ -279,6 +293,7 @@ BasicGame.Game.prototype = {
 		} else {
 			this.explode(player);
 			player.kill();
+			this.displayEnd(false);
 		}
 	},
 
@@ -310,6 +325,25 @@ BasicGame.Game.prototype = {
 	addToScore: function (score) {
 		this.score += score;
 		this.scoreText.text = this.score;
+
+		if (this.score >= 2000) {
+			// They reached the win condition.
+			this.displayEnd(true);
+		}
+	},
+
+	displayEnd: function (win) {
+		if (this.endText && this.endText.exists) {
+			// They already won or lost.
+			return;
+		}
+
+		var msg = win ? 'You Win!!!' : 'Game Over!';
+		this.endText = this.add.text(this.game.width / 2, this.game.height / 2 - 60, msg,
+			{ font: '72px serif', fill: '#fff' }
+		);
+		this.endText.anchor.setTo(0.5, 0);
+		this.showReturn = this.time.now + BasicGame.RETURN_MESSAGE_DELAY;
 	},
 
 	quitGame: function (pointer) {
