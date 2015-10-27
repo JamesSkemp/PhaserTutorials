@@ -39,6 +39,7 @@ BasicGame.Game.prototype = {
 		this.setupEnemies();
 		this.setupBullets();
 		this.setupExplosions();
+		this.setupPlayerIcons();
 		this.setupText();
 
 		// Enable keyboard support.
@@ -70,6 +71,7 @@ BasicGame.Game.prototype = {
 		this.player = this.add.sprite(this.game.width / 2, this.game.height - 50, 'player');
 		this.player.anchor.setTo(0.5);
 		this.player.animations.add('fly', [0, 1, 2], 20, true);
+		this.player.animations.add('ghost', [3, 0, 3, 1], 20, true);
 		this.player.play('fly');
 		this.physics.enable(this.player, Phaser.Physics.ARCADE);
 		this.player.speed = BasicGame.PLAYER_SPEED;
@@ -141,6 +143,18 @@ BasicGame.Game.prototype = {
 		this.explosionPool.forEach(function (explosion) {
 			explosion.animations.add('boom');
 		});
+	},
+
+	setupPlayerIcons: function() {
+		this.lives = this.add.group();
+
+		var firstLifeIconX = this.game.width - 10 - (BasicGame.PLAYER_EXTRA_LIVES * 30);
+		for (var i = 0; i < BasicGame.PLAYER_EXTRA_LIVES; i++) {
+			var life = this.lives.create(firstLifeIconX + (30 * i), 30, 'player');
+			// Scale to half size.
+			life.scale.setTo(0.5);
+			life.anchor.setTo(0.5);
+		}
 	},
 
 	setupText: function () {
@@ -215,6 +229,11 @@ BasicGame.Game.prototype = {
 		if (this.instructions.exists && this.time.now > this.instExpire) {
 			this.instructions.destroy();
 		}
+
+		if (this.ghostUntil && this.ghostUntil < this.time.now) {
+			this.ghostUntil = null;
+			this.player.play('fly');
+		}
 	},
 
 	fire: function () {
@@ -243,11 +262,24 @@ BasicGame.Game.prototype = {
 	},
 
 	playerHit: function (player, enemy) {
+		// If the player is in ghost mode they can't be damaged.
+		if (this.ghostUntil && this.ghostUntil > this.time.now) {
+			return;
+		}
+
 		// Deal crash damage to enemies instead of just killing them.
 		this.damageEnemy(enemy, BasicGame.CRASH_DAMAGE);
-		// The player still dies.
-		this.explode(player);
-		player.kill();
+
+		// If they have lives left, use one instead of killing the player.
+		var life = this.lives.getFirstAlive();
+		if (life !== null) {
+			life.kill();
+			this.ghostUntil = this.time.now + BasicGame.PLAYER_GHOST_TIME;
+			this.player.play('ghost');
+		} else {
+			this.explode(player);
+			player.kill();
+		}
 	},
 
 	damageEnemy: function (enemy, damage) {
