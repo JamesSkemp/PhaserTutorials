@@ -347,6 +347,17 @@ BasicGame.Game.prototype = {
 	},
 
 	quitGame: function (pointer) {
+		// Clean-up after ourselves.
+		this.sea.destroy();
+		this.player.destroy();
+		this.enemyPool.destroy();
+		this.bulletPool.destroy();
+		this.explosionPool.destroy();
+		this.instructions.destroy();
+		this.scoreText.destroy();
+		this.endText.destroy();
+		this.returnText.destroy();
+		// Return to the main menu.
 		this.state.start('MainMenu');
 	}
 };
