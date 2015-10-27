@@ -27,6 +27,7 @@ BasicGame.Game.prototype = {
 		this.load.path = 'assets/';
 		this.load.image('sea');
 		this.load.image('bullet');
+		this.load.image('enemyBullet', 'enemy-bullet.png');
 		// Each tile is 32x32 pixels.
 		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
 		this.load.spritesheet('whiteEnemy', 'shooting-enemy.png', 32, 32);
@@ -50,6 +51,7 @@ BasicGame.Game.prototype = {
 	update: function () {
 		this.checkCollisions();
 		this.spawnEnemies();
+		this.enemyFire();
 		this.processPlayerInput();
 		this.processDelayedEffects();
 	},
@@ -143,7 +145,18 @@ BasicGame.Game.prototype = {
 	},
 
 	setupBullets: function () {
-		// Add a pool for all bullets, with physics.
+		// Add a pool for all enemy bullets.s
+		this.enemyBulletPool = this.add.group();
+		this.enemyBulletPool.enableBody = true;
+		this.enemyBulletPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.enemyBulletPool.createMultiple(100, 'enemyBullet');
+		this.enemyBulletPool.setAll('anchor.x', 0.5);
+		this.enemyBulletPool.setAll('anchor.y', 0.5);
+		this.enemyBulletPool.setAll('outOfBoundsKill', true);
+		this.enemyBulletPool.setAll('checkWorldBounds', true);
+		this.enemyBulletPool.setAll('reward', 0, false, false, 0, true);
+
+		// Add a pool for all player bullets, with physics.
 		this.bulletPool = this.add.group();
 		this.bulletPool.enableBody = true;
 		this.bulletPool.physicsBodyType = Phaser.Physics.ARCADE;
@@ -205,11 +218,14 @@ BasicGame.Game.prototype = {
 	},
 
 	checkCollisions: function () {
-		// Bullets kill enemies.
+		// Bullets damage enemies.
 		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
 		this.physics.arcade.overlap(this.bulletPool, this.shooterPool, this.enemyHit, null, this);
-		// Enemies kill the player.
+		// Enemies damage the player.
 		this.physics.arcade.overlap(this.player, this.enemyPool, this.playerHit, null, this);
+		this.physics.arcade.overlap(this.player, this.shooterPool, this.playerHit, null, this);
+		// Enemy bullets damage the player.
+		this.physics.arcade.overlap(this.player, this.enemyBulletPool, this.playerHit, null, this);
 	},
 
 	spawnEnemies: function () {
@@ -252,6 +268,17 @@ BasicGame.Game.prototype = {
 			// Each of these enemies has their own shot timer.
 			shooter.nextShotAt = 0;
 		}
+	},
+
+	enemyFire: function () {
+		this.shooterPool.forEachAlive(function (enemy) {
+			if (this.time.now > enemy.nextShotAt && this.enemyBulletPool.countDead() > 0) {
+				var bullet = this.enemyBulletPool.getFirstExists(false);
+				bullet.reset(enemy.x, enemy.y);
+				this.physics.arcade.moveToObject(bullet, this.player, BasicGame.ENEMY_BULLET_VELOCITY);
+				enemy.nextShotAt = this.time.now + BasicGame.SHOOTER_SHOT_DELAY;
+			}
+		}, this);
 	},
 
 	processPlayerInput: function () {
