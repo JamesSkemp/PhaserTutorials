@@ -28,6 +28,7 @@ BasicGame.Game.prototype = {
 		this.load.image('sea');
 		this.load.image('bullet');
 		this.load.image('enemyBullet', 'enemy-bullet.png');
+		this.load.image('powerup1');
 		// Each tile is 32x32 pixels.
 		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
 		this.load.spritesheet('whiteEnemy', 'shooting-enemy.png', 32, 32);
@@ -81,6 +82,7 @@ BasicGame.Game.prototype = {
 		this.player.body.collideWorldBounds = true;
 		// Decrease the size of the player's hitbox. Width, height, and then offset based upon anchor.
 		this.player.body.setSize(20, 20, 0, -5);
+		this.weaponLevel = 0;
 	},
 
 	setupEnemies: function () {
@@ -99,6 +101,8 @@ BasicGame.Game.prototype = {
 			, false, false, 0
 			// Force it, since the property doesn't exist.
 			, true);
+		// Power-up drop rate.
+		this.enemyPool.setAll('dropRate', BasicGame.ENEMY_DROP_RATE, false, false, 0, true);
 
 		this.enemyPool.forEach(function (enemy) {
 			// Animation runs at 20 frames/second, and loops.
@@ -128,6 +132,8 @@ BasicGame.Game.prototype = {
 			, false, false, 0
 			// Force it, since the property doesn't exist.
 			, true);
+		// Power-up drop rate.
+		this.shooterPool.setAll('dropRate', BasicGame.SHOOTER_DROP_RATE, false, false, 0, true);
 
 		this.enemyPool.forEach(function (enemy) {
 			// Animation runs at 20 frames/second, and loops.
@@ -188,7 +194,17 @@ BasicGame.Game.prototype = {
 		});
 	},
 
-	setupPlayerIcons: function() {
+	setupPlayerIcons: function () {
+		this.powerUpPool = this.add.group();
+		this.powerUpPool.enableBody = true;
+		this.powerUpPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.powerUpPool.createMultiple(5, 'powerup1');
+		this.powerUpPool.setAll('anchor.x', 0.5);
+		this.powerUpPool.setAll('anchor.y', 0.5);
+		this.powerUpPool.setAll('outOfBoundsKill', true);
+		this.powerUpPool.setAll('checkWorldBounds', true);
+		this.powerUpPool.setAll('reward', BasicGame.POWERUP_REWARD, false, false, 0, true);
+
 		this.lives = this.add.group();
 
 		var firstLifeIconX = this.game.width - 10 - (BasicGame.PLAYER_EXTRA_LIVES * 30);
@@ -226,6 +242,8 @@ BasicGame.Game.prototype = {
 		this.physics.arcade.overlap(this.player, this.shooterPool, this.playerHit, null, this);
 		// Enemy bullets damage the player.
 		this.physics.arcade.overlap(this.player, this.enemyBulletPool, this.playerHit, null, this);
+		// The player can pickup power-ups.
+		this.physics.arcade.overlap(this.player, this.powerUpPool, this.playerPowerUp, null, this);
 	},
 
 	spawnEnemies: function () {
@@ -373,12 +391,21 @@ BasicGame.Game.prototype = {
 		var life = this.lives.getFirstAlive();
 		if (life !== null) {
 			life.kill();
+			this.weaponLevel = 0;
 			this.ghostUntil = this.time.now + BasicGame.PLAYER_GHOST_TIME;
 			this.player.play('ghost');
 		} else {
 			this.explode(player);
 			player.kill();
 			this.displayEnd(false);
+		}
+	},
+
+	playerPowerUp: function(player, powerUp) {
+		this.addToScore(powerUp.reward);
+		powerUp.kill();
+		if (this.weaponLevel < 5) {
+			this.weaponLevel++;
 		}
 	},
 
@@ -389,6 +416,7 @@ BasicGame.Game.prototype = {
 			enemy.play('hit');
 		} else {
 			this.explode(enemy);
+			this.spawnPowerUp(enemy);
 			this.addToScore(enemy.reward);
 		}
 	},
@@ -405,6 +433,18 @@ BasicGame.Game.prototype = {
 		// Add the original sprites velocity to the explosion.
 		explosion.body.velocity.x = sprite.body.velocity.x;
 		explosion.body.velocity.y = sprite.body.velocity.y;
+	},
+
+	spawnPowerUp: function (enemy) {
+		if (this.powerUpPool.countDead() === 0 || this.weaponLevel === 5) {
+			return;
+		}
+
+		if (this.rnd.frac() < enemy.dropRate) {
+			var powerUp = this.powerUpPool.getFirstExists(false);
+			powerUp.reset(enemy.x, enemy.y);
+			powerUp.body.velocity.y = BasicGame.POWERUP_VELOCITY;
+		}
 	},
 
 	addToScore: function (score) {
