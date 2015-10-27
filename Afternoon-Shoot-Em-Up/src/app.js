@@ -7,5 +7,5 @@
 	game.state.add('Game', BasicGame.Game);
 
 	//game.state.start('Boot');
-	game.state.start('Game');
+	game.state.start('MainMenu');
 };
