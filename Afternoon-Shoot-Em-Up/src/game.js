@@ -88,6 +88,12 @@ BasicGame.Game.prototype = {
 		this.enemyPool.setAll('anchor.y', 0.5);
 		this.enemyPool.setAll('outOfBoundsKill', true);
 		this.enemyPool.setAll('checkWorldBounds', true);
+		// Set a new property on all enemies.
+		this.enemyPool.setAll('reward', BasicGame.ENEMY_REWARD
+			// No matter whether they're alive or visible, and replace the current value (all defaults).
+			, false, false, 0
+			// Force it, since the property doesn't exist.
+			, true);
 
 		this.enemyPool.forEach(function (enemy) {
 			// Animation runs at 20 frames/second, and loops.
@@ -146,6 +152,12 @@ BasicGame.Game.prototype = {
 		this.instructions.anchor.setTo(0.5);
 		// Expire 10 seconds after displaying.
 		this.instExpire = this.time.now + BasicGame.INSTRUCTION_EXPIRE;
+
+		this.score = 0;
+		this.scoreText = this.add.text(this.game.width / 2, 30, '' + this.score,
+			{ font: '20px monospace', fill: '#fff', align: 'center' }
+		);
+		this.scoreText.anchor.setTo(0.5);
 	},
 
 	checkCollisions: function () {
@@ -245,6 +257,7 @@ BasicGame.Game.prototype = {
 			enemy.play('hit');
 		} else {
 			this.explode(enemy);
+			this.addToScore(enemy.reward);
 		}
 	},
 
@@ -260,6 +273,11 @@ BasicGame.Game.prototype = {
 		// Add the original sprites velocity to the explosion.
 		explosion.body.velocity.x = sprite.body.velocity.x;
 		explosion.body.velocity.y = sprite.body.velocity.y;
+	},
+
+	addToScore: function (score) {
+		this.score += score;
+		this.scoreText.text = this.score;
 	},
 
 	quitGame: function (pointer) {
