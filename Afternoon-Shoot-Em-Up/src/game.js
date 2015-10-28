@@ -32,6 +32,7 @@ BasicGame.Game.prototype = {
 		// Each tile is 32x32 pixels.
 		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
 		this.load.spritesheet('whiteEnemy', 'shooting-enemy.png', 32, 32);
+		this.load.spritesheet('boss', 'boss.png', 93, 75);
 		this.load.spritesheet('explosion', 'explosion.png', 32, 32);
 		this.load.spritesheet('player', 'player.png', 64, 64);
 	},
@@ -148,6 +149,28 @@ BasicGame.Game.prototype = {
 		// Start spawning these enemies after 5 seconds.
 		this.nextShooterAt = Phaser.Timer.SECOND * 5;
 		this.shooterDelay = BasicGame.SPAWN_SHOOTER_DELAY;
+
+		this.bossPool = this.add.group();
+		this.bossPool.enableBody = true;
+		this.bossPool.physicsBodyType = Phaser.Physics.ARCADE;
+		this.bossPool.createMultiple(1, 'boss');
+		this.bossPool.setAll('anchor.x', 0.5);
+		this.bossPool.setAll('anchor.y', 0.5);
+		this.bossPool.setAll('outOfBoundsKill', true);
+		this.bossPool.setAll('checkWorldBounds', true);
+		this.bossPool.setAll('reward', BasicGame.BOSS_REWARD, false, false, 0, true);
+		this.bossPool.setAll('dropRate', BasicGame.BOSS_DROP_RATE, false, false, 0, true);
+
+		this.bossPool.forEach(function (enemy) {
+			enemy.animations.add('fly', [0, 1, 2], 20, true);
+			enemy.animations.add('hit', [3, 1, 3, 2], 20, false);
+			enemy.events.onAnimationComplete.add(function (e) {
+				e.play('fly');
+			}, this);
+		});
+
+		this.boss = this.bossPool.getTop();
+		this.bossApproaching = false;
 	},
 
 	setupBullets: function () {
@@ -244,6 +267,12 @@ BasicGame.Game.prototype = {
 		this.physics.arcade.overlap(this.player, this.enemyBulletPool, this.playerHit, null, this);
 		// The player can pickup power-ups.
 		this.physics.arcade.overlap(this.player, this.powerUpPool, this.playerPowerUp, null, this);
+
+		if (this.bossApproaching === false) {
+			// The boss can only be damaged after it's moved into position.
+			this.physics.arcade.overlap(this.bulletPool, this.bossPool, this.enemyHit, null, this);
+		}
+		this.physics.arcade.overlap(this.player, this.bossPool, this.playerHit, null, this);
 	},
 
 	spawnEnemies: function () {
@@ -351,6 +380,17 @@ BasicGame.Game.prototype = {
 			this.returnText.anchor.setTo(0.5);
 			this.showReturn = false;
 		}
+
+		if (this.bossApproaching && this.boss.y > 80) {
+			this.bossApproaching = false;
+			this.boss.nextShotAt = 0;
+			// The boss will move back and forth at the top of the screen.
+			this.boss.body.velocity.x = BasicGame.BOSS_X_VELOCITY;
+			this.boss.body.velocity.y = 0;
+			// Enemy will stay within the world's bounds, bouncing off the 'walls.'
+			this.boss.body.bounce.x = 1;
+			this.boss.body.collideWorldBounds = true;
+		}
 	},
 
 	fire: function () {
@@ -441,6 +481,11 @@ BasicGame.Game.prototype = {
 			this.explode(enemy);
 			this.spawnPowerUp(enemy);
 			this.addToScore(enemy.reward);
+			// If they killed the boss, consider the game to be over.
+			// Author's recommendation is to set a flag on the sprites.
+			if (enemy.key === 'boss') {
+				this.displayEnd(true);
+			}
 		}
 	},
 
@@ -474,10 +519,17 @@ BasicGame.Game.prototype = {
 		this.score += score;
 		this.scoreText.text = this.score;
 
-		if (this.score >= 20000) {
-			// They reached the win condition.
-			this.displayEnd(true);
+		if (this.score >= 20000 && this.bossPool.countDead() === 1) {
+			this.spawnBoss();
 		}
+	},
+
+	spawnBoss: function () {
+		this.bossApproaching = true;
+		this.boss.reset(this.game.width / 2, 0, BasicGame.BOSS_HEALTH);
+		this.physics.enable(this.boss, Phaser.Physics.ARCADE);
+		this.boss.body.velocity.y = BasicGame.BOSS_Y_VELOCITY;
+		this.boss.play('fly');
 	},
 
 	displayEnd: function (win) {
