@@ -11,7 +11,7 @@ BasicGame.Preloader.prototype = {
 		this.preloadBar = this.add.sprite(this.game.width / 2 - 100, this.game.height / 2, 'preloaderBar');
 		this.add.text(this.game.width / 2, this.game.height / 2 - 30, "Loading...", { font: "32px monospace", fill: "#fff" }).anchor.setTo(0.5, 0.5);
 
-		// THis will automatically crop the sprite from 0 to full width as assets are loaded.
+		// This will automatically crop the sprite from 0 to full width as assets are loaded.
 		this.load.setPreloadSprite(this.preloadBar);
 
 		// Assets we want to load in.
