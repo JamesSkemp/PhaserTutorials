@@ -46,13 +46,17 @@ BasicGame.Boot = function (game) {
 
 BasicGame.Boot.prototype = {
 	init: function () {
+		// We don't need multi-touch for this game, so just use one.
+		this.input.maxPointers = 1;
 	},
 
 	preload: function () {
-
+		// Load an image to display when preloading the remaining assets.
+		this.load.image('preloaderBar', 'assets/preloader-bar.png');
 	},
 
 	create: function () {
+		// Switch to the state that will actually preload assets.
 		this.state.start('Preloader');
 	}
 };

@@ -23,26 +23,6 @@
 };
 
 BasicGame.Game.prototype = {
-	preload: function () {
-		this.load.path = 'assets/';
-		this.load.image('sea');
-		this.load.image('bullet');
-		this.load.image('enemyBullet', 'enemy-bullet.png');
-		this.load.image('powerup1');
-		// Each tile is 32x32 pixels.
-		this.load.spritesheet('greenEnemy', 'enemy.png', 32, 32);
-		this.load.spritesheet('whiteEnemy', 'shooting-enemy.png', 32, 32);
-		this.load.spritesheet('boss', 'boss.png', 93, 75);
-		this.load.spritesheet('explosion', 'explosion.png', 32, 32);
-		this.load.spritesheet('player', 'player.png', 64, 64);
-		// Sound effects.
-		this.load.audio('explosion', ['explosion.ogg', 'explosion.wav']);
-		this.load.audio('playerExplosion', ['player-explosion.ogg', 'player-explosion.wav']);
-		this.load.audio('enemyFire', ['enemy-fire.ogg', 'enemy-fire.wav']);
-		this.load.audio('playerFire', ['player-fire.ogg', 'player-fire.wav']);
-		this.load.audio('powerUp', ['powerup.ogg', 'powerup.wav']);
-	},
-
 	create: function () {
 		this.setupBackground();
 		this.setupPlayer();
@@ -602,10 +582,15 @@ BasicGame.Game.prototype = {
 		this.enemyPool.destroy();
 		this.bulletPool.destroy();
 		this.explosionPool.destroy();
+		this.shooterPool.destroy();
+		this.enemyBulletPool.destroy();
+		this.powerUpPool.destroy();
+		this.bossPool.destroy();
 		this.instructions.destroy();
 		this.scoreText.destroy();
 		this.endText.destroy();
 		this.returnText.destroy();
+
 		// Return to the main menu.
 		this.state.start('MainMenu');
 	}

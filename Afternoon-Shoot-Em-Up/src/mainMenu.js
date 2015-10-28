@@ -2,11 +2,6 @@
 };
 
 BasicGame.MainMenu.prototype = {
-	preload: function () {
-		this.load.path = 'assets/';
-		this.load.image('titlepage');
-	},
-
 	create: function () {
 		this.add.sprite(0, 0, 'titlepage');
 
