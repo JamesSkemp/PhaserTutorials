@@ -35,6 +35,12 @@ BasicGame.Game.prototype = {
 		this.load.spritesheet('boss', 'boss.png', 93, 75);
 		this.load.spritesheet('explosion', 'explosion.png', 32, 32);
 		this.load.spritesheet('player', 'player.png', 64, 64);
+		// Sound effects.
+		this.load.audio('explosion', ['explosion.ogg', 'explosion.wav']);
+		this.load.audio('playerExplosion', ['player-explosion.ogg', 'player-explosion.wav']);
+		this.load.audio('enemyFire', ['enemy-fire.ogg', 'enemy-fire.wav']);
+		this.load.audio('playerFire', ['player-fire.ogg', 'player-fire.wav']);
+		this.load.audio('powerUp', ['powerup.ogg', 'powerup.wav']);
 	},
 
 	create: function () {
@@ -45,6 +51,8 @@ BasicGame.Game.prototype = {
 		this.setupExplosions();
 		this.setupPlayerIcons();
 		this.setupText();
+
+		this.setupAudio();
 
 		// Enable keyboard support.
 		this.cursors = this.input.keyboard.createCursorKeys();
@@ -256,6 +264,16 @@ BasicGame.Game.prototype = {
 		this.scoreText.anchor.setTo(0.5);
 	},
 
+	setupAudio: function () {
+		// Set the volume to 30%.
+		this.sound.volume = 0.3;
+		this.explosionSFX = this.add.audio('explosion');
+		this.playerExplosionSFX = this.add.audio('playerExplosion');
+		this.enemyFireSFX = this.add.audio('enemyFire');
+		this.playerFireSFX = this.add.audio('playerFire');
+		this.powerUpSFX = this.add.audio('powerUp');
+	},
+
 	checkCollisions: function () {
 		// Bullets damage enemies.
 		this.physics.arcade.overlap(this.bulletPool, this.enemyPool, this.enemyHit, null, this);
@@ -324,6 +342,7 @@ BasicGame.Game.prototype = {
 				bullet.reset(enemy.x, enemy.y);
 				this.physics.arcade.moveToObject(bullet, this.player, BasicGame.ENEMY_BULLET_VELOCITY);
 				enemy.nextShotAt = this.time.now + BasicGame.SHOOTER_SHOT_DELAY;
+				this.enemyFireSFX.play();
 			}
 		}, this);
 
@@ -331,6 +350,7 @@ BasicGame.Game.prototype = {
 			&& this.enemyBulletPool.countDead() >= 10) {
 
 			this.boss.nextShotAt = this.time.now + BasicGame.BOSS_SHOT_DELAY;
+			this.enemyFireSFX.play();
 
 			for (var i = 0; i < 5; i++) {
 				// Setup two bullets at a time.
@@ -424,6 +444,7 @@ BasicGame.Game.prototype = {
 
 		// Add a delay between shots, in ms.
 		this.nextShotAt = this.time.now + this.shotDelay;
+		this.playerFireSFX.play();
 
 		var bullet;
 		if (this.weaponLevel === 0) {
@@ -471,6 +492,8 @@ BasicGame.Game.prototype = {
 			return;
 		}
 
+		this.playerExplosionSFX.play();
+
 		// Deal crash damage to enemies instead of just killing them.
 		this.damageEnemy(enemy, BasicGame.CRASH_DAMAGE);
 
@@ -491,6 +514,7 @@ BasicGame.Game.prototype = {
 	playerPowerUp: function(player, powerUp) {
 		this.addToScore(powerUp.reward);
 		powerUp.kill();
+		this.powerUpSFX.play();
 		if (this.weaponLevel < 5) {
 			this.weaponLevel++;
 		}
@@ -503,6 +527,7 @@ BasicGame.Game.prototype = {
 			enemy.play('hit');
 		} else {
 			this.explode(enemy);
+			this.explosionSFX.play();
 			this.spawnPowerUp(enemy);
 			this.addToScore(enemy.reward);
 			// If they killed the boss, consider the game to be over.
