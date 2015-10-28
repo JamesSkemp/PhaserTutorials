@@ -326,6 +326,30 @@ BasicGame.Game.prototype = {
 				enemy.nextShotAt = this.time.now + BasicGame.SHOOTER_SHOT_DELAY;
 			}
 		}, this);
+
+		if (this.bossApproaching === false && this.boss.alive && this.boss.nextShotAt < this.time.now
+			&& this.enemyBulletPool.countDead() >= 10) {
+
+			this.boss.nextShotAt = this.time.now + BasicGame.BOSS_SHOT_DELAY;
+
+			for (var i = 0; i < 5; i++) {
+				// Setup two bullets at a time.
+				var leftBullet = this.enemyBulletPool.getFirstExists(false);
+				leftBullet.reset(this.boss.x - 10 - i * 10, this.boss.y + 20);
+				var rightBullet = this.enemyBulletPool.getFirstExists(false);
+				rightBullet.reset(this.boss.x + 10 + i * 10, this.boss.y + 20);
+
+				if (this.boss.health > BasicGame.BOSS_HEALTH / 2) {
+					// Aim directly at the player at 50%+ health.
+					this.physics.arcade.moveToObject(leftBullet, this.player, BasicGame.ENEMY_BULLET_VELOCITY);
+					this.physics.arcade.moveToObject(rightBullet, this.player, BasicGame.ENEMY_BULLET_VELOCITY);
+				} else {
+					// Aim slightly off center of the player, which results in a wider spread.
+					this.physics.arcade.moveToXY(leftBullet, this.player.x - i * 100, this.player.y, BasicGame.ENEMY_BULLET_VELOCITY);
+					this.physics.arcade.moveToXY(rightBullet, this.player.x + i * 100, this.player.y, BasicGame.ENEMY_BULLET_VELOCITY);
+				}
+			}
+		}
 	},
 
 	processPlayerInput: function () {
