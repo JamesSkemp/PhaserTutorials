@@ -358,18 +358,41 @@ BasicGame.Game.prototype = {
 			return;
 		}
 
-		if (this.bulletPool.countDead() === 0) {
-			return;
-		}
-
 		// Add a delay between shots, in ms.
 		this.nextShotAt = this.time.now + this.shotDelay;
 
-		// Get an available bullet from our pool, and position it where needed.
-		var bullet = this.bulletPool.getFirstExists(false);
-		bullet.reset(this.player.x, this.player.y - 20);
-		// Move up at 500 pixels/second.
-		bullet.body.velocity.y = -BasicGame.BULLET_VELOCITY;
+		var bullet;
+		if (this.weaponLevel === 0) {
+			if (this.bulletPool.countDead() === 0) {
+				return;
+			}
+			bullet = this.bulletPool.getFirstExists(false);
+			bullet.reset(this.player.x, this.player.y - 20);
+			bullet.body.velocity.y = -BasicGame.BULLET_VELOCITY;
+		} else {
+			if (this.bulletPool.countDead() < this.weaponLevel * 2) {
+				return;
+			}
+			for (var i = 0; i < this.weaponLevel; i++) {
+				// Spawn a 'left' bullet.
+				bullet = this.bulletPool.getFirstExists(false);
+				// The left bullet is slightly to the left of center.
+				bullet.reset(this.player.x - (10 + i * 6), this.player.y - 20);
+				// Spread is from -95 to -135 degrees.
+				this.physics.arcade.velocityFromAngle(
+					-95 - i * 10, BasicGame.BULLET_VELOCITY, bullet.body.velocity
+				);
+
+				// Spawn a 'right' bullet.
+				bullet = this.bulletPool.getFirstExists(false);
+				// The right bullet is slightly to the right of center.
+				bullet.reset(this.player.x + (10 + i * 6), this.player.y - 20);
+				// Spread is from -85 to -45 degrees.
+				this.physics.arcade.velocityFromAngle(
+					-85 + i * 10, BasicGame.BULLET_VELOCITY, bullet.body.velocity
+				);
+			}
+		}
 	},
 
 	enemyHit: function (bullet, enemy) {
@@ -451,7 +474,7 @@ BasicGame.Game.prototype = {
 		this.score += score;
 		this.scoreText.text = this.score;
 
-		if (this.score >= 2000) {
+		if (this.score >= 20000) {
 			// They reached the win condition.
 			this.displayEnd(true);
 		}
