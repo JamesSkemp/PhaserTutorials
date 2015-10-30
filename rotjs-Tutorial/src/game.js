@@ -50,6 +50,30 @@ Player.prototype.handleEvent = function (e) {
 	keyMap[37] = 6; /* Left */
 	keyMap[36] = 7;
 
+	var code = e.keyCode;
+
+	if (!(code in keyMap)) {
+		// Only support the keys we've mapped.
+		return;
+	}
+
+	var diff = ROT.DIRS[8][keyMap[code]];
+	var newX = this._x + diff[0];
+	var newY = this._y + diff[1];
+
+	var newKey = newX + ',' + newY;
+	if (!(newKey in Game.map)) {
+		// The player is attempting an illegal move.
+		return;
+	}
+
+	// Draw whatever is supposed to be in the player's old location.
+	Game.display.draw(this._x, this._y, Game.map[this._x + ',' + this._y]);
+	this._x = newX;
+	this._y = newY;
+	this._draw();
+	window.removeEventListener('keydown', this);
+	Game.engine.unlock();
 };
 
 Game.player = null;
