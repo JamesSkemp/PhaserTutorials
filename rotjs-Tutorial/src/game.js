@@ -5,13 +5,15 @@
 		// Defaults to 80x25 cells.
 		this.display = new ROT.Display();
 		document.body.appendChild(this.display.getContainer());
+
+		this._generateMap();
 	}
 };
 
 Game.map = {};
 
 Game._generateMap = function () {
-	var digger = new ROT.Digger();
+	var digger = new ROT.Map.Digger();
 
 	var digCallback = function (x, y, value) {
 		if (value) {
@@ -24,6 +26,8 @@ Game._generateMap = function () {
 	}
 
 	digger.create(digCallback.bind(this));
+
+	this._drawWholeMap();
 }
 
 Game._drawWholeMap = function () {
