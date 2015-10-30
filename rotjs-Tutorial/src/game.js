@@ -29,6 +29,29 @@ Player.prototype._draw = function () {
 	Game.display.draw(this._x, this._y, '@', '#ff0');
 };
 
+Player.prototype.act = function () {
+	Game.engine.lock();
+	// Wait for user input.
+	window.addEventListener('keydown', this);
+};
+
+Player.prototype.handleEvent = function (e) {
+	// TODO remove - used for debugging.
+	console.log(e.keyCode + ' ' + e.keyIdentifier);
+	// Process input.
+	var keyMap = {};
+	// Add in support for the numpad keys.
+	keyMap[38] = 0; /* Up */
+	keyMap[33] = 1;
+	keyMap[39] = 2; /* Right */
+	keyMap[34] = 3;
+	keyMap[40] = 4; /* Down */
+	keyMap[35] = 5;
+	keyMap[37] = 6; /* Left */
+	keyMap[36] = 7;
+
+};
+
 Game.player = null;
 
 Game.engine = null;
