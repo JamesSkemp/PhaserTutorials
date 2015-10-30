@@ -7,6 +7,13 @@
 		document.body.appendChild(this.display.getContainer());
 
 		this._generateMap();
+
+		// Scheduler handles turns.
+		var scheduler = new ROT.Scheduler.Simple();
+		// Add an actor as a recurring item, not a one-shot.
+		scheduler.add(this.player, true);
+		this.engine = new ROT.Engine(scheduler);
+		this.engine.start();
 	}
 };
 
@@ -23,6 +30,8 @@ Player.prototype._draw = function () {
 };
 
 Game.player = null;
+
+Game.engine = null;
 
 Game._generateMap = function () {
 	var digger = new ROT.Map.Digger();
