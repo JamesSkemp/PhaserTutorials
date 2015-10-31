@@ -1,6 +1,12 @@
 ﻿var Game = {
 	display: null,
 
+	map: {},
+
+	player: null,
+
+	engine: null,
+
 	init: function () {
 		// Defaults to 80x25 cells.
 		this.display = new ROT.Display();
@@ -16,8 +22,6 @@
 		this.engine.start();
 	}
 };
-
-Game.map = {};
 
 var Player = function (x, y) {
 	this._x = x;
@@ -75,10 +79,6 @@ Player.prototype.handleEvent = function (e) {
 	window.removeEventListener('keydown', this);
 	Game.engine.unlock();
 };
-
-Game.player = null;
-
-Game.engine = null;
 
 Game._generateMap = function () {
 	var digger = new ROT.Map.Digger();
