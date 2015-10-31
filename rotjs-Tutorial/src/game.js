@@ -103,6 +103,9 @@ Player.prototype._checkBox = function () {
 	}
 };
 
+Player.prototype.getX = function () { return this._x; };
+Player.prototype.getY = function () { return this._y; };
+
 var Pedro = function (x, y) {
 	this._x = x;
 	this._y = y;
@@ -114,7 +117,36 @@ Pedro.prototype._draw = function () {
 };
 
 Pedro.prototype.act = function () {
+	var x = Game.player.getX();
+	var y = Game.player.getY();
 
+	var passableCallback = function (x, y) {
+		return (x + ',' + y in Game.map);
+	}
+	// Use A* algorithm to find the shortest path to the player.
+	// Use topology 4, which makes him weaker than the player.
+	var aStar = new ROT.Path.AStar(x, y, passableCallback, { topology: 4 });
+
+	var path = [];
+	var pathCallback = function (x, y) {
+		path.push([x, y]);
+	}
+	aStar.compute(this._x, this._y, pathCallback);
+
+	// Actually move Pedro.
+	// First remove the first position, since that's where Pedro currently is.
+	path.shift();
+	if (path.length == 1) {
+		Game.engine.lock();
+		alert('Game Over! You were captured by Pedro!');
+	} else {
+		x = path[0][0];
+		y = path[0][1];
+		Game.display.draw(this._x, this._y, Game.map[this._x + ',' + this._y]);
+		this._x = x;
+		this._y = y;
+		this._draw();
+	}
 };
 
 Game._generateMap = function () {
