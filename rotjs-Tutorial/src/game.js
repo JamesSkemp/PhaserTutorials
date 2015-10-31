@@ -7,6 +7,8 @@
 
 	engine: null,
 
+	ananas: null,
+
 	init: function () {
 		// Defaults to 80x25 cells.
 		this.display = new ROT.Display();
@@ -56,6 +58,12 @@ Player.prototype.handleEvent = function (e) {
 
 	var code = e.keyCode;
 
+	if (code == 13 || code == 32) {
+		// If they press enter or the spacebar (which doesn't seem to work) we'll try to check a box.
+		this._checkBox();
+		return;
+	}
+
 	if (!(code in keyMap)) {
 		// Only support the keys we've mapped.
 		return;
@@ -78,6 +86,19 @@ Player.prototype.handleEvent = function (e) {
 	this._draw();
 	window.removeEventListener('keydown', this);
 	Game.engine.unlock();
+};
+
+Player.prototype._checkBox = function () {
+	var key = this._x + ',' + this._y;
+	if (Game.map[key] != '*') {
+		alert('There is no box here!');
+	} else if (key == Game.ananas) {
+		alert('Hooray! You found an ananas and won this game!');
+		Game.engine.lock();
+		window.removeEventListener('keydown', this);
+	} else {
+		alert('This box is empty!');
+	}
 };
 
 Game._generateMap = function () {
@@ -110,6 +131,11 @@ Game._generateBoxes = function (freeCells) {
 		var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
 		var key = freeCells.splice(index, 1)[0];
 		this.map[key] = '*';
+
+		if (!i) {
+			// The first box contains the pineapple.
+			this.ananas = key;
+		}
 	}
 };
 
