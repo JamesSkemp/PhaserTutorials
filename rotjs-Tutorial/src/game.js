@@ -4,9 +4,10 @@
 	map: {},
 
 	player: null,
+	pedro: null,
 
 	engine: null,
-
+	// Pineapple location.
 	ananas: null,
 
 	init: function () {
@@ -20,6 +21,7 @@
 		var scheduler = new ROT.Scheduler.Simple();
 		// Add an actor as a recurring item, not a one-shot.
 		scheduler.add(this.player, true);
+		scheduler.add(this.pedro, true);
 		this.engine = new ROT.Engine(scheduler);
 		this.engine.start();
 	}
@@ -101,6 +103,20 @@ Player.prototype._checkBox = function () {
 	}
 };
 
+var Pedro = function (x, y) {
+	this._x = x;
+	this._y = y;
+	this._draw();
+};
+
+Pedro.prototype._draw = function () {
+	Game.display.draw(this._x, this._y, 'P', 'red');
+};
+
+Pedro.prototype.act = function () {
+
+};
+
 Game._generateMap = function () {
 	var digger = new ROT.Map.Digger();
 	var freeCells = [];
@@ -122,7 +138,8 @@ Game._generateMap = function () {
 
 	this._drawWholeMap();
 
-	this._createPlayer(freeCells);
+	this.player = this._createBeing(Player, freeCells);
+	this.pedro = this._createBeing(Pedro, freeCells);
 };
 
 Game._generateBoxes = function (freeCells) {
@@ -139,13 +156,13 @@ Game._generateBoxes = function (freeCells) {
 	}
 };
 
-Game._createPlayer = function (freeCells) {
+Game._createBeing = function (what, freeCells) {
 	var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
 	var key = freeCells.splice(index, 1)[0];
 	var parts = key.split(',');
 	var x = parseInt(parts[0]);
 	var y = parseInt(parts[1]);
-	this.player = new Player(x, y);
+	return new what(x, y);
 };
 
 Game._drawWholeMap = function () {
