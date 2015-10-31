@@ -136,7 +136,7 @@ Pedro.prototype.act = function () {
 	// Actually move Pedro.
 	// First remove the first position, since that's where Pedro currently is.
 	path.shift();
-	if (path.length == 1) {
+	if (path.length <= 1) {
 		Game.engine.lock();
 		alert('Game Over! You were captured by Pedro!');
 	} else {
