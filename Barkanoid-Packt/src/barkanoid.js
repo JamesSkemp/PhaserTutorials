@@ -1,6 +1,14 @@
 ﻿/// <reference path="../lib/phaser-2.4.4.js" />
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
+	paddle: null,
+	ball: null,
+
+	lives: 3,
+	score: 0,
+
+	ballOnPaddle: true,
+
 	preload: function () {
 		game.load.path = 'assets/';
 		game.load.image('background', 'background.jpg');
@@ -38,7 +46,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		}
 
 		// Create the player's paddle.
-		var paddle = game.add.sprite(game.world.centerX, 500, 'paddle');
+		paddle = game.add.sprite(game.world.centerX, 500, 'paddle');
 		paddle.anchor.setTo(0.5);
 		game.physics.enable(paddle, Phaser.Physics.ARCADE);
 		paddle.body.collideWorldBounds = true;
@@ -46,7 +54,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		paddle.body.immovable = true;
 
 		// Create the ball.
-		var ball = game.add.sprite(game.world.centerX, paddle.y - 16, 'ball');
+		ball = game.add.sprite(game.world.centerX, paddle.y - 16, 'ball');
 		ball.anchor.setTo(0.5);
 		ball.checkWorldBounds = true;
 		game.physics.enable(ball, Phaser.Physics.ARCADE);
@@ -54,6 +62,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		ball.body.bounce.set(1);
 		// If the ball is out of bounds we need to handle it.
 		ball.events.onOutOfBounds.add(this.ballDeath, this);
+
+		ballOnPaddle = true;
 
 		var scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
 		var livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
@@ -64,7 +74,23 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	update: function () {
+		paddle.x = game.input.x;
+
+		// Keep the paddle within the bounds of the game.
+		if (paddle.x < 24) {
+			paddle.x = 24;
+		} else if (paddle.x > game.width - 24) {
+			paddle.x = game.width - 24;
+		}
 		
+		if (ballOnPaddle) {
+			// If the ball is on the paddle, move it when the paddle moves.
+			ball.body.x = paddle.x;
+		} else {
+			// See if the ball has collided with the paddle or tiles.
+			game.physics.arcade.collide(ball, paddle, ballCollidedWithPaddle, null, this);
+			game.physics.arcade.collide(ball, tiles, ballCollidedWithTiles, null, this);
+		}
 	},
 
 	ballDeath: function () {
@@ -72,6 +98,14 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	releaseBall: function () {
+
+	},
+
+	ballCollidedWithPaddle: function () {
+
+	},
+
+	ballCollidedWithTiles: function () {
 
 	}
 
