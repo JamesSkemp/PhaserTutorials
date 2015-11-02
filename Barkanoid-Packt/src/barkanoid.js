@@ -36,6 +36,14 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 				tile.body.immovable = true;
 			}
 		}
+
+		// Create the player's paddle.
+		var paddle = game.add.sprite(game.world.centerX, 500, 'paddle');
+		paddle.anchor.setTo(0.5);
+		game.physics.enable(paddle, Phaser.Physics.ARCADE);
+		paddle.body.collideWorldBounds = true;
+		paddle.body.bounce.set(1);
+		paddle.body.immovable = true;
 	},
 
 	update: function () {
