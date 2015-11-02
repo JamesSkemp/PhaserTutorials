@@ -35,6 +35,12 @@ var Game = {
 		// Automatically capture the cursor keys.
 		cursors = this.input.keyboard.createCursorKeys();
 
+		this.stage.backgroundColor = '#061f27';
+
+		// Starting snake has 10 segments, and starts at 150,150, and expands to the right.
+		for (var i = 0; i < 10; i++) {
+			snake[i] = this.add.sprite(150 + i * squareSize, 150, 'snake');
+		}
 	},
 
 	update: function () {
