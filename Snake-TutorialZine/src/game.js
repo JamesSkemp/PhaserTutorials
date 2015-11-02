@@ -56,7 +56,56 @@ var Game = {
 	},
 
 	update: function () {
+		// Track what direction they want to go, but make sure they're not trying to doubleback.
+		if (cursors.right.isDown && direction != 'left') {
+			new_direction = 'right';
+		} else if (cursors.left.isDown && direction != 'right') {
+			new_direction = 'left';
+		} else if (cursors.up.isDown && direction != 'down') {
+			new_direction = 'up';
+		} else if (cursors.down.isDown && direction != 'up') {
+			new_direction = 'down';
+		}
 
+		// Calculate the speed based upon the score. Maximum speed is 10.
+		speed = Math.min(10, Math.floor(score / 5));
+		speedTextValue.text = '' + speed;
+
+		// By default the game runs at 60fps. This game uses a slower speed, which we'll track via this.
+		updateDelay++;
+
+		if (updateDelay % (10 - speed) == 0) {
+			// Update the snake's placement.
+
+			var firstCell = snake[snake.length - 1];
+			var lastCell = snake.shift();
+			var oldLastCellX = lastCell.x;
+			var oldLastCellY = lastCell.y;
+
+			// If one has been set, update the snake's direction.
+			if (new_direction) {
+				direction = new_direction;
+				new_direction = null;
+			}
+
+			// Move the last cell before the old first cell.
+			if (direction == 'right') {
+				lastCell.x = firstCell.x + squareSize;
+				lastCell.y = firstCell.y;
+			} else if (direction == 'left') {
+				lastCell.x = firstCell.x - squareSize;
+				lastCell.y = firstCell.y;
+			} else if (direction == 'up') {
+				lastCell.x = firstCell.x;
+				lastCell.y = firstCell.y - squareSize;
+			} else if (direction == 'down') {
+				lastCell.x = firstCell.x;
+				lastCell.y = firstCell.y + squareSize;
+			}
+
+			snake.push(lastCell);
+			firstCell = lastCell;
+		}
 	},
 
 	generateApple: function () {
