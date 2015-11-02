@@ -73,8 +73,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
 		ballOnPaddle = true;
 
-		scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
-		livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
+		scoreText = game.add.text(32, 550, 'score: ' + score, { font: '20px Arial', fill: '#fff', align: 'left' });
+		livesText = game.add.text(680, 550, 'lives: ' + lives, { font: '20px Arial', fill: '#fff', align: 'left' });
 		introText = game.add.text(game.world.centerX, 400, 'click to start', { font: '40px Arial', fill: '#fff', align: 'center' });
 		introText.anchor.setTo(0.5);
 		
@@ -138,6 +138,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 			score += 1000;
 			scoreText.text = 'score: ' + score;
 			introText.text = 'Next Level';
+			introText.visible = true;
 
 			ballOnPaddle = true;
 			ball.body.velocity.set(0);
