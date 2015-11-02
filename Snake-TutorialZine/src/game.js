@@ -105,6 +105,17 @@ var Game = {
 
 			snake.push(lastCell);
 			firstCell = lastCell;
+
+			// If we need to add a new segment to the snake, add it to the end.
+			if (addNew) {
+				snake.unshift(this.add.sprite(oldLastCellX, oldLastCellY, 'snake'));
+				addNew = false;
+			}
+
+			// Check for collision with various objects in the world.
+			this.appleCollision();
+			this.selfCollision(firstCell);
+			this.wallCollision(firstCell);
 		}
 	},
 
@@ -115,5 +126,31 @@ var Game = {
 
 		// Add a new apple in that spot.
 		apple = this.add.sprite(randomX, randomY, 'apple');
+	},
+
+	appleCollision: function () {
+		// Check the entire length of the snake, since the apple can spawn anywhere.
+		for (var i = 0; i < snake.length; i++) {
+			if (snake[i].x == apple.x && snake[i].y == apple.y) {
+				// Add a new segment to the snake on the next update.
+				addNew = true;
+
+				// Destroy the old apple and place a new one.
+				apple.destroy();
+				this.generateApple();
+
+				// Increase the score.
+				score++;
+				scoreTextValue.text = score.toString();
+			}
+		}
+	},
+
+	selfCollision: function (head) {
+
+	},
+
+	wallCollision: function (head) {
+
 	}
 };
