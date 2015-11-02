@@ -20,6 +20,22 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		game.physics.arcade.checkCollision.down = false;
 
 		var background = game.add.tileSprite(0, 0, 800, 600, 'background');
+
+		// Create a group to store our tiles.
+		var tiles = game.add.group();
+		tiles.enableBody = true;
+		tiles.physicsBodyType = Phaser.Physics.ARCADE;
+
+		// We'll create four rows of fifteen tiles.
+		for (var y = 0; y < 4; y++) {
+			for (var x = 0; x < 15; x++) {
+				// Use a random tile.
+				var randomTileNumber = Math.floor(Math.random() * 6);
+				var tile = tiles.create(120 + (x * 36), 100 + (y * 52), 'tile' + randomTileNumber);
+				tile.body.bounce.set(1);
+				tile.body.immovable = true;
+			}
+		}
 	},
 
 	update: function () {
