@@ -15,7 +15,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	create: function () {
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+		// The bottom of walls don't cause collisions.
+		game.physics.arcade.checkCollision.down = false;
 
+		var background = game.add.tileSprite(0, 0, 800, 600, 'background');
 	},
 
 	update: function () {
