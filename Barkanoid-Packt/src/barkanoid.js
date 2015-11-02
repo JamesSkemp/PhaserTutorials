@@ -44,10 +44,24 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		paddle.body.collideWorldBounds = true;
 		paddle.body.bounce.set(1);
 		paddle.body.immovable = true;
+
+		// Create the ball.
+		var ball = game.add.sprite(game.world.centerX, paddle.y - 16, 'ball');
+		ball.anchor.setTo(0.5);
+		ball.checkWorldBounds = true;
+		game.physics.enable(ball, Phaser.Physics.ARCADE);
+		ball.body.collideWorldBounds = true;
+		ball.body.bounce.set(1);
+		// If the ball is out of bounds we need to handle it.
+		ball.events.onOutOfBounds.add(this.ballDeath, this);
 	},
 
 	update: function () {
 		
+	},
+
+	ballDeath: function () {
+
 	}
 
 });
