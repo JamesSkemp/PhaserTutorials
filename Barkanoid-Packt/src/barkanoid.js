@@ -54,6 +54,13 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		ball.body.bounce.set(1);
 		// If the ball is out of bounds we need to handle it.
 		ball.events.onOutOfBounds.add(this.ballDeath, this);
+
+		var scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
+		var livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
+		var introText = game.add.text(game.world.centerX, 400, 'click to start', { font: '40px Arial', fill: '#fff', align: 'center' });
+		introText.anchor.setTo(0.5);
+		
+		game.input.onDown.add(this.releaseBall, this);
 	},
 
 	update: function () {
@@ -61,6 +68,10 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	ballDeath: function () {
+
+	},
+
+	releaseBall: function () {
 
 	}
 
