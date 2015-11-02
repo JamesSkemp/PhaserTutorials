@@ -43,6 +43,16 @@ var Game = {
 		}
 
 		this.generateApple();
+
+		textStyle_Key = { font: '14px bold sans-serif', fill: '#46c0f9', align: 'center' };
+		textSytle_Value = { font: '18px bold sans-serif', fill: '#fff', align: 'center' };
+
+		// Score display.
+		this.add.text(30, 20, 'SCORE', textStyle_Key);
+		scoreTextValue = game.add.text(90, 18, score.toString(), textSytle_Value);
+		// Speed display.
+		this.add.text(500, 20, 'SPEED', textStyle_Key);
+		speedTextValue = game.add.text(558, 18, speed.toString(), textSytle_Value);
 	},
 
 	update: function () {
