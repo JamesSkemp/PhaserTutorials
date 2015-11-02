@@ -111,7 +111,20 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	ballCollidedWithPaddle: function (ball, paddle) {
+		var diff = 0;
 
+		if (ball.x < paddle.x) {
+			// Ball is on the left-hand side.
+			diff = paddle.x - ball.x;
+			ball.body.velocity.x = (-10 * diff);
+		} else if (ball.x > paddle.x) {
+			// Ball is on the right-hand side.
+			diff = ball.x - paddle.x;
+			ball.body.velocity.x = (10 * diff);
+		} else {
+			// Ball is in the middle, so add a bit of random wiggle.
+			ball.body.velocity.x = 2 + Math.random() * 8;
+		}
 	},
 
 	ballCollidedWithTiles: function (ball, tile) {
