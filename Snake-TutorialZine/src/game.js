@@ -147,10 +147,19 @@ var Game = {
 	},
 
 	selfCollision: function (head) {
-
+		// Check against each part of the snake, minus the head.
+		for (var i = 0; i < snake.length - 1; i++) {
+			// If the head overlaps any part of the snake's body, the game is over.
+			if (head.x == snake[i].x && head.y == snake[i].y) {
+				game.state.start('Game_Over');
+			}
+		}
 	},
 
 	wallCollision: function (head) {
-
+		if (head.x >= 600 || head.x < 0 || head.y >= 450 || head.y < 0) {
+			// The snake has gone out of bounds, and the game is over.
+			game.state.start('Game_Over');
+		}
 	}
 };
