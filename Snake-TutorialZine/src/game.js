@@ -157,7 +157,7 @@ var Game = {
 	},
 
 	wallCollision: function (head) {
-		if (head.x >= 600 || head.x < 0 || head.y >= 450 || head.y < 0) {
+		if (head.x >= game.world.width || head.x < 0 || head.y >= game.world.height || head.y < 0) {
 			// The snake has gone out of bounds, and the game is over.
 			game.state.start('Game_Over');
 		}
