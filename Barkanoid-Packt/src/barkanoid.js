@@ -110,12 +110,30 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		}
 	},
 
-	ballCollidedWithPaddle: function () {
+	ballCollidedWithPaddle: function (ball, paddle) {
 
 	},
 
-	ballCollidedWithTiles: function () {
+	ballCollidedWithTiles: function (ball, tile) {
+		tile.kill();
 
+		score += 10;
+		scoreText.text = 'score: ' + score;
+
+		if (tiles.countLiving() <= 0) {
+			// There are no more tiles.
+			score += 1000;
+			scoreText.text = 'score: ' + score;
+			introText.text = 'Next Level';
+
+			ballOnPaddle = true;
+			ball.body.velocity.set(0);
+			ball.x = paddle.x + 16;
+			ball.y = paddle.y - 16;
+
+			// Revive all tiles.
+			tiles.callAll('revive');
+		}
 	},
 
 	ballDeath: function () {
