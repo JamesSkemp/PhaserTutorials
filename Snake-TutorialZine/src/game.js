@@ -41,9 +41,20 @@ var Game = {
 		for (var i = 0; i < 10; i++) {
 			snake[i] = this.add.sprite(150 + i * squareSize, 150, 'snake');
 		}
+
+		this.generateApple();
 	},
 
 	update: function () {
 
+	},
+
+	generateApple: function () {
+		// Choose a random position on the board.
+		var randomX = Math.floor(Math.random() * 40) * squareSize;
+		var randomY = Math.floor(Math.random() * 30) * squareSize;
+
+		// Add a new apple in that spot.
+		apple = this.add.sprite(randomX, randomY, 'apple');
 	}
 };
