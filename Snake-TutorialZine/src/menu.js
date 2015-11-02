@@ -5,6 +5,12 @@
 	},
 
 	create: function () {
-		this.add.sprite(0, 0, 'menu');
+		// Add a button, instead of a sprite, that when clicked will load the game.
+		//this.add.sprite(0, 0, 'menu');
+		this.add.button(0, 0, 'menu', this.startGame, this);
+	},
+
+	startGame: function () {
+		this.state.start('Game');
 	}
 };
