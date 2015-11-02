@@ -3,11 +3,14 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
 	paddle: null,
 	ball: null,
+	tiles: null,
 
 	lives: 3,
 	score: 0,
 
 	ballOnPaddle: true,
+
+	introText: null,
 
 	preload: function () {
 		game.load.path = 'assets/';
@@ -30,7 +33,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		var background = game.add.tileSprite(0, 0, 800, 600, 'background');
 
 		// Create a group to store our tiles.
-		var tiles = game.add.group();
+		tiles = game.add.group();
 		tiles.enableBody = true;
 		tiles.physicsBodyType = Phaser.Physics.ARCADE;
 
@@ -67,7 +70,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
 		var scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
 		var livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
-		var introText = game.add.text(game.world.centerX, 400, 'click to start', { font: '40px Arial', fill: '#fff', align: 'center' });
+		introText = game.add.text(game.world.centerX, 400, 'click to start', { font: '40px Arial', fill: '#fff', align: 'center' });
 		introText.anchor.setTo(0.5);
 		
 		game.input.onDown.add(this.releaseBall, this);
@@ -88,8 +91,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 			ball.body.x = paddle.x;
 		} else {
 			// See if the ball has collided with the paddle or tiles.
-			game.physics.arcade.collide(ball, paddle, ballCollidedWithPaddle, null, this);
-			game.physics.arcade.collide(ball, tiles, ballCollidedWithTiles, null, this);
+			game.physics.arcade.collide(ball, paddle, this.ballCollidedWithPaddle, null, this);
+			game.physics.arcade.collide(ball, tiles, this.ballCollidedWithTiles, null, this);
 		}
 	},
 
@@ -98,7 +101,12 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	releaseBall: function () {
-
+		if (ballOnPaddle) {
+			ballOnPaddle = false;
+			ball.body.velocity.y = -300;
+			ball.body.velocity.x = -75;
+			introText.visible = false;
+		}
 	},
 
 	ballCollidedWithPaddle: function () {
