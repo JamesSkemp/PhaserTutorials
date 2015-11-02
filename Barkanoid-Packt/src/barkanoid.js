@@ -5,11 +5,13 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	ball: null,
 	tiles: null,
 
-	lives: 3,
-	score: 0,
+	lives: null,
+	score: null,
 
 	ballOnPaddle: true,
 
+	scoreText: null,
+	livesText: null,
 	introText: null,
 
 	preload: function () {
@@ -26,6 +28,9 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 	},
 
 	create: function () {
+		lives = 3;
+		score = 0;
+
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		// The bottom of walls don't cause collisions.
 		game.physics.arcade.checkCollision.down = false;
@@ -68,8 +73,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
 		ballOnPaddle = true;
 
-		var scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
-		var livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
+		scoreText = game.add.text(32, 550, 'score: 0', { font: '20px Arial', fill: '#fff', align: 'left' });
+		livesText = game.add.text(680, 550, 'lives: 3', { font: '20px Arial', fill: '#fff', align: 'left' });
 		introText = game.add.text(game.world.centerX, 400, 'click to start', { font: '40px Arial', fill: '#fff', align: 'center' });
 		introText.anchor.setTo(0.5);
 		
@@ -96,10 +101,6 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 		}
 	},
 
-	ballDeath: function () {
-
-	},
-
 	releaseBall: function () {
 		if (ballOnPaddle) {
 			ballOnPaddle = false;
@@ -115,6 +116,24 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'barkanoid', {
 
 	ballCollidedWithTiles: function () {
 
+	},
+
+	ballDeath: function () {
+		lives--;
+		livesText.text = 'lives: ' + lives;
+
+		if (lives === 0) {
+			this.gameOver();
+		} else {
+			ballOnPaddle = true;
+			ball.reset(paddle.body.x + 16, paddle.y - 16);
+		}
+	},
+
+	gameOver: function () {
+		ball.body.velocity.setTo(0, 0);
+		introText.text = 'Game Over!';
+		introText.visible = true;
 	}
 
 });
