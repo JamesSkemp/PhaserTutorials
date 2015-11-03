@@ -4,6 +4,9 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
 });
 
 function preload() {
+	// Show debug information.
+	game.add.plugin(Phaser.Plugin.Debug);
+
 	this.load.path = "assets/";
 	game.load.image('sky');
 	game.load.image('platform');
