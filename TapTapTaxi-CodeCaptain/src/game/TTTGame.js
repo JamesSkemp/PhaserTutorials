@@ -62,6 +62,13 @@ var TTTGame = (function () {
 			var sprite = this.arrTiles[i];
 			sprite.x -= speed * Math.cos(ANGLE * Math.PI / 180);
 			sprite.y += speed * Math.sin(ANGLE * Math.PI / 180);
+
+			// If the sprite is off the screen remove it from our array and then destroy it.
+			if (sprite.x < -120) {
+				this.arrTiles.splice(i, 1);
+				sprite.destroy();
+			}
+
 			i--;
 		}
 	};
