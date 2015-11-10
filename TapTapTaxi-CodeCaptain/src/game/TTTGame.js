@@ -3,11 +3,14 @@ var TTTGame = (function () {
 
 	// Angle for isometric display.
 	var ANGLE = 26.55;
+	var TILE_WIDTH = 68;
 
 	function TTTGame(phaserGame) {
 		this.game = phaserGame;
 		// Place to hold our tiles.
 		this.arrTiles = [];
+
+		this.numberOfIterations = 0;
 	}
 
 	TTTGame.prototype.init = function () {
@@ -25,11 +28,21 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.update = function () {
+		this.numberOfIterations++;
+		if (this.numberOfIterations > TILE_WIDTH) {
+			this.numberOfIterations = 0;
+			this.generateRoad();
+		}
 		this.moveTiles();
 	};
 
 	TTTGame.prototype.generateRoad = function () {
-		var sprite = this.game.add.sprite(0, 0, 'tile_road_1');
+		// Standard way to add a sprite. However, doing this results in overlap for new tiles.
+		//var sprite = this.game.add.sprite(0, 0, 'tile_road_1');
+		// Long-handed way to create a sprite. Doesn't add it to the world immediately, however.
+		var sprite = new Phaser.Sprite(this.game, 0, 0, 'tile_road_1');
+		// Add our new sprite to the world, under all other tiles.
+		this.game.world.addChildAt(sprite, 0);
 		sprite.anchor.setTo(0.5);
 		sprite.x = this.game.world.centerX;
 		sprite.y = this.game.world.centerY;
