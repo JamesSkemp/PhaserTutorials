@@ -9,8 +9,13 @@ var TTTGame = (function () {
 		this.game = phaserGame;
 		// Place to hold our tiles.
 		this.arrTiles = [];
-
+		// Helps determine when to draw a new road tile.
 		this.numberOfIterations = 0;
+
+		this.roadStartPosition = {
+			x: GAME_WIDTH + 100,
+			y: GAME_HEIGHT / 2 - 100
+		};
 	}
 
 	TTTGame.prototype.init = function () {
@@ -44,8 +49,8 @@ var TTTGame = (function () {
 		// Add our new sprite to the world, under all other tiles.
 		this.game.world.addChildAt(sprite, 0);
 		sprite.anchor.setTo(0.5);
-		sprite.x = this.game.world.centerX;
-		sprite.y = this.game.world.centerY;
+		sprite.x = this.roadStartPosition.x;
+		sprite.y = this.roadStartPosition.y;
 		this.arrTiles.push(sprite);
 	};
 
