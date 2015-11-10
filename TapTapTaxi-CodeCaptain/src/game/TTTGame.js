@@ -4,6 +4,7 @@ var TTTGame = (function () {
 	// Angle for isometric display.
 	var ANGLE = 26.55;
 	var TILE_WIDTH = 68;
+	var SPEED = 5;
 
 	function TTTGame(phaserGame) {
 		this.game = phaserGame;
@@ -34,11 +35,11 @@ var TTTGame = (function () {
 
 	TTTGame.prototype.update = function () {
 		this.numberOfIterations++;
-		if (this.numberOfIterations > TILE_WIDTH) {
+		if (this.numberOfIterations > TILE_WIDTH / SPEED) {
 			this.numberOfIterations = 0;
 			this.generateRoad();
 		}
-		this.moveTiles();
+		this.moveTilesWithSpeed(SPEED);
 	};
 
 	TTTGame.prototype.generateRoad = function () {
@@ -54,13 +55,13 @@ var TTTGame = (function () {
 		this.arrTiles.push(sprite);
 	};
 
-	TTTGame.prototype.moveTiles = function () {
+	TTTGame.prototype.moveTilesWithSpeed = function (speed) {
 		var i = this.arrTiles.length - 1;
 		// Loop through all tiles and move them down and left in an isometric way.
 		while (i >= 0) {
 			var sprite = this.arrTiles[i];
-			sprite.x -= Math.cos(ANGLE * Math.PI / 180);
-			sprite.y += Math.sin(ANGLE * Math.PI / 180);
+			sprite.x -= speed * Math.cos(ANGLE * Math.PI / 180);
+			sprite.y += speed * Math.sin(ANGLE * Math.PI / 180);
 			i--;
 		}
 	};
