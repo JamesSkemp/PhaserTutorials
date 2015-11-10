@@ -36,6 +36,7 @@ var TTTGame = (function () {
 	TTTGame.prototype.update = function () {
 		this.numberOfIterations++;
 		if (this.numberOfIterations > TILE_WIDTH / SPEED) {
+			// Generate a new piece of road once a tile has moved its length.
 			this.numberOfIterations = 0;
 			this.generateRoad();
 		}
