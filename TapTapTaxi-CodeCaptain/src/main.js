@@ -10,10 +10,20 @@ var state = {
 
 var phaserGame = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'container', state);
 
-function init() { }
+function init() {
+	taxiGame.init();
+}
 
-function preload() { }
+function preload() {
+	taxiGame.init();
+}
 
-function create() { }
+function create() {
+	taxiGame.init();
+}
 
-function update() { }
+function update() {
+	taxiGame.init();
+}
+
+var taxiGame = new TTTGame(phaserGame);
