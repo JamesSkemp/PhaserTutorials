@@ -23,6 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\atlas.png" />
+    <Content Include="assets\bg.jpg" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
     <Content Include="lib\phaser.min.js" />
@@ -37,6 +39,7 @@
   <ItemGroup>
     <Content Include="README.md" />
     <Content Include="lib\phaser.map" />
+    <Content Include="assets\atlas.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
