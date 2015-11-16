@@ -16,3 +16,7 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
+
+# Phaser/TypeScript-specific files
+*/app.js
+*/app.js.map
