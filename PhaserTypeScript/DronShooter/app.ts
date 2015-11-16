@@ -13,9 +13,22 @@ class State extends Phaser.State {
 	}
 
 	create() {
+		// Use the P2 physics engine.
+		this.game.physics.startSystem(Phaser.Physics.P2JS);
+
 		this.add.image(0, 0, "BG");
-		var dron: Phaser.Sprite = this.add.sprite(320, 100, "atlas", "dron1", this.world);
-		dron.anchor.setTo(0.5);
+
+		var dron: Dron = new Dron(this.game, 320, 100, "atlas", "dron1");
+		dron.setUp();
+		
+		this.world.add(dron);
+	}
+}
+
+class Dron extends Phaser.Sprite {
+
+	public setUp() {
+		this.anchor.setTo(0.5);
 	}
 }
 
