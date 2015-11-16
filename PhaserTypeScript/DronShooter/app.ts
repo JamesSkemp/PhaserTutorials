@@ -63,6 +63,13 @@ class Dron extends Phaser.Sprite {
 		// Start the first animation by default.
 		this.play("anim");
 	}
+
+	public explode() {
+		// Remove the movement tween.
+		this.game.tweens.removeFrom(this.body);
+		// Explode and kill itself.
+		this.play("explosion", 8, false, true);
+	}
 }
 
 /**
