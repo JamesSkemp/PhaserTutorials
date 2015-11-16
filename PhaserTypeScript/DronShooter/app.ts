@@ -56,6 +56,12 @@ class Dron extends Phaser.Sprite {
 		yTween.to({ y: this.position.y + range }, duration, function (aProgress: number) {
 			return wiggle(aProgress, yPeriod1, yPeriod2);
 		}, true, 0, -1);
+
+		// Define animations.
+		this.animations.add("anim", ["dron1", "dron2"], this.game.rnd.between(2, 5), true);
+		this.animations.add("explosion", Phaser.Animation.generateFrameNames("explosion", 1, 6, "", 3));
+		// Start the first animation by default.
+		this.play("anim");
 	}
 }
 
