@@ -1,28 +1,23 @@
-﻿class Greeter {
-    element: HTMLElement;
-    span: HTMLElement;
-    timerToken: number;
+﻿class Game extends Phaser.Game {
 
-    constructor(element: HTMLElement) {
-        this.element = element;
-        this.element.innerHTML += "The time is: ";
-        this.span = document.createElement('span');
-        this.element.appendChild(this.span);
-        this.span.innerText = new Date().toUTCString();
-    }
+	constructor() {
+		super(640, 400, Phaser.AUTO, "content", State);
+	}
+}
 
-    start() {
-        this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
-    }
+class State extends Phaser.State {
+	preload() {
+		this.game.load.path = "assets/";
+		this.game.load.image("BG", "bg.jpg");
+		this.game.load.atlas("atlas");
+	}
 
-    stop() {
-        clearTimeout(this.timerToken);
-    }
-
+	create() {
+		this.add.image(0, 0, "BG");
+		this.add.sprite(320, 100, "atlas", "dron1", this.world);
+	}
 }
 
 window.onload = () => {
-    var el = document.getElementById('content');
-    var greeter = new Greeter(el);
-    greeter.start();
+	new Game();
 };
