@@ -15,6 +15,10 @@ class State extends Phaser.State {
 
 	private _space: Phaser.Key;
 
+	private _drones: Phaser.Group;
+	private _dronesCollisionGroup: Phaser.Physics.P2.CollisionGroup;
+	private _missiles: Phaser.Group;
+	private _missilesCollisionGroup: Phaser.Physics.P2.CollisionGroup;
 
 	preload() {
 		this.game.load.path = "assets/";
@@ -43,6 +47,44 @@ class State extends Phaser.State {
 		this._space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		// Capture the keys so they aren't handled by the browser.
 		this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR]);
+
+		this.game.physics.p2.setImpactEvents(true);
+
+		this._dronesCollisionGroup = this.game.physics.p2.createCollisionGroup();
+		this._missilesCollisionGroup = this.game.physics.p2.createCollisionGroup();
+
+		this._drones = this.add.group();
+		this._drones.physicsBodyType = Phaser.Physics.P2JS;
+		this._drones.enableBody = true;
+
+		// Create 8 drones.
+		this._drones.classType = Dron;
+		this._drones.createMultiple(8, "atlas", "dron1");
+		this._drones.forEach(function (aDron: Dron) {
+			aDron.setUp();
+			// Setup physics.
+			var body: Phaser.Physics.P2.Body = aDron.body;
+			body.setCircle(aDron.width / 2);
+			// Don't respond to forces.
+			body.kinematic = true;
+			body.setCollisionGroup(this._dronesCollisionGroup);
+			body.collides(this._missilesCollisionGroup, this.hitDron, this);
+		}, this);
+
+		this._missiles = this.add.group();
+		this._missiles.physicsBodyType = Phaser.Physics.P2JS;
+		this._missiles.enableBody = true;
+
+		// Create 10 missiles.
+		this._missiles.createMultiple(10, "atlas", "missile");
+		this._missiles.forEach(function (aMissile: Phaser.Sprite) {
+			aMissile.anchor.setTo(0.5);
+
+			var body: Phaser.Physics.P2.Body = aMissile.body;
+			body.setRectangle(aMissile.width, aMissile.height);
+			body.setCollisionGroup(this._missilesCollisionGroup);
+			body.collides(this._dronesCollisionGroup);
+		}, this);
 	}
 
 	update() {
@@ -60,6 +102,12 @@ class State extends Phaser.State {
 
 		// Limit the cannon rotation to -135 to -45 degrees.
 		this._cannon.rotation = Phaser.Math.clamp(this._cannon.rotation, -1.5 * Math.PI / 2, -0.5 * Math.PI / 2);
+	}
+
+	private hitDron(aObject1: any, aObject2: any) {
+		(<Dron>aObject1.sprite).explode();
+		// Only kill the missile, since we want it later.
+		(<Phaser.Sprite>aObject2.sprite).kill();
 	}
 }
 
