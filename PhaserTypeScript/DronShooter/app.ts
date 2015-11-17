@@ -44,6 +44,23 @@ class State extends Phaser.State {
 		// Capture the keys so they aren't handled by the browser.
 		this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR]);
 	}
+
+	update() {
+		// Create a shortcut to access the keyboard.
+		var keyboard: Phaser.Keyboard = this.game.input.keyboard;
+
+		if (keyboard.isDown(Phaser.Keyboard.LEFT)) {
+			// Move 45 degrees (PI/4) in 1 second, adjusted by cannon speed, independent of the framerate.
+			this._cannon.rotation -= this.time.elapsedMS * State.CANNON_SPEED / 1000 * (Math.PI / 4);
+		} else if (keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+			this._cannon.rotation += this.time.elapsedMS * State.CANNON_SPEED / 1000 * (Math.PI / 4);
+		} else if (keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+
+		}
+
+		// Limit the cannon rotation to -135 to -45 degrees.
+		this._cannon.rotation = Phaser.Math.clamp(this._cannon.rotation, -1.5 * Math.PI / 2, -0.5 * Math.PI / 2);
+	}
 }
 
 class Dron extends Phaser.Sprite {
