@@ -36,6 +36,13 @@ class State extends Phaser.State {
 
 		var base = this.game.add.sprite(this.world.centerX, this.world.height, "atlas", "base");
 		base.anchor.setTo(0.5, 1);
+
+		// Handle some keys for the cannon actions.
+		this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+		this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+		this._space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		// Capture the keys so they aren't handled by the browser.
+		this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR]);
 	}
 }
 
