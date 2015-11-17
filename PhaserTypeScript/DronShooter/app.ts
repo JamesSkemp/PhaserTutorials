@@ -6,6 +6,16 @@
 }
 
 class State extends Phaser.State {
+
+	private static CANNON_SPEED = 2;
+	private static MISSILE_SPEED = 6;
+
+	private _cannon: Phaser.Sprite;
+	private _cannonTip: Phaser.Point = new Phaser.Point();
+
+	private _space: Phaser.Key;
+
+
 	preload() {
 		this.game.load.path = "assets/";
 		this.game.load.image("BG", "bg.jpg");
@@ -18,15 +28,14 @@ class State extends Phaser.State {
 
 		this.add.image(0, 0, "BG");
 
-		var dron: Dron = new Dron(this.game, 320, 100, "atlas", "dron1");
+		// The cannon is placed at the bottom center.
+		this._cannon = this.game.add.sprite(this.world.centerX, this.world.height, "atlas", "cannon");
+		this._cannon.anchor.setTo(-0.75, 0.5);
+		// Rotate so it points straight up.
+		this._cannon.rotation = -Math.PI / 2;
 
-		this.game.physics.enable(dron, Phaser.Physics.P2JS);
-
-		dron.body.kinematic = true;
-
-		dron.setUp();
-		
-		this.world.add(dron);
+		var base = this.game.add.sprite(this.world.centerX, this.world.height, "atlas", "base");
+		base.anchor.setTo(0.5, 1);
 	}
 }
 
