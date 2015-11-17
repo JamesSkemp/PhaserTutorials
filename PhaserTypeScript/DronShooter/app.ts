@@ -96,8 +96,24 @@ class State extends Phaser.State {
 			this._cannon.rotation -= this.time.elapsedMS * State.CANNON_SPEED / 1000 * (Math.PI / 4);
 		} else if (keyboard.isDown(Phaser.Keyboard.RIGHT)) {
 			this._cannon.rotation += this.time.elapsedMS * State.CANNON_SPEED / 1000 * (Math.PI / 4);
-		} else if (keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+		} else if (this._space.justDown) {
+			// Get the first non-existing item.
+			var missile: Phaser.Sprite = this._missiles.getFirstExists(false);
 
+			if (missile) {
+				// Determine where the cannon tip is.
+				this._cannonTip.setTo(this._cannon.width * 2, 0);
+				this._cannonTip.rotate(0, 0, this._cannon.rotation);
+
+				missile.reset(this._cannon.x + this._cannonTip.x, this._cannon.y + this._cannonTip.y);
+				(<Phaser.Physics.P2.Body>missile.body).rotation = this._cannon.rotation;
+
+				// Will automatically be set to exists=false after 1.5 seconds. Calls kill().
+				missile.lifespan = 1500;
+				// Set velocity of missile in direction of actual cannon tip.
+				(<Phaser.Physics.P2.Body>missile.body).velocity.x = this._cannonTip.x * State.MISSILE_SPEED;
+				(<Phaser.Physics.P2.Body>missile.body).velocity.y = this._cannonTip.y * State.MISSILE_SPEED;
+			}
 		}
 
 		// Limit the cannon rotation to -135 to -45 degrees.
@@ -140,7 +156,7 @@ class Dron extends Phaser.Sprite {
 
 		// Define animations.
 		this.animations.add("anim", ["dron1", "dron2"], this.game.rnd.between(2, 5), true);
-		this.animations.add("explosion", Phaser.Animation.generateFrameNames("explosion", 1, 6, "", 3));
+		this.animations.add("explosion", Phaser.Animation.generateFrameNames("Explosion", 1, 6, "", 3));
 		// Start the first animation by default.
 		this.play("anim");
 	}
