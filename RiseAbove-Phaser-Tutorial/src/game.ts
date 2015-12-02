@@ -22,7 +22,7 @@ class Game extends Phaser.State {
 	verticalTween: Phaser.Tween;
 	shipVerticalSpeed = 20000;
 	shipInvisibilityTime = 1000;
-	lastClick: Phaser.Time;
+	lastClick: number;
 
 	constructor() {
 		super();
