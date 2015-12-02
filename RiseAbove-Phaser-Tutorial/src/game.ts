@@ -19,6 +19,10 @@ class Game extends Phaser.State {
 	// Barriers
 	barrierGroup: Phaser.Group;
 	barrierDelay = 2000;
+	verticalTween: Phaser.Tween;
+	shipVerticalSpeed = 20000;
+	shipInvisibilityTime = 1000;
+	lastClick: Phaser.Time;
 
 	constructor() {
 		super();
@@ -52,16 +56,22 @@ class Game extends Phaser.State {
 			this.game.add.existing(barrier);
 			this.barrierGroup.add(barrier);
 		});
+		this.verticalTween = this.game.add.tween(this.ship).to({
+			y: 0
+		}, this.shipVerticalSpeed, Phaser.Easing.Linear.None, true);
 	}
 
 	update() {
-		this.game.physics.arcade.collide(this.ship, this.barrierGroup, () => {
-			this.game.state.start('Game');
-		});
+		if (this.ship.alpha == 1) {
+			this.game.physics.arcade.collide(this.ship, this.barrierGroup, () => {
+				this.game.state.start('Game');
+			});
+		}
 	}
 
 	moveShip(): void {
 		if (this.shipCanMove) {
+			this.lastClick = this.game.time.now;
 			this.shipPosition = 1 - this.shipPosition;
 			this.shipCanMove = false;
 
@@ -74,6 +84,22 @@ class Game extends Phaser.State {
 					this.shipCanMove = true;
 				});
 			});
+		} else {
+			if (this.game.time.now - this.lastClick < 200 && this.ship.alpha == 1) {
+				this.ship.alpha = 0.5;
+				this.verticalTween.stop();
+				this.verticalTween = this.game.add.tween(this.ship).to({
+					y: this.game.height - 40
+				}, 100, Phaser.Easing.Cubic.Out, true);
+				this.verticalTween.onComplete.add(() => {
+					this.verticalTween = this.game.add.tween(this.ship).to({
+						y: 0
+					}, this.shipVerticalSpeed, Phaser.Easing.Linear.None, true);
+					var alphaTween = this.game.add.tween(this.ship).to({
+						alpha: 1
+					}, this.shipInvisibilityTime, Phaser.Easing.Linear.None, true);
+				});
+			}
 		}
 	}
 }
