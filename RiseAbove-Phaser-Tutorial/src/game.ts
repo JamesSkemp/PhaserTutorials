@@ -5,7 +5,7 @@
 	shipCanMove: boolean;
 	ship: Phaser.Sprite;
 	shipPosition: number;
-	shipPositions;
+	shipPositions: number[];
 	shipHorizontalSpeed = 400;
 	shipMoveDelay = 500;
 
