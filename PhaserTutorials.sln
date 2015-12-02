@@ -7,27 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhaserTypeScript", "PhaserT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DronShooter", "DronShooter\DronShooter.csproj", "{A800BF15-F84F-4273-9E9B-F4A5B7CBFD6F}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RiseAbove-Phaser-Tutorial", "RiseAbove-Phaser-Tutorial\", "{8072BD44-A082-4D5E-90BA-FB360E98F142}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_61772"
-		Debug.AspNetCompiler.PhysicalPath = "RiseAbove-Phaser-Tutorial\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61772\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_61772"
-		Release.AspNetCompiler.PhysicalPath = "RiseAbove-Phaser-Tutorial\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61772\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "61772"
-		SlnRelativePath = "RiseAbove-Phaser-Tutorial\"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseAbove-Phaser-Tutorial", "RiseAbove-Phaser-Tutorial\RiseAbove-Phaser-Tutorial.csproj", "{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +23,10 @@ Global
 		{A800BF15-F84F-4273-9E9B-F4A5B7CBFD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A800BF15-F84F-4273-9E9B-F4A5B7CBFD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A800BF15-F84F-4273-9E9B-F4A5B7CBFD6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8072BD44-A082-4D5E-90BA-FB360E98F142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8072BD44-A082-4D5E-90BA-FB360E98F142}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8072BD44-A082-4D5E-90BA-FB360E98F142}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{8072BD44-A082-4D5E-90BA-FB360E98F142}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
