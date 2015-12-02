@@ -10,9 +10,7 @@
 	shipMoveDelay = 500;
 
 	constructor() {
-		this.game = new Phaser.Game(320, 480, Phaser.AUTO, 'content', {
-			preload: this.preload, create: this.create
-		});
+		this.game = new Phaser.Game(320, 480, Phaser.AUTO, 'content', this);
 	}
 
 	preload() {
@@ -33,6 +31,25 @@
 		this.game.physics.enable(this.ship, Phaser.Physics.ARCADE);
 		this.ship.body.allowRotation = false;
 		this.ship.body.moves = false;
+
+		this.game.input.onDown.add(this.moveShip, this);
+	}
+
+	moveShip(): void {
+		if (this.shipCanMove) {
+			this.shipPosition = 1 - this.shipPosition;
+			this.shipCanMove = false;
+
+			var moveTween = this.game.add.tween(this.ship).to({
+				x: this.shipPositions[this.shipPosition]
+			}, this.shipHorizontalSpeed, Phaser.Easing.Linear.None, true);
+
+			moveTween.onComplete.add(() => {
+				this.game.time.events.add(this.shipMoveDelay, () => {
+					this.shipCanMove = true;
+				});
+			});
+		}
 	}
 }
 
