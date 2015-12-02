@@ -1,7 +1,15 @@
-﻿class RiseAboveGame {
-
+﻿class RiseAboveGame extends Phaser.Game {
 	game: Phaser.Game;
 
+	constructor() {
+		super(320, 480, Phaser.AUTO, 'content');
+
+		this.state.add('Game', Game);
+		this.state.start('Game');
+	}
+}
+
+class Game extends Phaser.State {
 	shipCanMove: boolean;
 	ship: Phaser.Sprite;
 	shipPosition: number;
@@ -10,7 +18,7 @@
 	shipMoveDelay = 500;
 
 	constructor() {
-		this.game = new Phaser.Game(320, 480, Phaser.AUTO, 'content', this);
+		super();
 	}
 
 	preload() {
