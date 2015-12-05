@@ -75,6 +75,16 @@
 
 			if (this.cars[carToMove].canMove) {
 				this.cars[carToMove].canMove = false;
+
+				var steerTween = this.game.add.tween(this.cars[carToMove]).to({
+					angle: 20 - 40 * this.cars[carToMove].side
+				}, this.carTurnSpeed / 2, Phaser.Easing.Linear.None, true);
+				steerTween.onComplete.add(() => {
+					var steerTween = this.game.add.tween(this.cars[carToMove]).to({
+						angle: 0
+					}, this.carTurnSpeed / 2, Phaser.Easing.Linear.None, true);
+				});
+
 				this.cars[carToMove].side = 1 - this.cars[carToMove].side;
 
 				var moveTween = this.game.add.tween(this.cars[carToMove]).to({
