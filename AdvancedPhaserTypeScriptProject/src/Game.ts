@@ -5,6 +5,7 @@
 
 			this.state.add('Boot', Boot, false);
 			this.state.add('Preloader', Preloader, false);
+			this.state.add('MainMenu', MainMenu, false);
 
 			this.state.start('Boot');
 		}
