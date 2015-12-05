@@ -16,6 +16,8 @@
 				this.game.scale.pageAlignHorizontally = true;
 			}
 
+			this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
 			this.game.state.start('Preloader', true, false);
 		}
 	}
