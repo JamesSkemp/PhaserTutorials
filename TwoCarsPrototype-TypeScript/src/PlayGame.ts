@@ -38,6 +38,8 @@
 				this.carGroup.add(this.cars[i]);
 			}
 
+			this.game.input.onDown.add(this.moveCar, this);
+
 			this.game.time.events.loop(this.obstacleDelay, () => {
 				var position = this.game.rnd.between(0, 3);
 				var obstacle = new Obstacle(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
@@ -50,6 +52,22 @@
 			this.game.physics.arcade.collide(this.carGroup, this.obstacleGroup, () => {
 				this.game.state.start('PlayGame');
 			});
+		}
+
+		moveCar(e) {
+			var carToMove = Math.floor(e.position.x / (this.game.width / 2));
+
+			if (this.cars[carToMove].canMove) {
+				this.cars[carToMove].canMove = false;
+				this.cars[carToMove].side = 1 - this.cars[carToMove].side;
+
+				var moveTween = this.game.add.tween(this.cars[carToMove]).to({
+					x: this.cars[carToMove].positions[this.cars[carToMove].side]
+				}, this.carTurnSpeed, Phaser.Easing.Linear.None, true);
+				moveTween.onComplete.add(() => {
+					this.cars[carToMove].canMove = true;
+				});
+			}
 		}
 	}
 }
