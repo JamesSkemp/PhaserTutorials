@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DronShooter", "DronShooter\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiseAbove-Phaser-Tutorial", "RiseAbove-Phaser-Tutorial\RiseAbove-Phaser-Tutorial.csproj", "{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedPhaserTypeScriptProject", "AdvancedPhaserTypeScriptProject\AdvancedPhaserTypeScriptProject.csproj", "{CF40A79A-30E8-48F1-8E6D-7EC2A9504D66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2527C10D-ABAD-4E11-B93F-B7C4CFCF693E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF40A79A-30E8-48F1-8E6D-7EC2A9504D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF40A79A-30E8-48F1-8E6D-7EC2A9504D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF40A79A-30E8-48F1-8E6D-7EC2A9504D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF40A79A-30E8-48F1-8E6D-7EC2A9504D66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
