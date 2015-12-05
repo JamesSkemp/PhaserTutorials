@@ -49,6 +49,8 @@
     <TypeScriptCompile Include="lib\p2.d.ts" />
     <TypeScriptCompile Include="lib\phaser.d.ts" />
     <TypeScriptCompile Include="lib\pixi.d.ts" />
+    <TypeScriptCompile Include="src\boot.ts" />
+    <TypeScriptCompile Include="src\game.ts" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
