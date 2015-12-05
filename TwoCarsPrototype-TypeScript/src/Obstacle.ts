@@ -1,6 +1,5 @@
 ﻿module TwoCars {
 	export class Obstacle extends Phaser.Sprite {
-		obstacleSpeed: number = 120;
 		lane: number;
 
 		constructor(game: Phaser.Game, x: number, y: number, lane: number) {
@@ -15,7 +14,7 @@
 		}
 
 		update() {
-			this.body.velocity.y = this.obstacleSpeed;
+			this.body.velocity.y = PlayGame.obstacleSpeed;
 
 			if (this.y > this.game.height) {
 				this.destroy();

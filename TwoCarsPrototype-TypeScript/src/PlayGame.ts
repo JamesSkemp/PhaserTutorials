@@ -5,6 +5,7 @@
 		carTurnSpeed = 250;
 		carGroup: Phaser.Group;
 		obstacleGroup: Phaser.Group;
+		static obstacleSpeed: number = 120;
 		obstacleDelay = 1500;
 
 		preload() {
