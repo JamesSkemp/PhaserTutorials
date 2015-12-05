@@ -1,6 +1,6 @@
 ﻿module TwoCars {
 	export class PlayGame extends Phaser.State {
-		cars = [];
+		cars: Car[] = [];
 		static carColors = [0xff0000, 0x0000ff];
 		carTurnSpeed = 250;
 		carGroup: Phaser.Group;
