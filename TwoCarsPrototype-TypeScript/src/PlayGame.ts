@@ -29,9 +29,8 @@
 			this.targetGroup = this.game.add.group();
 
 			for (var i = 0; i < 2; i++) {
-				this.cars[i] = this.game.add.sprite(0, this.game.height - 40, 'car');
+				this.cars[i] = new Car(this.game, 0, this.game.height - 40);
 				this.cars[i].positions = [this.game.width * (i * 4 + 1) / 8, this.game.width * (i * 4 + 3) / 8];
-				this.cars[i].anchor.set(0.5);
 				this.cars[i].tint = PlayGame.carColors[i];
 				this.cars[i].canMove = true;
 				this.cars[i].side = i;
