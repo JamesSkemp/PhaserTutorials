@@ -49,8 +49,12 @@
     <TypeScriptCompile Include="lib\p2.d.ts" />
     <TypeScriptCompile Include="lib\phaser.d.ts" />
     <TypeScriptCompile Include="lib\pixi.d.ts" />
-    <TypeScriptCompile Include="src\boot.ts" />
-    <TypeScriptCompile Include="src\game.ts" />
+    <TypeScriptCompile Include="src\Boot.ts" />
+    <TypeScriptCompile Include="src\Game.ts" />
+    <TypeScriptCompile Include="src\Level1.ts" />
+    <TypeScriptCompile Include="src\MainMenu.ts" />
+    <TypeScriptCompile Include="src\Player.ts" />
+    <TypeScriptCompile Include="src\Preloader.ts" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
