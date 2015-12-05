@@ -24,6 +24,20 @@
 			this.carGroup = this.game.add.group();
 			this.obstacleGroup = this.game.add.group();
 
+			for (var i = 0; i < 2; i++) {
+				this.cars[i] = this.game.add.sprite(0, this.game.height - 40, 'car');
+				this.cars[i].positions = [this.game.width * (i * 4 + 1) / 8, this.game.width * (i * 4 + 3) / 8];
+				this.cars[i].anchor.set(0.5);
+				this.cars[i].tint = PlayGame.carColors[i];
+				this.cars[i].canMove = true;
+				this.cars[i].side = i;
+				this.cars[i].x = this.cars[i].positions[this.cars[i].side];
+				this.game.physics.enable(this.cars[i], Phaser.Physics.ARCADE);
+				this.cars[i].body.allowRotation = false;
+				this.cars[i].body.moves = false;
+				this.carGroup.add(this.cars[i]);
+			}
+
 			this.game.time.events.loop(this.obstacleDelay, () => {
 				var position = this.game.rnd.between(0, 3);
 				var obstacle = new Obstacle(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
