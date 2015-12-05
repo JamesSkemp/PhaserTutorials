@@ -1,7 +1,7 @@
 ﻿module TwoCars {
 	export class PlayGame extends Phaser.State {
 		cars = [];
-		carColors = [0xff0000, 0x0000ff];
+		static carColors = [0xff0000, 0x0000ff];
 		carTurnSpeed = 250;
 		carGroup: Phaser.Group;
 		obstacleGroup: Phaser.Group;
@@ -24,7 +24,8 @@
 			this.obstacleGroup = this.game.add.group();
 
 			this.game.time.events.loop(this.obstacleDelay, () => {
-				var obstacle = new Obstacle(this.game, this.game.width * (this.game.rnd.between(0, 3) * 2 + 1) / 8, -20);
+				var position = this.game.rnd.between(0, 3);
+				var obstacle = new Obstacle(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
 				this.game.add.existing(obstacle);
 				this.obstacleGroup.add(obstacle);
 			});
