@@ -26,6 +26,7 @@
     <Content Include="assets\car.png" />
     <Content Include="assets\obstacle.png" />
     <Content Include="assets\road.png" />
+    <Content Include="assets\target.png" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
     <Content Include="lib\phaser.min.js" />
