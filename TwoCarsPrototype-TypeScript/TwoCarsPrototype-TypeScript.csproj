@@ -39,6 +39,7 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\Obstacle.ts" />
     <TypeScriptCompile Include="src\PlayGame.ts" />
+    <TypeScriptCompile Include="src\Target.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\phaser.map" />

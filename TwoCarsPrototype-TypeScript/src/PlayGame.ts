@@ -5,6 +5,8 @@
 		carTurnSpeed = 250;
 		carGroup: Phaser.Group;
 		obstacleGroup: Phaser.Group;
+		targetGroup: Phaser.Group;
+
 		static obstacleSpeed: number = 120;
 		obstacleDelay = 1500;
 
@@ -14,6 +16,7 @@
 			this.game.load.image('car');
 			this.game.load.image('obstacle');
 			this.game.load.image('road');
+			this.game.load.image('target');
 		}
 
 		create() {
@@ -23,6 +26,7 @@
 
 			this.carGroup = this.game.add.group();
 			this.obstacleGroup = this.game.add.group();
+			this.targetGroup = this.game.add.group();
 
 			for (var i = 0; i < 2; i++) {
 				this.cars[i] = this.game.add.sprite(0, this.game.height - 40, 'car');
@@ -41,16 +45,28 @@
 			this.game.input.onDown.add(this.moveCar, this);
 
 			this.game.time.events.loop(this.obstacleDelay, () => {
-				var position = this.game.rnd.between(0, 3);
-				var obstacle = new Obstacle(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
-				this.game.add.existing(obstacle);
-				this.obstacleGroup.add(obstacle);
+				for (var i = 0; i < 2; i++) {
+					var position = this.game.rnd.between(0, 1) + 2 * i;
+
+					if (this.game.rnd.between(0, 1) == 1) {
+						var obstacle = new Obstacle(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
+						this.game.add.existing(obstacle);
+						this.obstacleGroup.add(obstacle);
+					} else {
+						var target = new Target(this.game, this.game.width * (position * 2 + 1) / 8, -20, position);
+						this.game.add.existing(target);
+						this.targetGroup.add(target);
+					}
+				}
 			});
 		}
 
 		update() {
 			this.game.physics.arcade.collide(this.carGroup, this.obstacleGroup, () => {
 				this.game.state.start('PlayGame');
+			});
+			this.game.physics.arcade.collide(this.carGroup, this.targetGroup, (c, t) => {
+				t.destroy();
 			});
 		}
 
