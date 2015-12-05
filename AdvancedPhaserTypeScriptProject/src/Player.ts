@@ -6,6 +6,8 @@
 			this.anchor.setTo(0.5, 0);
 			this.animations.add('walk', [0, 1, 2, 3, 4], 10, true);
 
+			this.game.physics.arcade.enableBody(this);
+
 			game.add.existing(this);
 		}
 
