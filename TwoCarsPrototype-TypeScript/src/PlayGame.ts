@@ -29,15 +29,7 @@
 			this.targetGroup = this.game.add.group();
 
 			for (var i = 0; i < 2; i++) {
-				this.cars[i] = new Car(this.game, 0, this.game.height - 40);
-				this.cars[i].positions = [this.game.width * (i * 4 + 1) / 8, this.game.width * (i * 4 + 3) / 8];
-				this.cars[i].tint = PlayGame.carColors[i];
-				this.cars[i].canMove = true;
-				this.cars[i].side = i;
-				this.cars[i].x = this.cars[i].positions[this.cars[i].side];
-				this.game.physics.enable(this.cars[i], Phaser.Physics.ARCADE);
-				this.cars[i].body.allowRotation = false;
-				this.cars[i].body.moves = false;
+				this.cars[i] = new Car(this.game, 0, this.game.height - 40, i);
 				this.carGroup.add(this.cars[i]);
 			}
 
