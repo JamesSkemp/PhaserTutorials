@@ -35,7 +35,9 @@
     <TypeScriptCompile Include="lib\p2.d.ts" />
     <TypeScriptCompile Include="lib\phaser.d.ts" />
     <TypeScriptCompile Include="lib\pixi.d.ts" />
+    <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\Obstacle.ts" />
+    <TypeScriptCompile Include="src\PlayGame.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\phaser.map" />
