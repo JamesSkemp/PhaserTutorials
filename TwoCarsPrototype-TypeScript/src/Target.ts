@@ -16,8 +16,8 @@
 		update() {
 			this.body.velocity.y = PlayGame.obstacleSpeed;
 
-			if (this.y > this.game.height) {
-				this.destroy();
+			if (this.y > this.game.height - this.height / 2) {
+				this.game.state.start('PlayGame');
 			}
 		}
 	}
