@@ -1,0 +1,1 @@
+This directory could contain any objects the game might require.
