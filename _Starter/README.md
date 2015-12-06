@@ -7,7 +7,7 @@ The following is a starter project to get started with a new game in Phaser, usi
 - assets
 	- This directory can be used to store any assets (images, audio, etcetera) that your game will use.
 - lib
-	- This directory includes [Phaser 2.4.4](http://phaser.io/), and the necessary TypeScript definitions.\
+	- This directory includes [Phaser 2.4.4](http://phaser.io/), and the necessary TypeScript definitions.
 - src
 	- This directory is intended to store your TypeScript files, and includes a .gitignore so that any JavaScript files that are built aren't committed.
 	- A possible directory structure, as well as a few starter states, have been added for ease, but can be removed without issue.
