@@ -66,12 +66,14 @@
 				if (this.timeSinceUpdate >= 500) {
 					this.currentFrame++;
 
-					if (this.currentFrame > this.atlasFrames.total) {
-						this.currentFrame = 0;
-					}
-
 					this.updateImage = true;
 				}
+			}
+
+			if (this.currentFrame >= this.atlasFrames.total) {
+				this.currentFrame = 0;
+			} else if (this.currentFrame < 0) {
+				this.currentFrame = this.atlasFrames.total - 1;
 			}
 
 			if (this.updateImage) {
