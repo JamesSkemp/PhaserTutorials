@@ -1,5 +1,14 @@
 ﻿module StarterProject {
 	export class Boot extends Phaser.State {
+		init() {
+			// If you want to scale the game, you can set that here.
+			// Uncomment to show all content in the view.
+			//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+			// If we put our game in a div, we need to add the following as well, if you SHOW_ALL.
+			//this.game.scale.windowConstraints.bottom = true;
+		}
+
 		preload() {
 			// If your preload state will display a progress bar, you should load the image here.
 		}
