@@ -13,6 +13,8 @@ The following is a starter project to get started with a new game in Phaser, usi
 	- A possible directory structure, as well as a few starter states, have been added for ease, but can be removed without issue.
 		- I've called the directory Objects, but Phaser calls these 'prefabs.'
 - app.css can include any styling necessary for your application.
+- favicon.ico
+	- HTML5 Logo by [World Wide Web Consortium/W3C[(http://www.w3.org/).
 - index.html
 	- The `title` and `h1` elements should be updated to match the needs of your game.
 	- Includes a reference to the minified Phaser library.
