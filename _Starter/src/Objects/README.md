@@ -1,1 +1,1 @@
-This directory could contain any objects the game might require.
+This directory could contain any objects/prefabs the game might require.
