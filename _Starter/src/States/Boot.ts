@@ -1,6 +1,7 @@
 ﻿module StarterProject {
 	export class Boot extends Phaser.State {
 		init() {
+			console.log((new Date).toISOString() + ' : Entered Boot init()');
 			// If you want to scale the game, you can set that here.
 			// Uncomment to show all content in the view.
 			//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -14,6 +15,7 @@
 		}
 
 		preload() {
+			console.log((new Date).toISOString() + ' : Entered Boot preload()');
 			// If your preload state will display a progress bar, you should load the image here.
 		}
 

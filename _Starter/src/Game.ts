@@ -1,6 +1,8 @@
 ﻿module StarterProject {
 	export class Game extends Phaser.Game {
 		constructor() {
+			console.log((new Date).toISOString() + ' : Entered Game constructor()');
+
 			// Update the width (800) and height (600) accordingly.
 			super(800, 600, Phaser.AUTO, 'content');
 
