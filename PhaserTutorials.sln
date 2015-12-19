@@ -145,6 +145,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteSheetTester", "Sprite
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Starter Simple", "_Starter Simple\_Starter Simple.csproj", "{AE6403D7-75B4-4698-BFDB-72D7C53F9152}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalPrototype-TypeScript", "RadicalPrototype-TypeScript\RadicalPrototype-TypeScript.csproj", "{7901DAFC-BFC5-4AE1-B899-DF05ED66390A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,10 @@ Global
 		{AE6403D7-75B4-4698-BFDB-72D7C53F9152}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6403D7-75B4-4698-BFDB-72D7C53F9152}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6403D7-75B4-4698-BFDB-72D7C53F9152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7901DAFC-BFC5-4AE1-B899-DF05ED66390A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7901DAFC-BFC5-4AE1-B899-DF05ED66390A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7901DAFC-BFC5-4AE1-B899-DF05ED66390A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7901DAFC-BFC5-4AE1-B899-DF05ED66390A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
