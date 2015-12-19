@@ -46,6 +46,7 @@
     <Content Include="src\States\README.md" />
     <Content Include="assets\README.md" />
     <Content Include=".gitignore" />
+    <Content Include="plugins\README.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
