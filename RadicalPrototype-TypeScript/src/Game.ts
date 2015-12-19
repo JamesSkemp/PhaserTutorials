@@ -54,6 +54,11 @@
 		}
 
 		update() {
+			if (this.ship.position.x < 0) {
+				this.ship.position.x = this.game.width;
+			} else if (this.ship.position.x > this.game.width) {
+				this.ship.position.x = 0;
+			}
 		}
 
 		moveShip(input: Phaser.Input) {
