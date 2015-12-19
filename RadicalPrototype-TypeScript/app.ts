@@ -1,4 +1,4 @@
-﻿module StarterSimpleProject {
+﻿module RadicalPrototype {
 	export class App extends Phaser.Game {
 		constructor() {
 			console.log((new Date).toISOString() + ' : Entered App constructor()');
@@ -13,5 +13,5 @@
 }
 
 window.onload = () => {
-	var game = new StarterSimpleProject.App();
+	var game = new RadicalPrototype.App();
 };

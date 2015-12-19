@@ -1,4 +1,4 @@
-﻿module StarterSimpleProject {
+﻿module RadicalPrototype {
 	export class Game extends Phaser.State {
 		ship: Phaser.Sprite;
 		barrierGroup: Phaser.Group;
