@@ -4,7 +4,7 @@
 		barrierGroup: Phaser.Group;
 
 		shipHorizontalSpeed: number = 400;
-		barrierSpeed: number = 150;
+		static barrierSpeed: number = 150;
 		barrierDelay: number = 1200;
 
 		init() {
@@ -51,6 +51,20 @@
 			// Handle touch inputs.
 			this.game.input.onDown.add(this.moveShip, this);
 			this.game.input.onUp.add(this.stopShip, this);
+
+			// Create our barriers.
+			this.game.time.events.loop(this.barrierDelay, () => {
+				var position = this.game.rnd.between(0, 4);
+				// Create the left-most barrier first.
+				var barrier = new Barrier(this.game, position, 1);
+				this.game.add.existing(barrier);
+				this.barrierGroup.add(barrier);
+
+				// Create the right barrier next.
+				barrier = new Barrier(this.game, position + 1, 0);
+				this.game.add.existing(barrier);
+				this.barrierGroup.add(barrier);
+			});
 		}
 
 		update() {
@@ -59,6 +73,10 @@
 			} else if (this.ship.position.x > this.game.width) {
 				this.ship.position.x = 0;
 			}
+
+			this.game.physics.arcade.collide(this.ship, this.barrierGroup, () => {
+				this.game.state.restart();
+			});
 		}
 
 		moveShip(input: Phaser.Input) {
@@ -73,6 +91,31 @@
 
 		stopShip() {
 			this.ship.body.velocity.x = 0;
+		}
+	}
+
+	export class Barrier extends Phaser.Sprite {
+		game: Phaser.Game;
+
+		/**
+			The world is split into 5 lanes. Two barriers are added per 'line' of them.
+		*/
+		constructor(game: Phaser.Game, position: number, anchor: number) {
+			super(game, position * game.width / 5, -20, 'barrier');
+
+			this.game = game;
+
+			this.anchor.setTo(anchor, 0.5);
+
+			game.physics.enable(this);
+		}
+
+		update() {
+			this.body.velocity.y = Game.barrierSpeed;
+
+			if (this.y > this.game.height) {
+				this.destroy();
+			}
 		}
 	}
 }
