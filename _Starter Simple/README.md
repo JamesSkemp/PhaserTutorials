@@ -6,6 +6,7 @@ The following is a simple starter project to get started with a new game in Phas
 
 - assets
 	- This directory can be used to store any assets (images, audio, etcetera) that your game will use.
+	- The Phaser logo (Phaser-Logo-Small.png) is a trademark of Photon Storm, and is meant to be used in a manner consistent with their [usage guidelines](http://phaser.io/download/trademark).
 - lib
 	- This directory includes [Phaser 2.4.4](http://phaser.io/), and the necessary TypeScript definitions.
 - src

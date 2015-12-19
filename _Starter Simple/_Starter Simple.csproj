@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\Phaser-Logo-Small.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
