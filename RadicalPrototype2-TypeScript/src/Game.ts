@@ -5,7 +5,7 @@
 
 		shipHorizontalSpeed: number = 400;
 		static barrierSpeed: number = 150;
-		barrierDelay: number = 1200;
+		static barrierDelay: number = 1200;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -33,6 +33,7 @@
 			this.load.path = 'assets/';
 			this.load.image('ship');
 			this.load.image('barrier');
+			this.load.image('wall', 'verticalbarrier.png');
 		}
 
 		create() {
@@ -53,7 +54,7 @@
 			this.game.input.onUp.add(this.stopShip, this);
 
 			// Create our barriers.
-			this.game.time.events.loop(this.barrierDelay, () => {
+			this.game.time.events.loop(Phaser.Timer.SECOND, () => {
 				var position = this.game.rnd.between(0, 4);
 				// Create the left-most barrier first.
 				var barrier = new Barrier(this.game, position, 1);
@@ -116,6 +117,25 @@
 			if (this.y > this.game.height) {
 				this.destroy();
 			}
+		}
+	}
+
+	export class Wall extends Phaser.Sprite {
+		game: Phaser.Game;
+
+		constructor(game: Phaser.Game, side: number) {
+			super(game, game.width * side, -Game.barrierDelay - 40, "wall");
+
+			this.game = game;
+
+			this.anchor.setTo(side, 0);
+
+			// 20 is the height of a horizontal barrier.
+			this.height = Game.barrierDelay + 20;
+
+			game.physics.enable(this);
+
+			this.body.velocity.y = Game.barrierSpeed;
 		}
 	}
 }
