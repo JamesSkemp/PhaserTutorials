@@ -42,7 +42,7 @@
     <Content Include="lib\phaser.map" />
     <Content Include="src\.gitignore" />
     <Content Include="README.md" />
-    <Content Include="src\Objects\README.md" />
+    <Content Include="src\Prefabs\README.md" />
     <Content Include="src\States\README.md" />
     <Content Include="assets\README.md" />
     <Content Include=".gitignore" />
