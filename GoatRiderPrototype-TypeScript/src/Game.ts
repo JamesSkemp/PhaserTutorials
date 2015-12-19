@@ -1,7 +1,7 @@
-﻿module StarterSimpleProject {
+﻿module GoatRider {
 	export class Game extends Phaser.State {
-		phaserLogo: Phaser.Sprite;
-		phaserLogoText: Phaser.Text;
+		goat: Phaser.Sprite;
+		player: Phaser.Sprite;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -20,6 +20,8 @@
 
 			// If your game uses a physics system, you can start that here.
 			this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+			this.game.stage.backgroundColor = 0x74af21;
 		}
 
 		preload() {
@@ -27,16 +29,18 @@
 
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
-			this.load.image('Phaser-Logo-Small');
+			this.load.image('player');
+			this.load.image('goat');
 		}
 
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Game create()');
 			// Start building your game here.
-			this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
-			this.phaserLogo.anchor.setTo(0.5);
+			this.goat = this.add.sprite(this.world.centerX, this.world.centerY + 20, 'goat');
+			this.goat.anchor.setTo(0.5);
 
-			this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: '24px', fill: '#fff' });
+			this.player = this.add.sprite(this.world.centerX, this.world.centerY - 40, 'player');
+			this.player.anchor.setTo(0.5);
 		}
 
 		update() {
