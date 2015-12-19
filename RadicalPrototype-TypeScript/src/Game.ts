@@ -1,7 +1,11 @@
 ﻿module StarterSimpleProject {
 	export class Game extends Phaser.State {
-		phaserLogo: Phaser.Sprite;
-		phaserLogoText: Phaser.Text;
+		ship: Phaser.Sprite;
+		barrierGroup: Phaser.Group;
+
+		shipHorizontalSpeed: number = 400;
+		barrierSpeed: number = 150;
+		barrierDelay: number = 1200;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -27,19 +31,43 @@
 
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
-			this.load.image('Phaser-Logo-Small');
+			this.load.image('ship');
+			this.load.image('barrier');
 		}
 
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Game create()');
-			// Start building your game here.
-			this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
-			this.phaserLogo.anchor.setTo(0.5);
+			
+			// Create a group to contain the barriers.
+			this.barrierGroup = this.add.group();
+			
+			// Add the player's ship.
+			this.ship = this.add.sprite(this.game.width / 2, this.game.height - 40, 'ship');
+			this.ship.anchor.setTo(0.5);
 
-			this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: '24px', fill: '#fff' });
+			this.game.physics.enable(this.ship);
+			(<Phaser.Physics.Arcade.Body>this.ship.body).allowRotation = false;
+
+			// Handle touch inputs.
+			this.game.input.onDown.add(this.moveShip, this);
+			this.game.input.onUp.add(this.stopShip, this);
 		}
 
 		update() {
+		}
+
+		moveShip(input: Phaser.Input) {
+			if (input.position.x < this.game.width / 2) {
+				// Move to the left.
+				this.ship.body.velocity.x = -this.shipHorizontalSpeed;
+			} else {
+				// Move to the right.
+				this.ship.body.velocity.x = this.shipHorizontalSpeed;
+			}
+		}
+
+		stopShip() {
+			this.ship.body.velocity.x = 0;
 		}
 	}
 }
