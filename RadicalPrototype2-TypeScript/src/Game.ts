@@ -5,7 +5,7 @@
 
 		shipHorizontalSpeed: number = 400;
 		static barrierSpeed: number = 150;
-		static barrierDelay: number = 1200;
+		static barrierDelay: number = 150;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -70,18 +70,32 @@
 		}
 
 		placeBarriers() {
-			this.game.time.events.loop(Phaser.Timer.SECOND, () => {
-				var position = this.game.rnd.between(0, 4);
-				// Create the left-most barrier first.
-				var barrier = new Barrier(this.game, position, 1);
-				this.game.add.existing(barrier);
-				this.barrierGroup.add(barrier);
+			var placeWalls = true;
+			if (this.game.rnd.between(0, 9) === 0) {
+				// 10% chance we won't add walls.
+				placeWalls = false;
+			}
 
-				// Create the right barrier next.
-				barrier = new Barrier(this.game, position + 1, 0);
-				this.game.add.existing(barrier);
-				this.barrierGroup.add(barrier);
-			});
+			var position = this.game.rnd.between(0, 4);
+			// Create the left-most barrier first.
+			var barrier = new Barrier(this, position, 1, placeWalls);
+			this.game.add.existing(barrier);
+			this.barrierGroup.add(barrier);
+
+			// Create the right barrier next.
+			barrier = new Barrier(this, position + 1, 0, placeWalls);
+			this.game.add.existing(barrier);
+			this.barrierGroup.add(barrier);
+
+			if (placeWalls) {
+				var wall = new Wall(this.game, 1);
+				this.game.add.existing(wall);
+				this.barrierGroup.add(wall);
+
+				wall = new Wall(this.game, 0);
+				this.game.add.existing(wall);
+				this.barrierGroup.add(wall);
+			}
 		}
 
 		moveShip(input: Phaser.Input) {
@@ -101,25 +115,37 @@
 
 	export class Barrier extends Phaser.Sprite {
 		game: Phaser.Game;
+		state: Game;
+		createNew: boolean;
 
 		/**
 			The world is split into 5 lanes. Two barriers are added per 'line' of them.
 		*/
-		constructor(game: Phaser.Game, position: number, anchor: number) {
-			super(game, position * game.width / 5, -20, 'barrier');
+		constructor(state: Game, position: number, anchor: number, placeWalls: boolean) {
+			super(state.game, position * ((state.game.width - 40) / 5) + 20, -Game.barrierDelay - 40, 'barrier');
 
-			this.game = game;
+			this.state = state;
+			this.game = state.game;
+
+			// Used to determine when to create new barriers.
+			this.createNew = anchor === 1;
 
 			this.anchor.setTo(anchor, 0.5);
 
-			game.physics.enable(this);
+			this.game.physics.enable(this);
+
+			this.body.velocity.y = Game.barrierSpeed;
 		}
 
 		update() {
-			this.body.velocity.y = Game.barrierSpeed;
-
 			if (this.y > this.game.height) {
 				this.destroy();
+			}
+
+			if (this.createNew && this.y >= - 40) {
+				// It's time to create a new set of barriers.
+				this.createNew = false;
+				this.state.placeBarriers();
 			}
 		}
 	}
