@@ -86,16 +86,6 @@
 			barrier = new Barrier(this, position + 1, 0, placeWalls);
 			this.game.add.existing(barrier);
 			this.barrierGroup.add(barrier);
-
-			if (placeWalls) {
-				var wall = new Wall(this.game, 1);
-				this.game.add.existing(wall);
-				this.barrierGroup.add(wall);
-
-				wall = new Wall(this.game, 0);
-				this.game.add.existing(wall);
-				this.barrierGroup.add(wall);
-			}
 		}
 
 		moveShip(input: Phaser.Input) {
@@ -130,6 +120,12 @@
 			// Used to determine when to create new barriers.
 			this.createNew = anchor === 1;
 
+			if (placeWalls) {
+				var wall = new Wall(this.game, anchor);
+				this.game.add.existing(wall);
+				state.barrierGroup.add(wall);
+			}
+
 			this.anchor.setTo(anchor, 0.5);
 
 			this.game.physics.enable(this);
@@ -142,7 +138,7 @@
 				this.destroy();
 			}
 
-			if (this.createNew && this.y >= - 40) {
+			if (this.createNew && this.y >= -40) {
 				// It's time to create a new set of barriers.
 				this.createNew = false;
 				this.state.placeBarriers();
@@ -154,7 +150,7 @@
 		game: Phaser.Game;
 
 		constructor(game: Phaser.Game, side: number) {
-			super(game, game.width * side, -Game.barrierDelay - 40, "wall");
+			super(game, game.width * side, -Game.barrierDelay - 50, "wall");
 
 			this.game = game;
 
