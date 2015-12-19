@@ -54,18 +54,7 @@
 			this.game.input.onUp.add(this.stopShip, this);
 
 			// Create our barriers.
-			this.game.time.events.loop(Phaser.Timer.SECOND, () => {
-				var position = this.game.rnd.between(0, 4);
-				// Create the left-most barrier first.
-				var barrier = new Barrier(this.game, position, 1);
-				this.game.add.existing(barrier);
-				this.barrierGroup.add(barrier);
-
-				// Create the right barrier next.
-				barrier = new Barrier(this.game, position + 1, 0);
-				this.game.add.existing(barrier);
-				this.barrierGroup.add(barrier);
-			});
+			this.placeBarriers();
 		}
 
 		update() {
@@ -77,6 +66,21 @@
 
 			this.game.physics.arcade.collide(this.ship, this.barrierGroup, () => {
 				this.game.state.restart();
+			});
+		}
+
+		placeBarriers() {
+			this.game.time.events.loop(Phaser.Timer.SECOND, () => {
+				var position = this.game.rnd.between(0, 4);
+				// Create the left-most barrier first.
+				var barrier = new Barrier(this.game, position, 1);
+				this.game.add.existing(barrier);
+				this.barrierGroup.add(barrier);
+
+				// Create the right barrier next.
+				barrier = new Barrier(this.game, position + 1, 0);
+				this.game.add.existing(barrier);
+				this.barrierGroup.add(barrier);
 			});
 		}
 
@@ -136,6 +140,12 @@
 			game.physics.enable(this);
 
 			this.body.velocity.y = Game.barrierSpeed;
+		}
+
+		update() {
+			if (this.y > this.game.height) {
+				this.destroy();
+			}
 		}
 	}
 }
