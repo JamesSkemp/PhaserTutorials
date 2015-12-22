@@ -151,6 +151,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadicalPrototype2-TypeScrip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoatRiderPrototype-TypeScript", "GoatRiderPrototype-TypeScript\GoatRiderPrototype-TypeScript.csproj", "{CFC65AED-5B70-4480-BFCE-7B90294CD520}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zTesting", "zTesting\zTesting.csproj", "{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +227,10 @@ Global
 		{CFC65AED-5B70-4480-BFCE-7B90294CD520}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFC65AED-5B70-4480-BFCE-7B90294CD520}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFC65AED-5B70-4480-BFCE-7B90294CD520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
