@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module TestingProject {
 	export class Boot extends Phaser.State {
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Boot init()');
