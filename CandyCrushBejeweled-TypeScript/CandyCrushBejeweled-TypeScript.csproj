@@ -36,6 +36,7 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
+    <TypeScriptCompile Include="src\States\Play.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
   </ItemGroup>

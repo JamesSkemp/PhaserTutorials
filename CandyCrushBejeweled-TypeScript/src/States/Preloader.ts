@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module CandyCrushBejeweledClone {
 	export class Preloader extends Phaser.State {
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered Preloader preload()');

@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module CandyCrushBejeweledClone {
 	export class ExampleState extends Phaser.State {
 		init() {
 			console.log((new Date).toISOString() + ' : Entered ExampleState init()');
