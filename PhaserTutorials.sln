@@ -153,6 +153,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoatRiderPrototype-TypeScri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zTesting", "zTesting\zTesting.csproj", "{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyCrushBejeweled-TypeScript", "CandyCrushBejeweled-TypeScript\CandyCrushBejeweled-TypeScript.csproj", "{66BF06EE-D835-4878-915F-A8DEA1A6B892}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -231,6 +233,10 @@ Global
 		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAFA3D25-4376-4FBA-B0CA-FE874EC8FE85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66BF06EE-D835-4878-915F-A8DEA1A6B892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66BF06EE-D835-4878-915F-A8DEA1A6B892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66BF06EE-D835-4878-915F-A8DEA1A6B892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66BF06EE-D835-4878-915F-A8DEA1A6B892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
