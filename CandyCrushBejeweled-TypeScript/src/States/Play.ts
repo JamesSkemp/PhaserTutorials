@@ -133,9 +133,6 @@
 			this.game.time.events.add(600, () => {
 				this.checkMatch();
 			});
-
-			console.log(this.tiles);
-			console.log(this.tileGrid);
 		}
 
 		addTile(x, y) {
@@ -351,7 +348,20 @@
 		}
 
 		fillTile() {
+			//Check for blank spaces in the grid and add new tiles at that position
+			for (var i = 0; i < this.tileGrid.length; i++) {
 
+				for (var j = 0; j < this.tileGrid.length; j++) {
+
+					if (this.tileGrid[i][j] == null) {
+						//Found a blank spot so lets add animate a tile there
+						var tile = this.addTile(i, j);
+ 
+						//And also update our "theoretical" grid
+						this.tileGrid[i][j] = tile;
+					}
+				}
+			}
 		}
 
 		tileUp() {
