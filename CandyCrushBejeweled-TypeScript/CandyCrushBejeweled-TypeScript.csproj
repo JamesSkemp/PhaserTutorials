@@ -23,6 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\gemBlue.png" />
+    <Content Include="assets\gemGreen.png" />
+    <Content Include="assets\gemRed.png" />
+    <Content Include="assets\gemYellow.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />

@@ -9,6 +9,10 @@
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
+			this.load.image('blue', 'gemBlue.png');
+			this.load.image('green', 'gemGreen.png');
+			this.load.image('red', 'gemRed.png');
+			this.load.image('yellow', 'gemYellow.png');
 		}
 
 		create() {
