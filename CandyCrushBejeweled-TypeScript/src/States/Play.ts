@@ -4,11 +4,13 @@
 		score = 0;
 		activeTile1 = null;
 		activeTile2 = null;
+		startPosX: number;
+		startPosY: number;
 
 		canMove = false;
 
-		tileWidth: number = 200;
-		tileHeight: number = 200;
+		tileWidth: number = 125;
+		tileHeight: number = 100;
 
 		tiles: Phaser.Group;
 
@@ -60,6 +62,8 @@
 
 			var seed = Date.now();
 			this.random = new Phaser.RandomDataGenerator([seed]);
+
+			this.initTiles();
 		}
 
 		update() {
@@ -83,6 +87,56 @@
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered Play shutdown()');
 
+		}
+
+		initTiles() {
+			console.log((new Date).toISOString() + ' : Entered Play initTiles()');
+			for (var column = 0; column < this.tileGrid.length; column++) {
+				for (var row = 0; row < this.tileGrid.length; row++) {
+					var tile = this.addTile(column, row);
+
+					this.tileGrid[column][row] = tile;
+				}
+			}
+
+			this.game.time.events.add(600, () => {
+				this.checkMatch();
+			});
+
+			console.log(this.tiles);
+			console.log(this.tileGrid);
+		}
+
+		addTile(x, y) {
+			console.log((new Date).toISOString() + ' : Entered Play addTile()');
+			var tileToAdd = this.tileTypes[this.random.integerInRange(0, this.tileTypes.length - 1)];
+
+			var tile: Phaser.Sprite = this.tiles.create((x * this.tileWidth) + this.tileWidth / 2, 0, tileToAdd);
+
+			this.game.add.tween(tile).to(
+				{ y: y * this.tileHeight + this.tileHeight / 2 }
+				, 500, Phaser.Easing.Linear.None, true
+			);
+
+			tile.anchor.setTo(0.5);
+			tile.inputEnabled = true;
+
+			tile.events.onInputDown.add(this.tileDown, this);
+
+			return tile;
+		}
+
+		checkMatch() {
+
+		}
+
+		tileDown(tile: Phaser.Sprite, pointer: Phaser.Pointer) {
+			if (this.canMove) {
+				this.activeTile1 = tile;
+
+				this.startPosX = (tile.x - this.tileWidth / 2) / this.tileWidth;
+				this.startPosY = (tile.y - this.tileHeight / 2) / this.tileHeight;
+			}
 		}
 	}
 }
