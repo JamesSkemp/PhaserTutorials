@@ -67,7 +67,38 @@
 		}
 
 		update() {
+			// See if the user is dragging a tile.
+			if (this.activeTile1 && !this.activeTile2) {
+				// Current input position.
+				var hoverX = this.game.input.x;
+				var hoverY = this.game.input.y;
 
+				// Grid location.
+				var hoverPosX = Math.floor(hoverX / this.tileWidth);
+				var hoverPosY = Math.floor(hoverY / this.tileHeight);
+
+				// Calculate starting and current grid change, if any.
+				var difX = (hoverPosX - this.startPosX);
+				var difY = (hoverPosY - this.startPosY);
+
+				// Verify they're within the bounds of the game.
+				if (!(hoverPosY > this.tileGrid[0].length - 1 || hoverPosY < 0)
+					&& !(hoverPosX > this.tileGrid.length - 1 || hoverPosX < 0)) {
+
+					// See if a tile has been moved an entire width or height in a direction.
+					if ((Math.abs(difY) == 1 && difX == 0) || (Math.abs(difX) == 1 && difY == 0)) {
+						this.canMove = false;
+
+						this.activeTile2 = this.tileGrid[hoverPosX][hoverPosY];
+
+						this.swapTiles();
+
+						this.game.time.events.add(500, () => {
+							this.checkMatch();
+						});
+					}
+				}
+			}
 		}
 
 		paused() {
@@ -137,6 +168,10 @@
 				this.startPosX = (tile.x - this.tileWidth / 2) / this.tileWidth;
 				this.startPosY = (tile.y - this.tileHeight / 2) / this.tileHeight;
 			}
+		}
+
+		swapTiles() {
+
 		}
 	}
 }
