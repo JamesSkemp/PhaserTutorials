@@ -18,6 +18,8 @@
 
 		random: Phaser.RandomDataGenerator;
 
+		scoreLabel: Phaser.Text;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Play init()');
 			// init can receive parameters.
@@ -64,6 +66,8 @@
 			this.random = new Phaser.RandomDataGenerator([seed]);
 
 			this.initTiles();
+
+			this.createScore();
 		}
 
 		update() {
@@ -294,6 +298,9 @@
  
 					//Remove the tile from the screen
 					this.tiles.remove(tile);
+
+					// Add to the user's score.
+					this.incrementScore();
  
 					//Remove the tile from the theoretical grid
 					if (tilePos.x != -1 && tilePos.y != -1) {
@@ -367,6 +374,17 @@
 		tileUp() {
 			this.activeTile1 = null;
 			this.activeTile2 = null;
+		}
+
+		createScore() {
+			this.scoreLabel = this.game.add.text((Math.floor(this.tileGrid[0].length / 2) * this.tileWidth), this.tileGrid.length * this.tileHeight - this.tileHeight / 4, "0", { font: '50px Arial', fill: '#fff' });
+			this.scoreLabel.anchor.setTo(0.5);
+			this.scoreLabel.align = "center";
+		}
+
+		incrementScore() {
+			this.score += 10;
+			this.scoreLabel.text = this.score.toString();
 		}
 	}
 }
