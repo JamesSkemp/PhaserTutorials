@@ -326,7 +326,28 @@
 		}
 
 		resetTile() {
+			//Loop through each column starting from the left
+			for (var i = 0; i < this.tileGrid.length; i++) {
+ 
+				//Loop through each tile in column from bottom to top
+				for (var j = this.tileGrid[i].length - 1; j > 0; j--) {
+ 
+					//If this space is blank, but the one above it is not, move the one above down
+					if (this.tileGrid[i][j] == null && this.tileGrid[i][j - 1] != null) {
+						//Move the tile above down one
+						var tempTile = this.tileGrid[i][j - 1];
+						this.tileGrid[i][j] = tempTile;
+						this.tileGrid[i][j - 1] = null;
 
+						this.game.add.tween(tempTile).to({ y: (this.tileHeight * j) + (this.tileHeight / 2) }, 200, Phaser.Easing.Linear.None, true);
+ 
+						//The positions have changed so start this process again from the bottom
+						//NOTE: This is not set to this.tileGrid[i].length - 1 because it will immediately be decremented as
+						//we are at the end of the loop.
+						j = this.tileGrid[i].length;
+					}
+				}
+			}
 		}
 
 		fillTile() {
