@@ -157,10 +157,6 @@
 			return tile;
 		}
 
-		checkMatch() {
-
-		}
-
 		tileDown(tile: Phaser.Sprite, pointer: Phaser.Pointer) {
 			if (this.canMove) {
 				this.activeTile1 = tile;
@@ -171,7 +167,175 @@
 		}
 
 		swapTiles() {
+			if (this.activeTile1 && this.activeTile2) {
+				var tile1Pos = {
+					x: (this.activeTile1.x - this.tileWidth / 2) / this.tileWidth,
+					y: (this.activeTile1.y - this.tileHeight / 2) / this.tileHeight
+				};
+				var tile2Pos = {
+					x: (this.activeTile2.x - this.tileWidth / 2) / this.tileWidth,
+					y: (this.activeTile2.y - this.tileHeight / 2) / this.tileHeight
+				};
 
+				// Swap them in our grid.
+				this.tileGrid[tile1Pos.x][tile1Pos.y] = this.activeTile2;
+				this.tileGrid[tile2Pos.x][tile2Pos.y] = this.activeTile1;
+
+				// Move the sprites.
+				this.game.add.tween(this.activeTile1).to({x: tile2Pos.x * this.tileWidth + (this.tileWidth / 2), y: tile2Pos.y * this.tileHeight + (this.tileHeight / 2) }, 200, Phaser.Easing.Linear.None, true);
+				this.game.add.tween(this.activeTile2).to({ x: tile1Pos.x * this.tileWidth + (this.tileWidth / 2), y: tile1Pos.y * this.tileHeight + (this.tileHeight / 2) }, 200, Phaser.Easing.Linear.None, true);
+
+				this.activeTile1 = this.tileGrid[tile1Pos.x][tile1Pos.y];
+				this.activeTile2 = this.tileGrid[tile2Pos.x][tile2Pos.y];
+			}
+		}
+
+		checkMatch() {
+			var matches = this.getMatches(this.tileGrid);
+
+			if (matches.length > 0) {
+				this.removeTileGroup(matches);
+
+				this.resetTile();
+
+				this.fillTile();
+
+				this.game.time.events.add(500, () => {
+					this.tileUp();
+				});
+
+				this.game.time.events.add(600, () => {
+					this.checkMatch();
+				});
+			} else {
+				// There are no matches, so put the tiles back where they were.
+				this.swapTiles();
+				this.game.time.events.add(500, () => {
+					this.tileUp();
+					this.canMove = true;
+				});
+			}
+		}
+
+		getMatches(tileGrid): any[] {
+			var matches = [];
+			var groups = [];
+
+			//Check for horizontal matches
+			for (var i = 0; i < tileGrid.length; i++) {
+				var tempArr = tileGrid[i];
+				groups = [];
+				for (var j = 0; j < tempArr.length; j++) {
+					if (j < tempArr.length - 2)
+						if (tileGrid[i][j] && tileGrid[i][j + 1] && tileGrid[i][j + 2]) {
+							if (tileGrid[i][j].key == tileGrid[i][j + 1].key && tileGrid[i][j + 1].key == tileGrid[i][j + 2].key) {
+								if (groups.length > 0) {
+									if (groups.indexOf(tileGrid[i][j]) == -1) {
+										matches.push(groups);
+										groups = [];
+									}
+								}
+
+								if (groups.indexOf(tileGrid[i][j]) == -1) {
+									groups.push(tileGrid[i][j]);
+								}
+								if (groups.indexOf(tileGrid[i][j + 1]) == -1) {
+									groups.push(tileGrid[i][j + 1]);
+								}
+								if (groups.indexOf(tileGrid[i][j + 2]) == -1) {
+									groups.push(tileGrid[i][j + 2]);
+								}
+							}
+						}
+				}
+				if (groups.length > 0) matches.push(groups);
+			}
+ 
+			//Check for vertical matches
+			for (j = 0; j < tileGrid.length; j++) {
+				var tempArr = tileGrid[j];
+				groups = [];
+				for (i = 0; i < tempArr.length; i++) {
+					if (i < tempArr.length - 2)
+						if (tileGrid[i][j] && tileGrid[i + 1][j] && tileGrid[i + 2][j]) {
+							if (tileGrid[i][j].key == tileGrid[i + 1][j].key && tileGrid[i + 1][j].key == tileGrid[i + 2][j].key) {
+								if (groups.length > 0) {
+									if (groups.indexOf(tileGrid[i][j]) == -1) {
+										matches.push(groups);
+										groups = [];
+									}
+								}
+
+								if (groups.indexOf(tileGrid[i][j]) == -1) {
+									groups.push(tileGrid[i][j]);
+								}
+								if (groups.indexOf(tileGrid[i + 1][j]) == -1) {
+									groups.push(tileGrid[i + 1][j]);
+								}
+								if (groups.indexOf(tileGrid[i + 2][j]) == -1) {
+									groups.push(tileGrid[i + 2][j]);
+								}
+							}
+						}
+				}
+				if (groups.length > 0) matches.push(groups);
+			}
+
+			return matches;
+		}
+
+		removeTileGroup(matches) {
+			//Loop through all the matches and remove the associated tiles
+			for (var i = 0; i < matches.length; i++) {
+				var tempArr = matches[i];
+
+				for (var j = 0; j < tempArr.length; j++) {
+
+					var tile = tempArr[j];
+					//Find where this tile lives in the theoretical grid
+					var tilePos = this.getTilePos(this.tileGrid, tile);
+ 
+					//Remove the tile from the screen
+					this.tiles.remove(tile);
+ 
+					//Remove the tile from the theoretical grid
+					if (tilePos.x != -1 && tilePos.y != -1) {
+						this.tileGrid[tilePos.x][tilePos.y] = null;
+					}
+
+				}
+			}
+		}
+
+		getTilePos(tileGrid, tile): any {
+			var pos = { x: -1, y: -1 };
+ 
+			//Find the position of a specific tile in the grid
+			for (var i = 0; i < tileGrid.length; i++) {
+				for (var j = 0; j < tileGrid[i].length; j++) {
+					//There is a match at this position so return the grid coords
+					if (tile == tileGrid[i][j]) {
+						pos.x = i;
+						pos.y = j;
+						break;
+					}
+				}
+			}
+
+			return pos;
+		}
+
+		resetTile() {
+
+		}
+
+		fillTile() {
+
+		}
+
+		tileUp() {
+			this.activeTile1 = null;
+			this.activeTile2 = null;
 		}
 	}
 }
