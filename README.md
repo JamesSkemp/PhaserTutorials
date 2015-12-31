@@ -20,3 +20,4 @@ This project uses TypeScript with Phaser, and aims to be a simple version of the
 - https://github.com/timkg/phaser-super-coin-box
 - https://github.com/dmaslov/super-coin-box
 - http://www.emanueleferonato.com/2014/08/19/how-to-create-an-html5-swap-and-match-3-game-engine-like-the-one-used-in-spellfall-ios-game-using-phaser/
+- https://github.com/rbudiharso/Phaser-Match3
