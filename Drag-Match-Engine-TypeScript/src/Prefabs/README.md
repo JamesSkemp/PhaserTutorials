@@ -1,0 +1,1 @@
+This directory could contain any prefabs/game object templates/classes the game might require.
