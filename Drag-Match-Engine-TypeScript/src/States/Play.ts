@@ -53,10 +53,29 @@
 			this.tempTile.visible = false;
 
 			this.game.input.onDown.add(this.pickTile, this);
+			this.game.input.onUp.add(this.releaseTile, this);
 		}
 
 		update() {
+			if (this.dragging) {
+				this.distX = this.game.input.worldX - this.startX;
+				this.distY = this.game.input.worldY - this.startY;
 
+				switch (this.dragDirection) {
+					case "":
+						// A drag direction hasn't been determined yet.
+
+						break;
+
+					case "horizontal":
+
+						break;
+
+					case "vertical":
+
+						break;
+				}
+			}
 		}
 
 		paused() {
@@ -107,6 +126,16 @@
 			console.log(this.startY);
 			console.log(this.movingRow);
 			console.log(this.movingColumn);
+		}
+
+		releaseTile() {
+			console.log('release');
+			if (this.dragging) {
+				console.log('were dragging');
+				// TODO
+
+				this.dragging = false;
+			}
 		}
 	}
 }
