@@ -3,16 +3,13 @@
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered Preloader preload()');
 			
-			// Pixel size of a tile.
-			var tileSize = 50;
-
 			// If your game uses a graphic while assets are loaded, you would create the sprite and then display it via the below.
 			//this.load.setPreloadSprite(this.preloadSprite);
 
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
-			this.game.load.spritesheet("tiles", "tiles.png", tileSize, tileSize);
+			this.game.load.spritesheet("tiles", "tiles.png", Game.TILE_SIZE, Game.TILE_SIZE);
 		}
 
 		create() {

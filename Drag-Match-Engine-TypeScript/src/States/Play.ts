@@ -26,7 +26,7 @@
 		tileArray = [];
 
 		// Temporary tile.
-		tempTile;
+		tempTile: Phaser.Sprite;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Play init()');
@@ -46,6 +46,12 @@
 
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Play create()');
+
+			this.generateGameField();
+
+			this.tempTile = this.game.add.sprite(0, 0, 'tiles');
+			this.tempTile.visible = false;
+
 
 		}
 
@@ -70,6 +76,20 @@
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered Play shutdown()');
 
+		}
+
+		generateGameField() {
+			for (var i = 0; i < this.fieldSize; i++) {
+				this.tileArray[i] = [];
+				for (var j = 0; j < this.fieldSize; j++) {
+					var randomTile = this.game.rnd.integerInRange(0, this.tileTypes);
+
+					var theTile = this.game.add.sprite(j * Game.TILE_SIZE, i * Game.TILE_SIZE, "tiles");
+					theTile.frame = randomTile;
+
+					this.tileArray[i][j] = theTile;
+				}
+			}
 		}
 	}
 }
