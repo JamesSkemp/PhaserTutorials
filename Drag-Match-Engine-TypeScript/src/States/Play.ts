@@ -61,8 +61,6 @@
 				this.distX = this.game.input.worldX - this.startX;
 				this.distY = this.game.input.worldY - this.startY;
 
-				console.log(this.dragDirection);
-
 				switch (this.dragDirection) {
 					case "":
 						// A drag direction hasn't been determined yet.
@@ -144,8 +142,6 @@
 
 						break;
 				}
-
-				console.log(this.dragDirection);
 			}
 		}
 
@@ -192,15 +188,9 @@
 			this.movingColumn = Math.floor(this.startX / Game.TILE_SIZE);
 
 			this.dragging = true;
-
-			console.log(this.startX);
-			console.log(this.startY);
-			console.log(this.movingRow);
-			console.log(this.movingColumn);
 		}
 
 		releaseTile() {
-			console.log('release');
 			if (this.dragging) {
 				switch (this.dragDirection) {
 					case "horizontal":
@@ -251,10 +241,6 @@
 
 						break;
 				}
-
-				console.log('were dragging');
-				// TODO
-
 
 				// Let the user drag again.
 				this.dragDirection = "";
