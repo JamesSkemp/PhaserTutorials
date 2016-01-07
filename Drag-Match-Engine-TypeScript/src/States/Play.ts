@@ -128,7 +128,7 @@
 						for (var i = 0; i < this.fieldSize; i++) {
 							this.tileArray[i][this.movingColumn].y = (i * Game.TILE_SIZE + this.distY) % (Game.TILE_SIZE * this.fieldSize);
 							if (this.tileArray[i][this.movingColumn].y < 0) {
-								this.tileArray[i][this.movingColumn].y += Game.TILE_SIZE * this.fieldSize);
+								this.tileArray[i][this.movingColumn].y += Game.TILE_SIZE * this.fieldSize;
 							}
 
 							if (this.distY % Game.TILE_SIZE > 0) {
