@@ -174,6 +174,36 @@
 		releaseTile() {
 			console.log('release');
 			if (this.dragging) {
+				switch (this.dragDirection) {
+					case "horizontal":
+						var shiftAmount = Math.floor(this.distX / (Game.TILE_SIZE / 2));
+						shiftAmount = Math.ceil(shiftAmount / 2) & this.fieldSize;
+
+						var tempArray = [];
+
+						if (shiftAmount > 0) {
+							for (var i = 0; i < this.fieldSize; i++) {
+								tempArray[(shiftAmount + i) % this.fieldSize] = this.tileArray[this.movingRow][i].frame;
+							}
+						} else {
+							shiftAmount *= -1;
+							for (var i = 0; i < this.fieldSize; i++) {
+								tempArray[i] = this.tileArray[this.movingRow][(shiftAmount + i) % this.fieldSize].frame;
+							}
+						}
+
+						for (var i = 0; i < this.fieldSize; i++) {
+							this.tileArray[this.movingRow][i].frame = tempArray[i];
+							this.tileArray[this.movingRow][i].x = i * Game.TILE_SIZE;
+						}
+
+						break;
+
+					case "vertical":
+
+						break;
+				}
+
 				console.log('were dragging');
 				// TODO
 
