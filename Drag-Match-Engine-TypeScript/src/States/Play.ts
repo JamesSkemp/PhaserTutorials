@@ -81,6 +81,34 @@
 						break;
 
 					case "horizontal":
+						this.tempTile.visible = false;
+						this.tempTile.y = this.movingRow * Game.TILE_SIZE;
+
+						var deltaX = Math.floor(this.distX / Game.TILE_SIZE) % this.fieldSize;
+
+						if (deltaX >= 0) {
+							this.tempTile.frame = this.tileArray[this.movingRow][this.fieldSize - 1 - deltaX].frame;
+						} else {
+							deltaX = deltaX * -1 - 1;
+							this.tempTile.frame = this.tileArray[this.movingRow][deltaX].frame;
+						}
+
+						for (var i = 0; i < this.fieldSize; i++) {
+							this.tileArray[this.movingRow][i].x = (i * Game.TILE_SIZE + this.distX) % (Game.TILE_SIZE * this.fieldSize);
+							if (this.tileArray[this.movingRow][i].x < 0) {
+								this.tileArray[this.movingRow][i].x += Game.TILE_SIZE * this.fieldSize;
+							}
+
+							if (this.distX % Game.TILE_SIZE > 0) {
+								this.tempTile.visible = true;
+								this.tempTile.x = this.distX % Game.TILE_SIZE - Game.TILE_SIZE;
+							}
+
+							if (this.distX % Game.TILE_SIZE < 0) {
+								this.tempTile.visible = true;
+								this.tempTile.x = this.distX % Game.TILE_SIZE;
+							}
+						}
 
 						break;
 
