@@ -52,7 +52,7 @@
 			this.tempTile = this.game.add.sprite(0, 0, 'tiles');
 			this.tempTile.visible = false;
 
-
+			this.game.input.onDown.add(this.pickTile, this);
 		}
 
 		update() {
@@ -90,6 +90,23 @@
 					this.tileArray[i][j] = theTile;
 				}
 			}
+		}
+
+		pickTile() {
+			// They've started dragging.
+			this.startX = this.game.input.worldX;
+			this.startY = this.game.input.worldY;
+
+			// Determine what row and column they started on.
+			this.movingRow = Math.floor(this.startY / Game.TILE_SIZE);
+			this.movingColumn = Math.floor(this.startX / Game.TILE_SIZE);
+
+			this.dragging = true;
+
+			console.log(this.startX);
+			console.log(this.startY);
+			console.log(this.movingRow);
+			console.log(this.movingColumn);
 		}
 	}
 }
