@@ -172,7 +172,7 @@
 				switch (this.dragDirection) {
 					case "horizontal":
 						var shiftAmount = Math.floor(this.distX / (Game.TILE_SIZE / 2));
-						shiftAmount = Math.ceil(shiftAmount / 2) & this.fieldSize;
+						shiftAmount = Math.ceil(shiftAmount / 2) % this.fieldSize;
 
 						var tempArray = [];
 
