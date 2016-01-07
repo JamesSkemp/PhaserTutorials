@@ -113,6 +113,34 @@
 						break;
 
 					case "vertical":
+						this.tempTile.visible = false;
+						this.tempTile.x = this.movingColumn * Game.TILE_SIZE;
+
+						var deltaY = Math.floor(this.distY / Game.TILE_SIZE) % this.fieldSize;
+
+						if (deltaY >= 0) {
+							this.tempTile.frame = this.tileArray[this.fieldSize - 1 - deltaY][this.movingColumn].frame;
+						} else {
+							deltaY = deltaY * -1 - 1;
+							this.tempTile.frame = this.tileArray[deltaY][this.movingColumn].frame;
+						}
+
+						for (var i = 0; i < this.fieldSize; i++) {
+							this.tileArray[i][this.movingColumn].y = (i * Game.TILE_SIZE + this.distY) % (Game.TILE_SIZE * this.fieldSize);
+							if (this.tileArray[i][this.movingColumn].y < 0) {
+								this.tileArray[i][this.movingColumn].y += Game.TILE_SIZE * this.fieldSize);
+							}
+
+							if (this.distY % Game.TILE_SIZE > 0) {
+								this.tempTile.visible = true;
+								this.tempTile.y = this.distY % Game.TILE_SIZE - Game.TILE_SIZE;
+							}
+
+							if (this.distY % Game.TILE_SIZE < 0) {
+								this.tempTile.visible = true;
+								this.tempTile.y = this.distY % Game.TILE_SIZE;
+							}
+						}
 
 						break;
 				}
@@ -200,6 +228,26 @@
 						break;
 
 					case "vertical":
+						var shiftAmount = Math.floor(this.distY / (Game.TILE_SIZE / 2));
+						shiftAmount = Math.ceil(shiftAmount / 2) % this.fieldSize;
+
+						var tempArray = [];
+
+						if (shiftAmount > 0) {
+							for (var i = 0; i < this.fieldSize; i++) {
+								tempArray[(shiftAmount + i) % this.fieldSize] = this.tileArray[i][this.movingColumn].frame;
+							}
+						} else {
+							shiftAmount *= -1;
+							for (var i = 0; i < this.fieldSize; i++) {
+								tempArray[i] = this.tileArray[(shiftAmount + i) % this.fieldSize][this.movingColumn].frame;
+							}
+						}
+
+						for (var i = 0; i < this.fieldSize; i++) {
+							this.tileArray[i][this.movingColumn].frame = tempArray[i];
+							this.tileArray[i][this.movingColumn].y = i * Game.TILE_SIZE;
+						}
 
 						break;
 				}
