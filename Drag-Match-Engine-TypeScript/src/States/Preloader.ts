@@ -2,7 +2,8 @@
 	export class Preloader extends Phaser.State {
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered Preloader preload()');
-
+			
+			// Pixel size of a tile.
 			var tileSize = 50;
 
 			// If your game uses a graphic while assets are loaded, you would create the sprite and then display it via the below.
