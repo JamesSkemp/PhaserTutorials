@@ -61,9 +61,22 @@
 				this.distX = this.game.input.worldX - this.startX;
 				this.distY = this.game.input.worldY - this.startY;
 
+				console.log(this.dragDirection);
+
 				switch (this.dragDirection) {
 					case "":
 						// A drag direction hasn't been determined yet.
+						var distance = this.distX * this.distX + this.distY * this.distY;
+
+						if (distance > 25) {
+							// No clue. :)
+							var dragAngle = Math.abs(Math.atan2(this.distY, this.distX));
+							if (dragAngle > Math.PI / 4 && dragAngle < 3 * Math.PI / 4) {
+								this.dragDirection = "vertical";
+							} else {
+								this.dragDirection = "horizontal";
+							}
+						}
 
 						break;
 
@@ -75,6 +88,8 @@
 
 						break;
 				}
+
+				console.log(this.dragDirection);
 			}
 		}
 
@@ -134,7 +149,11 @@
 				console.log('were dragging');
 				// TODO
 
+
+				// Let the user drag again.
+				this.dragDirection = "";
 				this.dragging = false;
+				this.tempTile.visible = false;
 			}
 		}
 	}
