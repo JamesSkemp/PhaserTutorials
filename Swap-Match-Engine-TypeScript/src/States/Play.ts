@@ -54,93 +54,14 @@
 			this.game.input.onUp.add(this.releaseTile, this);
 		}
 
-		update() {/*
+		update() {
 			if (this.dragging) {
 				this.distX = this.game.input.worldX - this.startX;
 				this.distY = this.game.input.worldY - this.startY;
 
-				switch (this.dragDirection) {
-					case "":
-						// A drag direction hasn't been determined yet.
-						var distance = this.distX * this.distX + this.distY * this.distY;
-
-						if (distance > 25) {
-							// No clue. :)
-							var dragAngle = Math.abs(Math.atan2(this.distY, this.distX));
-							if (dragAngle > Math.PI / 4 && dragAngle < 3 * Math.PI / 4) {
-								this.dragDirection = "vertical";
-							} else {
-								this.dragDirection = "horizontal";
-							}
-						}
-
-						break;
-
-					case "horizontal":
-						this.tempTile.visible = false;
-						this.tempTile.y = this.movingRow * Game.TILE_SIZE;
-
-						var deltaX = Math.floor(this.distX / Game.TILE_SIZE) % this.fieldSize;
-
-						if (deltaX >= 0) {
-							this.tempTile.frame = this.tileArray[this.movingRow][this.fieldSize - 1 - deltaX].frame;
-						} else {
-							deltaX = deltaX * -1 - 1;
-							this.tempTile.frame = this.tileArray[this.movingRow][deltaX].frame;
-						}
-
-						for (var i = 0; i < this.fieldSize; i++) {
-							this.tileArray[this.movingRow][i].x = (i * Game.TILE_SIZE + this.distX) % (Game.TILE_SIZE * this.fieldSize);
-							if (this.tileArray[this.movingRow][i].x < 0) {
-								this.tileArray[this.movingRow][i].x += Game.TILE_SIZE * this.fieldSize;
-							}
-
-							if (this.distX % Game.TILE_SIZE > 0) {
-								this.tempTile.visible = true;
-								this.tempTile.x = this.distX % Game.TILE_SIZE - Game.TILE_SIZE;
-							}
-
-							if (this.distX % Game.TILE_SIZE < 0) {
-								this.tempTile.visible = true;
-								this.tempTile.x = this.distX % Game.TILE_SIZE;
-							}
-						}
-
-						break;
-
-					case "vertical":
-						this.tempTile.visible = false;
-						this.tempTile.x = this.movingColumn * Game.TILE_SIZE;
-
-						var deltaY = Math.floor(this.distY / Game.TILE_SIZE) % this.fieldSize;
-
-						if (deltaY >= 0) {
-							this.tempTile.frame = this.tileArray[this.fieldSize - 1 - deltaY][this.movingColumn].frame;
-						} else {
-							deltaY = deltaY * -1 - 1;
-							this.tempTile.frame = this.tileArray[deltaY][this.movingColumn].frame;
-						}
-
-						for (var i = 0; i < this.fieldSize; i++) {
-							this.tileArray[i][this.movingColumn].y = (i * Game.TILE_SIZE + this.distY) % (Game.TILE_SIZE * this.fieldSize);
-							if (this.tileArray[i][this.movingColumn].y < 0) {
-								this.tileArray[i][this.movingColumn].y += Game.TILE_SIZE * this.fieldSize;
-							}
-
-							if (this.distY % Game.TILE_SIZE > 0) {
-								this.tempTile.visible = true;
-								this.tempTile.y = this.distY % Game.TILE_SIZE - Game.TILE_SIZE;
-							}
-
-							if (this.distY % Game.TILE_SIZE < 0) {
-								this.tempTile.visible = true;
-								this.tempTile.y = this.distY % Game.TILE_SIZE;
-							}
-						}
-
-						break;
-				}
-			}*/
+				this.tileArray[this.movingRow][this.movingColumn].x = this.movingColumn * Game.TILE_SIZE + Game.TILE_SIZE / 2 + this.distX;
+				this.tileArray[this.movingRow][this.movingColumn].y = this.movingRow * Game.TILE_SIZE + Game.TILE_SIZE / 2 + this.distY;
+			}
 		}
 
 		generateGameField() {
