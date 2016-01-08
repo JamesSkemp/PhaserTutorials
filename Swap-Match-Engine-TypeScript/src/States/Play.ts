@@ -46,6 +46,7 @@
 			console.log((new Date).toISOString() + ' : Entered Play create()');
 
 			this.tileGroup = this.game.add.group();
+			// Since we want the moving tile to display above all others, we add it to a group that's added to the game last.
 			this.movingTileGroup = this.game.add.group();
 
 			this.generateGameField();
@@ -98,58 +99,36 @@
 		}
 
 		releaseTile() {
-			if (this.dragging) {/*
-				switch (this.dragDirection) {
-					case "horizontal":
-						var shiftAmount = Math.floor(this.distX / (Game.TILE_SIZE / 2));
-						shiftAmount = Math.ceil(shiftAmount / 2) % this.fieldSize;
+			if (this.dragging) {
+				// It doesn't need to be above the other tiles now, so put it back in with the others.
+				this.tileGroup.add(this.tileArray[this.movingRow][this.movingColumn]);
 
-						var tempArray = [];
-
-						if (shiftAmount > 0) {
-							for (var i = 0; i < this.fieldSize; i++) {
-								tempArray[(shiftAmount + i) % this.fieldSize] = this.tileArray[this.movingRow][i].frame;
-							}
-						} else {
-							shiftAmount *= -1;
-							for (var i = 0; i < this.fieldSize; i++) {
-								tempArray[i] = this.tileArray[this.movingRow][(shiftAmount + i) % this.fieldSize].frame;
-							}
-						}
-
-						for (var i = 0; i < this.fieldSize; i++) {
-							this.tileArray[this.movingRow][i].frame = tempArray[i];
-							this.tileArray[this.movingRow][i].x = i * Game.TILE_SIZE;
-						}
-
-						break;
-
-					case "vertical":
-						var shiftAmount = Math.floor(this.distY / (Game.TILE_SIZE / 2));
-						shiftAmount = Math.ceil(shiftAmount / 2) % this.fieldSize;
-
-						var tempArray = [];
-
-						if (shiftAmount > 0) {
-							for (var i = 0; i < this.fieldSize; i++) {
-								tempArray[(shiftAmount + i) % this.fieldSize] = this.tileArray[i][this.movingColumn].frame;
-							}
-						} else {
-							shiftAmount *= -1;
-							for (var i = 0; i < this.fieldSize; i++) {
-								tempArray[i] = this.tileArray[(shiftAmount + i) % this.fieldSize][this.movingColumn].frame;
-							}
-						}
-
-						for (var i = 0; i < this.fieldSize; i++) {
-							this.tileArray[i][this.movingColumn].frame = tempArray[i];
-							this.tileArray[i][this.movingColumn].y = i * Game.TILE_SIZE;
-						}
-
-						break;
-				}*/
+				var landingRow = Math.floor(this.tileArray[this.movingRow][this.movingColumn].y / Game.TILE_SIZE);
+				var landingColumn = Math.floor(this.tileArray[this.movingRow][this.movingColumn].x / Game.TILE_SIZE);
 
 				(<Phaser.Sprite>this.tileArray[this.movingRow][this.movingColumn]).scale.setTo(1);
+
+				(<Phaser.Sprite>this.tileArray[this.movingRow][this.movingColumn]).x = landingColumn * Game.TILE_SIZE + Game.TILE_SIZE / 2;
+				(<Phaser.Sprite>this.tileArray[this.movingRow][this.movingColumn]).y = landingRow * Game.TILE_SIZE + Game.TILE_SIZE / 2;
+
+				if (this.movingRow !== landingRow || this.movingColumn !== landingColumn) {
+					// We actually moved, so display an animation.
+
+					this.movingTileGroup.add(this.tileArray[landingRow][landingColumn]);
+
+					var tileTween = this.game.add.tween(this.tileArray[landingRow][landingColumn]);
+					tileTween.to({
+						x: this.movingColumn * Game.TILE_SIZE + Game.TILE_SIZE / 2,
+						y: this.movingRow * Game.TILE_SIZE + Game.TILE_SIZE / 2
+					}, 800, Phaser.Easing.Cubic.Out, true);
+					tileTween.onComplete.add(() => {
+						this.tileGroup.add(this.tileArray[landingRow][landingColumn]);
+
+						var temp = this.tileArray[landingRow][landingColumn];
+						this.tileArray[landingRow][landingColumn] = this.tileArray[this.movingRow][this.movingColumn];
+						this.tileArray[this.movingRow][this.movingColumn] = temp;
+					}, this);
+				}
 
 				// Let the user drag again.
 				this.dragging = false;
