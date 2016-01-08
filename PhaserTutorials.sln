@@ -157,6 +157,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyCrushBejeweled-TypeScr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drag-Match-Engine-TypeScript", "Drag-Match-Engine-TypeScript\Drag-Match-Engine-TypeScript.csproj", "{E6D27A6E-B97F-43A2-B7F0-9E41586F60BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swap-Match-Engine-TypeScript", "Swap-Match-Engine-TypeScript\Swap-Match-Engine-TypeScript.csproj", "{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -243,6 +245,10 @@ Global
 		{E6D27A6E-B97F-43A2-B7F0-9E41586F60BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6D27A6E-B97F-43A2-B7F0-9E41586F60BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6D27A6E-B97F-43A2-B7F0-9E41586F60BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
