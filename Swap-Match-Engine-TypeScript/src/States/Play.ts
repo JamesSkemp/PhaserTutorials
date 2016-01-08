@@ -14,6 +14,14 @@
 		movingRow;
 		// Column to move.
 		movingColumn;
+		// X the user started dragging at.
+		startX: number;
+		// Y the user started dragging at.
+		startY: number;
+		// Horizontal distance moved during dragging.
+		distX: number;
+		// Vertical distance moved during dragging.
+		distY: number;
 
 		// Game's tiles.
 		tileArray = [];
@@ -152,7 +160,7 @@
 			}
 		}
 
-		pickTile() {/*
+		pickTile() {
 			// They've started dragging.
 			this.startX = this.game.input.worldX;
 			this.startY = this.game.input.worldY;
@@ -161,11 +169,15 @@
 			this.movingRow = Math.floor(this.startY / Game.TILE_SIZE);
 			this.movingColumn = Math.floor(this.startX / Game.TILE_SIZE);
 
-			this.dragging = true;*/
+			this.movingTileGroup.add(this.tileArray[this.movingRow][this.movingColumn]);
+
+			(<Phaser.Sprite>this.tileArray[this.movingRow][this.movingColumn]).scale.setTo(1.1);
+
+			this.dragging = true;
 		}
 
-		releaseTile() {/*
-			if (this.dragging) {
+		releaseTile() {
+			if (this.dragging) {/*
 				switch (this.dragDirection) {
 					case "horizontal":
 						var shiftAmount = Math.floor(this.distX / (Game.TILE_SIZE / 2));
@@ -214,13 +226,13 @@
 						}
 
 						break;
-				}
+				}*/
+
+				(<Phaser.Sprite>this.tileArray[this.movingRow][this.movingColumn]).scale.setTo(1);
 
 				// Let the user drag again.
-				this.dragDirection = "";
 				this.dragging = false;
-				this.tempTile.visible = false;
-			}*/
+			}
 		}
 	}
 }
