@@ -5,28 +5,22 @@
 		// Number of different tile possibilities.
 		tileTypes = 6;
 
+		// Zoom ratio to highlight a selected tile.
+		pickedZoom = 1.1;
+
 		// Store whether the user is actively dragging.
 		dragging = false;
 		// Row to move.
 		movingRow;
 		// Column to move.
 		movingColumn;
-		// X the user started dragging at.
-		startX: number;
-		// Y the user started dragging at.
-		startY: number;
-		// Horizontal distance moved during dragging.
-		distX: number;
-		// Vertical distance moved during dragging.
-		distY: number;
-		// Direction the user is dragging in.
-		dragDirection = "";
 
 		// Game's tiles.
 		tileArray = [];
-
-		// Temporary tile.
-		tempTile: Phaser.Sprite;
+		// Contains all tiles in the game.
+		tileGroup: Phaser.Group;
+		// Contains the moving tile.
+		movingTileGroup: Phaser.Group;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Play init()');
@@ -43,16 +37,16 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Play create()');
 
-			this.generateGameField();
+			this.tileGroup = this.game.add.group();
+			this.movingTileGroup = this.game.add.group();
 
-			this.tempTile = this.game.add.sprite(0, 0, 'tiles');
-			this.tempTile.visible = false;
+			this.generateGameField();
 
 			this.game.input.onDown.add(this.pickTile, this);
 			this.game.input.onUp.add(this.releaseTile, this);
 		}
 
-		update() {
+		update() {/*
 			if (this.dragging) {
 				this.distX = this.game.input.worldX - this.startX;
 				this.distY = this.game.input.worldY - this.startY;
@@ -138,7 +132,7 @@
 
 						break;
 				}
-			}
+			}*/
 		}
 
 		generateGameField() {
@@ -147,15 +141,18 @@
 				for (var j = 0; j < this.fieldSize; j++) {
 					var randomTile = this.game.rnd.integerInRange(0, this.tileTypes);
 
-					var theTile = this.game.add.sprite(j * Game.TILE_SIZE, i * Game.TILE_SIZE, "tiles");
+					var theTile = this.game.add.sprite(j * Game.TILE_SIZE + Game.TILE_SIZE / 2, i * Game.TILE_SIZE + Game.TILE_SIZE / 2, "tiles");
 					theTile.frame = randomTile;
+					theTile.anchor.setTo(0.5);
 
 					this.tileArray[i][j] = theTile;
+
+					this.tileGroup.add(theTile);
 				}
 			}
 		}
 
-		pickTile() {
+		pickTile() {/*
 			// They've started dragging.
 			this.startX = this.game.input.worldX;
 			this.startY = this.game.input.worldY;
@@ -164,10 +161,10 @@
 			this.movingRow = Math.floor(this.startY / Game.TILE_SIZE);
 			this.movingColumn = Math.floor(this.startX / Game.TILE_SIZE);
 
-			this.dragging = true;
+			this.dragging = true;*/
 		}
 
-		releaseTile() {
+		releaseTile() {/*
 			if (this.dragging) {
 				switch (this.dragDirection) {
 					case "horizontal":
@@ -223,7 +220,7 @@
 				this.dragDirection = "";
 				this.dragging = false;
 				this.tempTile.visible = false;
-			}
+			}*/
 		}
 	}
 }
