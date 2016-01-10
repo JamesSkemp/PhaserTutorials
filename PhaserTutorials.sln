@@ -159,6 +159,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drag-Match-Engine-TypeScrip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swap-Match-Engine-TypeScript", "Swap-Match-Engine-TypeScript\Swap-Match-Engine-TypeScript.csproj", "{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zTestingJS", "zTestingJS\zTestingJS.csproj", "{16985D2C-E792-454C-BB31-F965822E406C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,10 @@ Global
 		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94889DE3-FB08-46CC-99E3-CAA9F6E1167A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16985D2C-E792-454C-BB31-F965822E406C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16985D2C-E792-454C-BB31-F965822E406C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16985D2C-E792-454C-BB31-F965822E406C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16985D2C-E792-454C-BB31-F965822E406C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
