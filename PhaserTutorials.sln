@@ -183,6 +183,28 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Phaser-Clicker-Tutorial", "
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Ascii-Roguelike-Tutorial", "Ascii-Roguelike-Tutorial\", "{D66710CC-BFDD-46A5-85C6-BED34A71F56F}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54580"
+		Debug.AspNetCompiler.PhysicalPath = "Ascii-Roguelike-Tutorial\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54580\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54580"
+		Release.AspNetCompiler.PhysicalPath = "Ascii-Roguelike-Tutorial\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54580\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54580"
+		SlnRelativePath = "Ascii-Roguelike-Tutorial\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +303,10 @@ Global
 		{1AB481A7-E9CA-42A5-BE59-A93C262AAAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AB481A7-E9CA-42A5-BE59-A93C262AAAAA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{1AB481A7-E9CA-42A5-BE59-A93C262AAAAA}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
