@@ -25,3 +25,4 @@ This project uses TypeScript with Phaser, and aims to be a simple version of the
 - https://github.com/timkg/phaser-super-coin-box
 - https://github.com/dmaslov/super-coin-box
 - https://github.com/rbudiharso/Phaser-Match3
+- http://codetuto.com/2016/01/creating-a-html5-game-like-concentration/
