@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module Concentration {
 	export class Game extends Phaser.Game {
 		// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
 		//static SOME_VARIABLE: number = 10;
@@ -22,5 +22,5 @@
 }
 
 window.onload = () => {
-	var game = new StarterProject.Game();
+	var game = new Concentration.Game();
 };

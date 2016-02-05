@@ -1,5 +1,10 @@
-﻿module StarterProject {
+﻿module Concentration {
 	export class Play extends Phaser.State {
+		bg: Phaser.Sprite;
+		previousTile = null;
+		tiles: Phaser.Group;
+		busy = false;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Play init()');
 			// init can receive parameters.
@@ -12,36 +17,12 @@
 			// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
 		}
 
-		loadUpdate() {
-			// Called while assets are being loaded.
-		}
-
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Play create()');
 
 		}
 
 		update() {
-
-		}
-
-		paused() {
-			console.log((new Date).toISOString() + ' : Entered Play paused()');
-
-		}
-
-		pauseUpdate() {
-
-		}
-
-		resumed() {
-			console.log((new Date).toISOString() + ' : Entered Play resumed()');
-
-		}
-
-		shutdown() {
-			console.log((new Date).toISOString() + ' : Entered Play shutdown()');
-
 		}
 	}
 }
