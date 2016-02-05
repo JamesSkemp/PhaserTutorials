@@ -37,6 +37,7 @@
     <TypeScriptCompile Include="lib\phaser.d.ts" />
     <TypeScriptCompile Include="lib\pixi.d.ts" />
     <TypeScriptCompile Include="src\Game.ts" />
+    <TypeScriptCompile Include="src\Prefabs\Tile.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
