@@ -12,11 +12,17 @@ This project uses TypeScript with Phaser.
 
 This project uses TypeScript with Phaser, and aims to be a simple version of the **_Starter** project.
 
+## Tutorials to finish following
+
+- http://codecaptain.teachable.com/courses/html5-game-development-with-phaserjs
+
 ## Future tutorials to work through
 
 - [Phaser 2.0 Tutorial: Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)
+- http://blog.lessmilk.com/how-to-make-flappy-bird-in-html5-1/
 - [How to Make a Fruit Ninja Game in Phaser](https://gamedevacademy.org/how-to-make-a-fruit-ninja-game-in-phaser-part-1/)
 - [How to Make a Bomberman Game in Phaser](https://gamedevacademy.org/how-to-make-a-bomberman-game-in-phaser-part-1/)
 - https://github.com/timkg/phaser-super-coin-box
 - https://github.com/dmaslov/super-coin-box
 - https://github.com/rbudiharso/Phaser-Match3
+- http://codetuto.com/2016/01/creating-a-html5-game-like-concentration/
