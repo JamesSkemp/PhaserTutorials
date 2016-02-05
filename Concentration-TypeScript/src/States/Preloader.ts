@@ -9,6 +9,9 @@
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
+			this.load.image('bg');
+			this.load.image('playButton', 'play.png');
+			this.load.atlas('animals', 'animals.png', 'animals.json');
 		}
 
 		create() {
