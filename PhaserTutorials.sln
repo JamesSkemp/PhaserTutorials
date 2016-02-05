@@ -205,6 +205,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Ascii-Roguelike-Tutorial", 
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concentration-TypeScript", "Concentration-TypeScript\Concentration-TypeScript.csproj", "{B6040A02-90AF-4BB7-871A-1B81B9E387AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -307,6 +309,10 @@ Global
 		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{D66710CC-BFDD-46A5-85C6-BED34A71F56F}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B6040A02-90AF-4BB7-871A-1B81B9E387AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6040A02-90AF-4BB7-871A-1B81B9E387AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6040A02-90AF-4BB7-871A-1B81B9E387AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6040A02-90AF-4BB7-871A-1B81B9E387AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
