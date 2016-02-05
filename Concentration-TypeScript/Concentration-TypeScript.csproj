@@ -23,6 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\animals.png" />
+    <Content Include="assets\bg.png" />
+    <Content Include="assets\play.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
@@ -37,7 +40,7 @@
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
-    <TypeScriptCompile Include="src\States\_ExampleState.ts" />
+    <TypeScriptCompile Include="src\States\Play.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\README.md" />
@@ -48,6 +51,7 @@
     <Content Include="src\States\README.md" />
     <Content Include=".gitignore" />
     <Content Include="README.md" />
+    <Content Include="assets\animals.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

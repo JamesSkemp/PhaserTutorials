@@ -4,14 +4,14 @@
 			console.log((new Date).toISOString() + ' : Entered Boot init()');
 			// If you want to scale the game, you can set that here.
 			// Uncomment to show all content in the view.
-			//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 			// If we put our game in a div, we need to add the following as well, if you SHOW_ALL.
-			//this.game.scale.windowConstraints.bottom = true;
+			this.game.scale.windowConstraints.bottom = true;
 
 			// Uncomment to place our game in the center of the screen both horizontally and vertically.
-			//this.scale.pageAlignHorizontally = true;
-			//this.scale.pageAlignVertically = true;
+			this.scale.pageAlignHorizontally = true;
+			this.scale.pageAlignVertically = true;
 		}
 
 		preload() {
