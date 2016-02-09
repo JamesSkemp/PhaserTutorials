@@ -10,6 +10,7 @@ var TTTGame = (function () {
 		this.game = phaserGame;
 		// Place to hold our tiles.
 		this.arrTiles = [];
+		this.taxi = undefined;
 		// Helps determine when to draw a new road tile.
 		this.numberOfIterations = 0;
 
@@ -27,10 +28,17 @@ var TTTGame = (function () {
 	TTTGame.prototype.preload = function () {
 		this.game.load.path = 'assets/tiles/';
 		this.game.load.image('tile_road_1');
+		this.game.load.image('taxi');
 	};
 
 	TTTGame.prototype.create = function () {
 		this.generateRoad();
+
+		var x = this.game.world.centerX;
+		var y = this.game.world.centerY;
+		this.taxi = new Phaser.Sprite(this.game, x, y, 'taxi');
+		this.taxi.anchor.setTo(0.5, 1.0);
+		this.game.add.existing(this.taxi);
 	};
 
 	TTTGame.prototype.update = function () {
@@ -71,6 +79,21 @@ var TTTGame = (function () {
 			}
 
 			i--;
+		}
+	};
+
+	TTTGame.prototype.calculatePointOnRoad = function (xPos) {
+		// Horizontal line of the bottom of the screen.
+		var adjacent = this.roadStartPosition.x - xPos;
+		var alpha = ANGLE * Math.PI / 180;
+		// Line at an angle the taxi travels at.
+		var hypotenuse = adjacent / Math.cos(alpha);
+		// Vertical line from where the car is on the line to the adjacent line.
+		var opposite = Math.sin(alpha) * hypotenuse;
+
+		return {
+			x: xPos,
+			y: this.roadStartPosition.y + opposite - 57
 		}
 	};
 
