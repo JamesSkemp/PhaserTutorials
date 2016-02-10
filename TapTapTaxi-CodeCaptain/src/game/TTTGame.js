@@ -6,11 +6,19 @@ var TTTGame = (function () {
 	var TILE_WIDTH = 68;
 	var SPEED = 5;
 	var TAXI_START_X = 30;
+	var JUMP_HEIGHT = 7;
 
 	function TTTGame(phaserGame) {
 		this.game = phaserGame;
+
+		this.mouseTouchDown = false;
+
 		// Place to hold our tiles.
 		this.arrTiles = [];
+
+		this.jumpSpeed = JUMP_HEIGHT;
+		this.isJumping = false;
+		this.currentJumpHeight = 0;
 
 		this.taxi = undefined;
 		this.taxiX = TAXI_START_X;
@@ -46,6 +54,17 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.update = function () {
+
+		if (this.game.input.activePointer.isDown) {
+			if (!this.mouseTouchDown) {
+				this.touchDown();
+			} else {
+				if (this.mouseTouchDown) {
+					this.touchUp();
+				}
+			}
+		}
+
 		this.numberOfIterations++;
 		if (this.numberOfIterations > TILE_WIDTH / SPEED) {
 			// Generate a new piece of road once a tile has moved its length.
@@ -53,9 +72,13 @@ var TTTGame = (function () {
 			this.generateRoad();
 		}
 
+		if (this.isJumping) {
+			this.taxiJump();
+		}
+
 		var pointOnRoad = this.calculatePositionOnRoadWithXPosition(this.taxiX);
 		this.taxi.x = pointOnRoad.x;
-		this.taxi.y = pointOnRoad.y;
+		this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
 
 		this.moveTilesWithSpeed(SPEED);
 	};
@@ -104,6 +127,28 @@ var TTTGame = (function () {
 			x: xPos,
 			// Subtract size of taxi.
 			y: this.roadStartPosition.y + opposite - 57
+		}
+	};
+
+	TTTGame.prototype.touchDown = function () {
+		this.mouseTouchDown = true;
+
+		if (!this.isJumping) {
+			this.isJumping = true;
+		}
+	};
+
+	TTTGame.prototype.touchUp = function () {
+		this.mouseTouchDown = false;
+	};
+
+	TTTGame.prototype.taxiJump = function () {
+		this.currentJumpHeight -= this.jumpSpeed;
+		this.jumpSpeed -= 0.5;
+
+		if (this.jumpSpeed < -JUMP_HEIGHT) {
+			this.isJumping = false;
+			this.jumpSpeed = JUMP_HEIGHT;
 		}
 	};
 
