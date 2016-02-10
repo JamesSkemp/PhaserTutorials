@@ -5,12 +5,16 @@ var TTTGame = (function () {
 	var ANGLE = 26.55;
 	var TILE_WIDTH = 68;
 	var SPEED = 5;
+	var TAXI_START_X = 30;
 
 	function TTTGame(phaserGame) {
 		this.game = phaserGame;
 		// Place to hold our tiles.
 		this.arrTiles = [];
+
 		this.taxi = undefined;
+		this.taxiX = TAXI_START_X;
+
 		// Helps determine when to draw a new road tile.
 		this.numberOfIterations = 0;
 
@@ -48,6 +52,11 @@ var TTTGame = (function () {
 			this.numberOfIterations = 0;
 			this.generateRoad();
 		}
+
+		var pointOnRoad = this.calculatePositionOnRoadWithXPosition(this.taxiX);
+		this.taxi.x = pointOnRoad.x;
+		this.taxi.y = pointOnRoad.y;
+
 		this.moveTilesWithSpeed(SPEED);
 	};
 
@@ -58,7 +67,7 @@ var TTTGame = (function () {
 		var sprite = new Phaser.Sprite(this.game, 0, 0, 'tile_road_1');
 		// Add our new sprite to the world, under all other tiles.
 		this.game.world.addChildAt(sprite, 0);
-		sprite.anchor.setTo(0.5);
+		sprite.anchor.setTo(0.5, 1.0);
 		sprite.x = this.roadStartPosition.x;
 		sprite.y = this.roadStartPosition.y;
 		this.arrTiles.push(sprite);
@@ -82,7 +91,7 @@ var TTTGame = (function () {
 		}
 	};
 
-	TTTGame.prototype.calculatePointOnRoad = function (xPos) {
+	TTTGame.prototype.calculatePositionOnRoadWithXPosition = function (xPos) {
 		// Horizontal line of the bottom of the screen.
 		var adjacent = this.roadStartPosition.x - xPos;
 		var alpha = ANGLE * Math.PI / 180;
@@ -93,6 +102,7 @@ var TTTGame = (function () {
 
 		return {
 			x: xPos,
+			// Subtract size of taxi.
 			y: this.roadStartPosition.y + opposite - 57
 		}
 	};
