@@ -30,6 +30,13 @@ var TTTGame = (function () {
 			x: GAME_WIDTH + 100,
 			y: GAME_HEIGHT / 2 - 100
 		};
+
+		// Number of road tiles.
+		this.roadCount = 0;
+		// Where the next obstacle should render.
+		this.nextObstacleIndex = 0;
+		// Collection of obstacles.
+		this.arrObstacles = [];
 	}
 
 	TTTGame.prototype.init = function () {
@@ -41,6 +48,7 @@ var TTTGame = (function () {
 		this.game.load.path = 'assets/tiles/';
 		this.game.load.image('tile_road_1');
 		this.game.load.image('taxi');
+		this.game.load.image('obstacle_1');
 	};
 
 	TTTGame.prototype.create = function () {
@@ -84,15 +92,31 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.generateRoad = function () {
+		this.roadCount++;
+
+		var tile = 'tile_road_1';
+		var isObstacle = false;
+
+		if (this.roadCount > this.nextObstacleIndex) {
+			this.calculateNextObstacleIndex();
+			tile = 'obstacle_1';
+			isObstacle = true;
+		}
+
 		// Standard way to add a sprite. However, doing this results in overlap for new tiles.
 		//var sprite = this.game.add.sprite(0, 0, 'tile_road_1');
 		// Long-handed way to create a sprite. Doesn't add it to the world immediately, however.
-		var sprite = new Phaser.Sprite(this.game, 0, 0, 'tile_road_1');
+		var sprite = new Phaser.Sprite(this.game, this.roadStartPosition.x, this.roadStartPosition.y, tile);
 		// Add our new sprite to the world, under all other tiles.
 		this.game.world.addChildAt(sprite, 0);
 		sprite.anchor.setTo(0.5, 1.0);
 		sprite.x = this.roadStartPosition.x;
 		sprite.y = this.roadStartPosition.y;
+
+		if (isObstacle) {
+			this.arrObstacles.push(sprite);
+		}
+
 		this.arrTiles.push(sprite);
 	};
 
@@ -112,6 +136,14 @@ var TTTGame = (function () {
 
 			i--;
 		}
+	};
+
+	TTTGame.prototype.calculateNextObstacleIndex = function () {
+		// Put an obstacle somewhere 3 to 10 tiles in the future.
+		var minimumOffset = 3;
+		var maximumOffset = 10;
+		var num = Math.random() * (maximumOffset - minimumOffset);
+		this.nextObstacleIndex = this.roadCount + Math.round(num) + minimumOffset;
 	};
 
 	TTTGame.prototype.calculatePositionOnRoadWithXPosition = function (xPos) {
