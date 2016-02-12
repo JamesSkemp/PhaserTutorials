@@ -37,6 +37,9 @@ var TTTGame = (function () {
 		this.nextObstacleIndex = 0;
 		// Collection of obstacles.
 		this.arrObstacles = [];
+
+		// Set whether the game has started.
+		this.hasStarted = false;
 	}
 
 	TTTGame.prototype.init = function () {
@@ -97,7 +100,7 @@ var TTTGame = (function () {
 		var tile = 'tile_road_1';
 		var isObstacle = false;
 
-		if (this.roadCount > this.nextObstacleIndex) {
+		if (this.roadCount > this.nextObstacleIndex && this.hasStarted) {
 			this.calculateNextObstacleIndex();
 			tile = 'obstacle_1';
 			isObstacle = true;
@@ -163,6 +166,11 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.touchDown = function () {
+		// Start the game the first time the player touches down.
+		if (!this.hasStarted) {
+			this.hasStarted = true;
+		}
+
 		this.mouseTouchDown = true;
 
 		if (!this.isJumping) {
