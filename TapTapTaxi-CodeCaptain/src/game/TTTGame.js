@@ -42,6 +42,7 @@ var TTTGame = (function () {
 		this.hasStarted = false;
 		// Track whether the player is dead.
 		this.isDead = false;
+		this.gameOverGraphic = undefined;
 	}
 
 	TTTGame.prototype.init = function () {
@@ -54,6 +55,7 @@ var TTTGame = (function () {
 		this.game.load.image('tile_road_1');
 		this.game.load.image('taxi');
 		this.game.load.image('obstacle_1');
+		this.game.load.image('gameOver');
 	};
 
 	TTTGame.prototype.create = function () {
@@ -64,6 +66,13 @@ var TTTGame = (function () {
 		this.taxi = new Phaser.Sprite(this.game, x, y, 'taxi');
 		this.taxi.anchor.setTo(0.5, 1.0);
 		this.game.add.existing(this.taxi);
+
+		x = this.game.world.centerX;
+		y = this.game.world.centerY - 100;
+		this.gameOverGraphic = new Phaser.Sprite(this.game, x, y, 'gameOver');
+		this.gameOverGraphic.anchor.setTo(0.5);
+		this.gameOverGraphic.visible = false;
+		this.game.add.existing(this.gameOverGraphic);
 	};
 
 	TTTGame.prototype.update = function () {
@@ -229,6 +238,7 @@ var TTTGame = (function () {
 		this.isDead = true;
 		this.hasStarted = false;
 		this.arrObstacles = [];
+		this.gameOverGraphic.visible = true;
 
 		var dieSpeed = SPEED / 10;
 
