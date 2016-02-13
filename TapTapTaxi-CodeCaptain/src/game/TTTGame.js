@@ -85,16 +85,19 @@ var TTTGame = (function () {
 			this.generateRoad();
 		}
 
-		if (this.isJumping) {
-			this.taxiJump();
-		}
-
-		var pointOnRoad = this.calculatePositionOnRoadWithXPosition(this.taxiX);
-		this.taxi.x = pointOnRoad.x;
-		this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
-
 		this.moveTilesWithSpeed(SPEED);
-		this.checkObstacles();
+
+		if (!this.isDead) {
+			if (this.isJumping) {
+				this.taxiJump();
+			}
+
+			var pointOnRoad = this.calculatePositionOnRoadWithXPosition(this.taxiX);
+			this.taxi.x = pointOnRoad.x;
+			this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
+
+			this.checkObstacles();
+		}
 	};
 
 	TTTGame.prototype.generateRoad = function () {
@@ -223,7 +226,31 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.gameOver = function () {
-		this.taxi.tint = 0xff0000;
+		this.isDead = true;
+		this.hasStarted = false;
+		this.arrObstacles = [];
+
+		var dieSpeed = SPEED / 10;
+
+		var tween1 = this.game.add.tween(this.taxi);
+		tween1.to({
+			x: this.taxi.x + 20,
+			y: this.taxi.y - 40
+		}, 300 * dieSpeed, Phaser.Easing.Quadratic.Out);
+
+		var tween2 = this.game.add.tween(this.taxi);
+		tween2.to({
+			y: GAME_HEIGHT + 40
+		}, 1000 * dieSpeed, Phaser.Easing.Quadratic.In);
+
+		tween1.chain(tween2);
+		tween1.start();
+
+		var tweenRotate = this.game.add.tween(this.taxi);
+		tweenRotate.to({
+			angle: 200
+		}, 1300 * dieSpeed, Phaser.Easing.Linear.None);
+		tweenRotate.start();
 	};
 
 	return TTTGame;
