@@ -73,6 +73,8 @@ var TTTGame = (function () {
 		this.gameOverGraphic.anchor.setTo(0.5);
 		this.gameOverGraphic.visible = false;
 		this.game.add.existing(this.gameOverGraphic);
+
+		this.reset();
 	};
 
 	TTTGame.prototype.update = function () {
@@ -208,6 +210,11 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.touchDown = function () {
+		if (this.isDead) {
+			this.reset();
+			return;
+		}
+
 		// Start the game the first time the player touches down.
 		if (!this.hasStarted) {
 			this.hasStarted = true;
@@ -261,6 +268,26 @@ var TTTGame = (function () {
 			angle: 200
 		}, 1300 * dieSpeed, Phaser.Easing.Linear.None);
 		tweenRotate.start();
+	};
+
+	TTTGame.prototype.reset = function () {
+		this.hasStarted = false;
+		this.isDead = false;
+
+		this.jumpSpeed = JUMP_HEIGHT;
+		this.isJumping = false;
+		this.currentJumpHeight = 0;
+
+		this.nextObstacleIndex = 0;
+		this.arrObstacles = [];
+
+		this.mouseTouchDown = false;
+
+		this.game.tweens.removeFrom(this.taxi);
+		this.taxiX = TAXI_START_X;
+		this.taxi.rotation = 0;
+
+		this.gameOverGraphic.visible = false;
 	};
 
 	return TTTGame;
