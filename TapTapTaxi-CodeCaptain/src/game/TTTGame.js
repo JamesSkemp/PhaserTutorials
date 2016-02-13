@@ -40,6 +40,8 @@ var TTTGame = (function () {
 
 		// Set whether the game has started.
 		this.hasStarted = false;
+		// Track whether the player is dead.
+		this.isDead = false;
 	}
 
 	TTTGame.prototype.init = function () {
@@ -92,6 +94,7 @@ var TTTGame = (function () {
 		this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
 
 		this.moveTilesWithSpeed(SPEED);
+		this.checkObstacles();
 	};
 
 	TTTGame.prototype.generateRoad = function () {
@@ -149,6 +152,33 @@ var TTTGame = (function () {
 		this.nextObstacleIndex = this.roadCount + Math.round(num) + minimumOffset;
 	};
 
+	TTTGame.prototype.checkObstacles = function () {
+		var i = this.arrObstacles.length - 1;
+
+		while (i >= 0) {
+			var sprite = this.arrObstacles[i];
+
+			if (sprite.x < this.taxi.x - 10) {
+				this.arrObstacles.splice(i, 1);
+			}
+
+			// Determine the distance between the taxi and obstacle.
+			var dx = sprite.x - this.taxi.x;
+			dx = Math.pow(dx, 2);
+
+			var dy = (sprite.y - sprite.height / 2) - this.taxi.y;
+			dy = Math.pow(dy, 2);
+
+			var distance = Math.sqrt(dx + dy);
+
+			if (distance < 25 && !this.isDead) {
+				this.gameOver();
+			}
+
+			i--;
+		}
+	};
+
 	TTTGame.prototype.calculatePositionOnRoadWithXPosition = function (xPos) {
 		// Horizontal line of the bottom of the screen.
 		var adjacent = this.roadStartPosition.x - xPos;
@@ -190,6 +220,10 @@ var TTTGame = (function () {
 			this.isJumping = false;
 			this.jumpSpeed = JUMP_HEIGHT;
 		}
+	};
+
+	TTTGame.prototype.gameOver = function () {
+		this.taxi.tint = 0xff0000;
 	};
 
 	return TTTGame;
