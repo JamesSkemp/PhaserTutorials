@@ -43,6 +43,8 @@ var TTTGame = (function () {
 		// Track whether the player is dead.
 		this.isDead = false;
 		this.gameOverGraphic = undefined;
+
+		this.scoreCount = 0;
 	}
 
 	TTTGame.prototype.init = function () {
@@ -56,6 +58,9 @@ var TTTGame = (function () {
 		this.game.load.image('taxi');
 		this.game.load.image('obstacle_1');
 		this.game.load.image('gameOver');
+
+		this.game.load.path = 'assets/spritesheets/';
+		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
 	};
 
 	TTTGame.prototype.create = function () {
@@ -73,6 +78,11 @@ var TTTGame = (function () {
 		this.gameOverGraphic.anchor.setTo(0.5);
 		this.gameOverGraphic.visible = false;
 		this.game.add.existing(this.gameOverGraphic);
+
+		this.counter = new TTTCounter(this.game, 0, 0);
+		this.game.add.existing(this.counter);
+		this.counter.x = GAME_WIDTH / 2;
+		this.counter.y = 40;
 
 		this.reset();
 	};
@@ -174,6 +184,10 @@ var TTTGame = (function () {
 
 			if (sprite.x < this.taxi.x - 10) {
 				this.arrObstacles.splice(i, 1);
+
+				this.scoreCount++;
+
+				this.counter.setScore(this.scoreCount, true);
 			}
 
 			// Determine the distance between the taxi and obstacle.
@@ -288,6 +302,9 @@ var TTTGame = (function () {
 		this.taxi.rotation = 0;
 
 		this.gameOverGraphic.visible = false;
+
+		this.scoreCount = 0;
+		this.counter.setScore(0, false);
 	};
 
 	return TTTGame;
