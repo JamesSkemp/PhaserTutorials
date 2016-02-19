@@ -33,8 +33,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="lib\p2.d.ts" />
-    <TypeScriptCompile Include="lib\phaser.d.ts" />
-    <TypeScriptCompile Include="lib\pixi.d.ts" />
+    <TypeScriptCompile Include="lib\phaser.comments.d.ts" />
+    <TypeScriptCompile Include="lib\pixi.comments.d.ts" />
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
@@ -43,13 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\README.md" />
-    <Content Include="lib\phaser.map" />
     <Content Include="plugins\README.md" />
     <Content Include="src\.gitignore" />
     <Content Include="src\Prefabs\README.md" />
     <Content Include="src\States\README.md" />
     <Content Include=".gitignore" />
     <Content Include="README.md" />
+    <Content Include="lib\phaser.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -15,7 +15,7 @@
 			this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 			// If we put our game in a div, we need to add the following as well, if you SHOW_ALL.
-			this.game.scale.windowConstraints.bottom = true;
+			this.game.scale.windowConstraints.bottom = 'visual';
 
 			// Uncomment to place our game in the center of the screen both horizontally and vertically.
 			this.scale.pageAlignHorizontally = true;
