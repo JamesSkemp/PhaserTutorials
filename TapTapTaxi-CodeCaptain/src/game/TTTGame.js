@@ -68,8 +68,31 @@ var TTTGame = (function () {
 		this.game.load.image('green_middle_tree');
 		this.game.load.image('green_start');
 		this.game.load.image('water');
-		this.game.load.image('building', 'buildingTiles_124.png');
-		this.game.load.image('building_2', 'buildingTiles_124.png');
+
+		this.game.load.image('building_base_1', 'buildingTiles_124.png'); // Grey
+		this.game.load.image('building_base_2', 'buildingTiles_107.png'); // Semi-Red
+		this.game.load.image('building_base_3', 'buildingTiles_100.png'); // Green
+		this.game.load.image('building_base_4', 'buildingTiles_099.png'); // Full red
+
+		this.game.load.image('building_middle_small_brown_1', 'buildingTiles_047.png'); // Small windows brown
+		this.game.load.image('building_middle_small_brown_2', 'buildingTiles_038.png'); // Big windows brown
+		this.game.load.image('building_middle_big_brown_1', 'buildingTiles_000.png'); // 2 Big windows brown
+		this.game.load.image('building_middle_big_brown_2', 'buildingTiles_007.png'); // 1 Big window brown
+
+		this.game.load.image('building_middle_small_beige_1', 'buildingTiles_051.png'); // Small windows beige
+		this.game.load.image('building_middle_small_beige_2', 'buildingTiles_044.png'); // Big windows beige
+		this.game.load.image('building_middle_big_beige_1', 'buildingTiles_008.png'); // 2 Big windows beige
+		this.game.load.image('building_middle_big_beige_2', 'buildingTiles_015.png'); // 1 Big window beige
+
+		this.game.load.image('building_middle_small_red_1', 'buildingTiles_054.png'); // Small windows red
+		this.game.load.image('building_middle_small_red_2', 'buildingTiles_049.png'); // Big windows red
+		this.game.load.image('building_middle_big_red_1', 'buildingTiles_016.png'); // 2 Big windows red
+		this.game.load.image('building_middle_big_red_2', 'buildingTiles_023.png'); // 1 Big window red
+
+		this.game.load.image('building_middle_small_grey_1', 'buildingTiles_056.png'); // Small windows grey
+		this.game.load.image('building_middle_small_grey_2', 'buildingTiles_053.png'); // Big windows grey
+		this.game.load.image('building_middle_big_grey_1', 'buildingTiles_024.png'); // 2 Big windows grey
+		this.game.load.image('building_middle_big_grey_2', 'buildingTiles_031.png'); // 1 Big window grey
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
