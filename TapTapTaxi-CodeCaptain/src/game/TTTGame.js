@@ -39,6 +39,8 @@ var TTTGame = (function () {
 		this.nextObstacleIndex = 0;
 		// Collection of obstacles.
 		this.arrObstacles = [];
+		this.nextQueueIndex = 0;
+		this.rightQueue = [];
 
 		// Set whether the game has started.
 		this.hasStarted = false;
@@ -61,6 +63,10 @@ var TTTGame = (function () {
 		this.game.load.image('obstacle_1');
 		this.game.load.image('gameOver');
 		this.game.load.image('empty');
+		this.game.load.image('green_end');
+		this.game.load.image('green_middle_empty');
+		this.game.load.image('green_middle_tree');
+		this.game.load.image('green_start');
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
@@ -117,6 +123,10 @@ var TTTGame = (function () {
 			this.generateRoad();
 		}
 
+		if (this.roadCount > this.nextQueueIndex) {
+			this.generateRightQueue();
+		}
+
 		this.moveTilesWithSpeed(SPEED);
 
 		if (!this.isDead) {
@@ -156,6 +166,63 @@ var TTTGame = (function () {
 
 		this.createTileAtIndex('empty', 3);
 		this.createTileAtIndex('empty', 5);
+		this.createTileAtIndex(this.rightQueueOrEmpty(), 6);
+	};
+
+	TTTGame.prototype.generateGreenQueue = function () {
+		var retval = [];
+
+		retval.push('green_start');
+
+		// Random number of middle tiles.
+		var middle = Math.round(Math.random() * 2);
+		var i = 0;
+		while (i < middle) {
+			retval.push('green_middle_empty');
+			i++;
+		}
+
+		// Random number of trees.
+		var numberOfTrees = Math.round(Math.random() * 2);
+		i = 0;
+		while (i < numberOfTrees) {
+			retval.push('green_middle_tree');
+			i++;
+		}
+
+		// Add a similar number of empty tiles after the trees.
+		i = 0;
+		while (i < middle) {
+			retval.push('green_middle_empty');
+			i++;
+		}
+
+		retval.push('green_end');
+
+		return retval;
+	};
+
+	TTTGame.prototype.generateRightQueue = function () {
+		var minimumOffset = 5;
+		var maximumOffset = 10;
+		var num = Math.random() * (maximumOffset - minimumOffset);
+		this.nextQueueIndex = this.roadCount + Math.round(num) + minimumOffset;
+		this.rightQueue.push(this.generateGreenQueue());
+	}
+
+	TTTGame.prototype.rightQueueOrEmpty = function () {
+		var retval = 'empty';
+
+		if (this.rightQueue.length !== 0) {
+			retval = this.rightQueue[0][0];
+
+			this.rightQueue[0].splice(0, 1);
+			if (this.rightQueue[0].length === 0) {
+				this.rightQueue.splice(0, 1);
+			}
+		}
+
+		return retval;
 	};
 
 	TTTGame.prototype.createTileAtIndex = function (tile, index) {
