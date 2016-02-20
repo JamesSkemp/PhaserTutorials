@@ -49,6 +49,7 @@ var TTTGame = (function () {
 		this.isDead = false;
 
 		this.logo = undefined;
+		this.btnRestart = undefined;
 		this.gameOverGraphic = undefined;
 		this.blackOverlay = undefined;
 
@@ -102,6 +103,7 @@ var TTTGame = (function () {
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
+		this.game.load.atlasJSONArray('playButton', 'playButton.png', 'playButton.json');
 	};
 
 	TTTGame.prototype.create = function () {
@@ -145,13 +147,28 @@ var TTTGame = (function () {
 		this.tapToStart.y = GAME_HEIGHT - 60;
 		this.tapToStart.blinker = new TTTBlinker(this.game, this.tapToStart);
 
+		this.btnRestart = new Phaser.Button(
+			this.game, 0, 0,
+			'playButton', // Key
+			this.restart, // Callback
+			this, // Context
+			'default', // Over
+			'default', // Out
+			'hover', // Down
+			'default' // Up
+		);
+		this.game.add.existing(this.btnRestart); // Add it to the world
+		this.btnRestart.anchor.setTo(0.5, 0.5); // Anchor point in the middle
+		this.btnRestart.x = GAME_WIDTH / 2;
+		this.btnRestart.y = this.gameOverGraphic.y + this.gameOverGraphic.height / 2 + 50;
+
 		this.counter = new TTTCounter(this.game, 0, 0);
 		this.game.add.existing(this.counter);
 		this.counter.x = GAME_WIDTH / 2;
 		this.counter.y = 40;
 
 		this.reset();
-		
+
 		this.generateLevel();
 	};
 
@@ -413,8 +430,9 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.touchDown = function () {
+		this.mouseTouchDown = true;
+
 		if (this.isDead) {
-			this.reset();
 			return;
 		}
 
@@ -422,8 +440,6 @@ var TTTGame = (function () {
 		if (!this.hasStarted) {
 			this.startGame();
 		}
-
-		this.mouseTouchDown = true;
 
 		if (!this.isJumping) {
 			this.isJumping = true;
@@ -452,6 +468,8 @@ var TTTGame = (function () {
 
 		this.blackOverlay.alpha = 0.6;
 		this.blackOverlay.visible = true;
+
+		this.btnRestart.visible = true;
 
 		var dieSpeed = SPEED / 10;
 
@@ -485,6 +503,10 @@ var TTTGame = (function () {
 		this.tapToStart.blinker.stopBlinking();
 	};
 
+	TTTGame.prototype.restart = function () {
+		this.reset();
+	};
+
 	TTTGame.prototype.reset = function () {
 		this.hasStarted = false;
 		this.isDead = false;
@@ -511,6 +533,8 @@ var TTTGame = (function () {
 
 		this.tapToStart.visible = true;
 		this.tapToStart.blinker.startBlinking();
+
+		this.btnRestart.visible = false;
 
 		this.scoreCount = 0;
 		this.counter.setScore(0, false);
