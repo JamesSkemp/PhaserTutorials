@@ -41,6 +41,7 @@ In case it provides any benefit, the following is the order in which I completed
 | Drag-Match-Engine-TypeScript | *January 2016* |
 | Swap-Match-Engine-TypeScript | *January 2016* |
 | Concentration-TypeScript | *February 2016* |
+| TapTapTaxi-CodeCaptain | *February 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
@@ -50,7 +51,7 @@ These tutorials do not cover Phaser per-se, but may still be relevant to the fra
 
 ## Tutorials to finish following
 
-- http://codecaptain.teachable.com/courses/html5-game-development-with-phaserjs
+n/a
 
 ## Future tutorials to work through
 
