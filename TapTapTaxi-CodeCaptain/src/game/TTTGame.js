@@ -68,6 +68,7 @@ var TTTGame = (function () {
 		this.game.load.image('green_middle_tree');
 		this.game.load.image('green_start');
 		this.game.load.image('water');
+		this.game.load.image('building', 'buildingTiles_124.png');
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
@@ -165,7 +166,10 @@ var TTTGame = (function () {
 
 		this.arrTiles.push(sprite);
 
-		this.createTileAtIndex('empty', 3);
+		this.createTileAtIndex('building', 0);
+		this.createTileAtIndex('tile_road_1', 1);
+		this.createTileAtIndex('empty', 2);
+		this.createTileAtIndex('building', 3);
 		this.createTileAtIndex('empty', 5);
 		this.createTileAtIndex(this.rightQueueOrEmpty(), 6);
 		this.createTileAtIndex('empty', 7);
