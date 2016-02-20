@@ -1,6 +1,6 @@
 ﻿var TTTBuilding = (function () {
 	function TTTBuilding(phaserGame, x, y) {
-		Phaser.Sprite.call(this, phaserGame, x, y, this.getRandomBase());
+		Phaser.Sprite.call(this, phaserGame, x, y, 'gameAssets', this.getRandomBase());
 
 		this.game = phaserGame;
 
@@ -32,7 +32,7 @@
 		var windowType = this.windowTypes[Math.ceil(Math.random() * this.windowTypes.length) - 1];
 
 		for (var i = 0; i < numberOfFloors; i++) {
-			var floor = this.game.make.sprite(0, 0, this.getRandomFloorForColor(color, windowType));
+			var floor = this.game.make.sprite(0, 0, 'gameAssets', this.getRandomFloorForColor(color, windowType));
 			floor.anchor.setTo(0.5, 1);
 
 			// There's a height difference on the base tiles and the floor tiles, hence this check

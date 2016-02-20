@@ -65,6 +65,7 @@ var TTTGame = (function () {
 
 	TTTGame.prototype.preload = function () {
 		this.game.load.path = 'assets/tiles/';
+		/*
 		this.game.load.image('tile_road_1');
 		this.game.load.image('taxi');
 		this.game.load.image('obstacle_1');
@@ -102,10 +103,12 @@ var TTTGame = (function () {
 		this.game.load.image('building_middle_small_grey_2', 'buildingTiles_053.png'); // Big windows grey
 		this.game.load.image('building_middle_big_grey_1', 'buildingTiles_024.png'); // 2 Big windows grey
 		this.game.load.image('building_middle_big_grey_2', 'buildingTiles_031.png'); // 1 Big window grey
+		*/
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
 		this.game.load.atlasJSONArray('playButton', 'playButton.png', 'playButton.json');
+		this.game.load.atlasJSONArray('gameAssets', 'gameAssets.png', 'gameAssets.json');
 
 		this.game.load.path = 'assets/audio/';
 		this.game.load.audio('hit', 'hit.wav');
@@ -126,7 +129,7 @@ var TTTGame = (function () {
 
 		var x = this.game.world.centerX;
 		var y = this.game.world.centerY;
-		this.taxi = new Phaser.Sprite(this.game, x, y, 'taxi');
+		this.taxi = new Phaser.Sprite(this.game, x, y, 'gameAssets', 'taxi');
 		this.taxi.anchor.setTo(0.5, 1.0);
 		this.game.add.existing(this.taxi);
 
@@ -138,17 +141,17 @@ var TTTGame = (function () {
 
 		x = this.game.world.centerX;
 		y = this.game.world.centerY - 100;
-		this.gameOverGraphic = new Phaser.Sprite(this.game, x, y, 'gameOver');
+		this.gameOverGraphic = new Phaser.Sprite(this.game, x, y, 'gameAssets', 'gameOver');
 		this.gameOverGraphic.anchor.setTo(0.5);
 		this.gameOverGraphic.visible = false;
 		this.game.add.existing(this.gameOverGraphic);
 
-		this.logo = this.game.add.sprite(0, 0, 'logo');
+		this.logo = this.game.add.sprite(0, 0, 'gameAssets', 'logo');
 		this.logo.anchor.setTo(0.5);
 		this.logo.x = GAME_WIDTH / 2;
 		this.logo.y = 100;
 
-		this.tapToStart = this.game.add.sprite(0, 0, 'tapToStart');
+		this.tapToStart = this.game.add.sprite(0, 0, 'gameAssets', 'tapToStart');
 		this.tapToStart.anchor.setTo(0.5);
 		this.tapToStart.x = GAME_WIDTH / 2;
 		this.tapToStart.y = GAME_HEIGHT - 60;
@@ -326,7 +329,7 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.createTileAtIndex = function (tile, index) {
-		var sprite = new Phaser.Sprite(this.game, 0, 0, tile);
+		var sprite = new Phaser.Sprite(this.game, 0, 0, 'gameAssets', tile);
 
 		this.addTileAtIndex(sprite, index);
 
