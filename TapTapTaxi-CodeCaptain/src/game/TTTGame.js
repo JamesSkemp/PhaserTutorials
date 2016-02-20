@@ -60,6 +60,7 @@ var TTTGame = (function () {
 		this.game.load.image('taxi');
 		this.game.load.image('obstacle_1');
 		this.game.load.image('gameOver');
+		this.game.load.image('empty');
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
@@ -152,6 +153,9 @@ var TTTGame = (function () {
 		}
 
 		this.arrTiles.push(sprite);
+
+		this.createTileAtIndex('empty', 3);
+		this.createTileAtIndex('empty', 5);
 	};
 
 	TTTGame.prototype.createTileAtIndex = function (tile, index) {
