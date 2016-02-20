@@ -67,6 +67,7 @@ var TTTGame = (function () {
 		this.game.load.image('green_middle_empty');
 		this.game.load.image('green_middle_tree');
 		this.game.load.image('green_start');
+		this.game.load.image('water');
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
@@ -167,6 +168,8 @@ var TTTGame = (function () {
 		this.createTileAtIndex('empty', 3);
 		this.createTileAtIndex('empty', 5);
 		this.createTileAtIndex(this.rightQueueOrEmpty(), 6);
+		this.createTileAtIndex('empty', 7);
+		this.createTileAtIndex('water', 8);
 	};
 
 	TTTGame.prototype.generateGreenQueue = function () {
