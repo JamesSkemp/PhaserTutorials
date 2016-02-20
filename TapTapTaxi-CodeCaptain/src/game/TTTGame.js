@@ -42,6 +42,7 @@ var TTTGame = (function () {
 		this.nextQueueIndex = 0;
 		this.rightQueue = [];
 
+		this.tapToStart = undefined;
 		// Set whether the game has started.
 		this.hasStarted = false;
 		// Track whether the player is dead.
@@ -130,6 +131,12 @@ var TTTGame = (function () {
 		this.logo.anchor.setTo(0.5);
 		this.logo.x = GAME_WIDTH / 2;
 		this.logo.y = 100;
+
+		this.tapToStart = this.game.add.sprite(0, 0, 'tapToStart');
+		this.tapToStart.anchor.setTo(0.5);
+		this.tapToStart.x = GAME_WIDTH / 2;
+		this.tapToStart.y = GAME_HEIGHT - 60;
+		this.tapToStart.blinker = new TTTBlinker(this.game, this.tapToStart);
 
 		this.counter = new TTTCounter(this.game, 0, 0);
 		this.game.add.existing(this.counter);
@@ -463,6 +470,9 @@ var TTTGame = (function () {
 		this.hasStarted = true;
 		this.logo.visible = false;
 		this.counter.visible = true;
+
+		this.tapToStart.visible = false;
+		this.tapToStart.blinker.stopBlinking();
 	};
 
 	TTTGame.prototype.reset = function () {
@@ -487,6 +497,9 @@ var TTTGame = (function () {
 
 		this.logo.visible = true;
 		this.counter.visible = false;
+
+		this.tapToStart.visible = true;
+		this.tapToStart.blinker.startBlinking();
 
 		this.scoreCount = 0;
 		this.counter.setScore(0, false);
