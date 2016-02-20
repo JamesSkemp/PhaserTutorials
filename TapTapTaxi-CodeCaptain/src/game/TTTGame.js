@@ -22,6 +22,7 @@ var TTTGame = (function () {
 
 		this.taxi = undefined;
 		this.taxiX = TAXI_START_X;
+		this.taxiTargetX = 0;
 
 		// Helps determine when to draw a new road tile.
 		this.numberOfIterations = 0;
@@ -235,7 +236,12 @@ var TTTGame = (function () {
 			num = GAME_WIDTH * 0.60;
 		}
 
-		this.taxiX = num;
+		this.taxiTargetX = num;
+
+		if (this.taxiX < this.taxiTargetX) {
+			var easing = 15;
+			this.taxiX += (this.taxiTargetX - this.taxiX) / easing;
+		}
 	};
 
 	TTTGame.prototype.touchDown = function () {
@@ -314,6 +320,7 @@ var TTTGame = (function () {
 
 		this.game.tweens.removeFrom(this.taxi);
 		this.taxiX = TAXI_START_X;
+		this.taxiTargetX = 0;
 		this.taxi.rotation = 0;
 
 		this.gameOverGraphic.visible = false;
