@@ -4,6 +4,7 @@ var TTTGame = (function () {
 	// Angle for isometric display.
 	var ANGLE = 26.55;
 	var TILE_WIDTH = 68;
+	var TILE_HEIGHT = 63;
 	var SPEED = 5;
 	var TAXI_START_X = 30;
 	var JUMP_HEIGHT = 7;
@@ -144,21 +145,28 @@ var TTTGame = (function () {
 			isObstacle = true;
 		}
 
-		// Standard way to add a sprite. However, doing this results in overlap for new tiles.
-		//var sprite = this.game.add.sprite(0, 0, 'tile_road_1');
-		// Long-handed way to create a sprite. Doesn't add it to the world immediately, however.
-		var sprite = new Phaser.Sprite(this.game, this.roadStartPosition.x, this.roadStartPosition.y, tile);
-		// Add our new sprite to the world, under all other tiles.
-		this.arrTiles[4].addChildAt(sprite, 0);
-		sprite.anchor.setTo(0.5, 1.0);
-		sprite.x = this.roadStartPosition.x;
-		sprite.y = this.roadStartPosition.y;
+		var sprite = this.createTileAtIndex(tile, 4);
 
 		if (isObstacle) {
 			this.arrObstacles.push(sprite);
 		}
 
 		this.arrTiles.push(sprite);
+	};
+
+	TTTGame.prototype.createTileAtIndex = function (tile, index) {
+		var middle = 4;
+
+		// < 0 = layer below middle, > 0 = layer above middle.
+		var offset = index - middle;
+
+		var x = this.roadStartPosition.x;
+		var y = this.roadStartPosition.y + offset * TILE_HEIGHT;
+		var sprite = new Phaser.Sprite(this.game, x, y, tile);
+		sprite.anchor.setTo(0.5, 1.0);
+		this.arrTiles[index].addChildAt(sprite, 0);
+
+		return sprite;
 	};
 
 	TTTGame.prototype.moveTilesWithSpeed = function (speed) {
