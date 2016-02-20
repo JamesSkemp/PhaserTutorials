@@ -13,7 +13,7 @@ var TTTGame = (function () {
 
 		this.mouseTouchDown = false;
 
-		// Place to hold our tiles.
+		// Place to hold our layers of tiles.
 		this.arrTiles = [];
 
 		this.jumpSpeed = JUMP_HEIGHT;
@@ -65,6 +65,14 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.create = function () {
+		var numberOfLayers = 9;
+
+		for (var i = 0; i < numberOfLayers; i++) {
+			var layer = new Phaser.Sprite(this.game, 0, 0);
+			this.game.world.addChild(layer);
+			this.arrTiles.push(layer);
+		}
+
 		this.generateRoad();
 
 		var x = this.game.world.centerX;
@@ -141,7 +149,7 @@ var TTTGame = (function () {
 		// Long-handed way to create a sprite. Doesn't add it to the world immediately, however.
 		var sprite = new Phaser.Sprite(this.game, this.roadStartPosition.x, this.roadStartPosition.y, tile);
 		// Add our new sprite to the world, under all other tiles.
-		this.game.world.addChildAt(sprite, 0);
+		this.arrTiles[4].addChildAt(sprite, 0);
 		sprite.anchor.setTo(0.5, 1.0);
 		sprite.x = this.roadStartPosition.x;
 		sprite.y = this.roadStartPosition.y;
@@ -155,16 +163,22 @@ var TTTGame = (function () {
 
 	TTTGame.prototype.moveTilesWithSpeed = function (speed) {
 		var i = this.arrTiles.length - 1;
-		// Loop through all tiles and move them down and left in an isometric way.
+		// Loop through all layers and move tiles down and left in an isometric way.
 		while (i >= 0) {
-			var sprite = this.arrTiles[i];
-			sprite.x -= speed * Math.cos(ANGLE * Math.PI / 180);
-			sprite.y += speed * Math.sin(ANGLE * Math.PI / 180);
+			var children = this.arrTiles[i].children;
+			var j = children.length - 1;
 
-			// If the sprite is off the screen remove it from our array and then destroy it.
-			if (sprite.x < -120) {
-				this.arrTiles.splice(i, 1);
-				sprite.destroy();
+			while (j >= 0) {
+				var sprite = children[j];
+				sprite.x -= speed * Math.cos(ANGLE * Math.PI / 180);
+				sprite.y += speed * Math.sin(ANGLE * Math.PI / 180);
+
+				// If the sprite is off the screen remove it from our array and then destroy it.
+				if (sprite.x < -120) {
+					this.arrTiles[i].removeChild(sprite);
+					sprite.destroy();
+				}
+				j--;
 			}
 
 			i--;
