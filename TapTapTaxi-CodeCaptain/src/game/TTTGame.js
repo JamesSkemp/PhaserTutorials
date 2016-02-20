@@ -113,6 +113,8 @@ var TTTGame = (function () {
 				this.taxiJump();
 			}
 
+			this.calculateTaxiPosition();
+
 			var pointOnRoad = this.calculatePositionOnRoadWithXPosition(this.taxiX);
 			this.taxi.x = pointOnRoad.x;
 			this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
@@ -221,6 +223,19 @@ var TTTGame = (function () {
 			// Subtract size of taxi.
 			y: this.roadStartPosition.y + opposite - 57
 		}
+	};
+
+	TTTGame.prototype.calculateTaxiPosition = function () {
+		// Move the tax closer to the right depending upon the score.
+		var multiplier = 0.025;
+		var num = TAXI_START_X + (this.scoreCount * GAME_WIDTH * multiplier);
+
+		// Keep the taxi from going too far.
+		if (num > GAME_WIDTH * 0.60) {
+			num = GAME_WIDTH * 0.60;
+		}
+
+		this.taxiX = num;
 	};
 
 	TTTGame.prototype.touchDown = function () {
