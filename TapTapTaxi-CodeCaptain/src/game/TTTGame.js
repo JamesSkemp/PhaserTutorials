@@ -69,6 +69,7 @@ var TTTGame = (function () {
 		this.game.load.image('green_start');
 		this.game.load.image('water');
 		this.game.load.image('building', 'buildingTiles_124.png');
+		this.game.load.image('building_2', 'buildingTiles_124.png');
 
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
