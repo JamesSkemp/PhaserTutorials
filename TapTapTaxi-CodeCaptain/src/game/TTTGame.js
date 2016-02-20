@@ -54,6 +54,8 @@ var TTTGame = (function () {
 		this.blackOverlay = undefined;
 
 		this.scoreCount = 0;
+
+		this.sfx = {};
 	}
 
 	TTTGame.prototype.init = function () {
@@ -104,6 +106,11 @@ var TTTGame = (function () {
 		this.game.load.path = 'assets/spritesheets/';
 		this.game.load.atlasJSONArray('numbers', 'numbers.png', 'numbers.json');
 		this.game.load.atlasJSONArray('playButton', 'playButton.png', 'playButton.json');
+
+		this.game.load.path = 'assets/audio/';
+		this.game.load.audio('hit', 'hit.wav');
+		this.game.load.audio('jump', 'jump.wav');
+		this.game.load.audio('score', 'score.wav');
 	};
 
 	TTTGame.prototype.create = function () {
@@ -166,6 +173,12 @@ var TTTGame = (function () {
 		this.game.add.existing(this.counter);
 		this.counter.x = GAME_WIDTH / 2;
 		this.counter.y = 40;
+
+		this.sfx = {
+			hit: this.game.add.audio('hit'),
+			jump: this.game.add.audio('jump'),
+			score: this.game.add.audio('score')
+		};
 
 		this.reset();
 
@@ -374,7 +387,7 @@ var TTTGame = (function () {
 				this.arrObstacles.splice(i, 1);
 
 				this.scoreCount++;
-
+				this.sfx.score.play();
 				this.counter.setScore(this.scoreCount, true);
 			}
 
@@ -443,6 +456,7 @@ var TTTGame = (function () {
 
 		if (!this.isJumping) {
 			this.isJumping = true;
+			this.sfx.jump.play();
 		}
 	};
 
@@ -461,6 +475,7 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.gameOver = function () {
+		this.sfx.hit.play();
 		this.isDead = true;
 		this.hasStarted = false;
 		this.arrObstacles = [];
