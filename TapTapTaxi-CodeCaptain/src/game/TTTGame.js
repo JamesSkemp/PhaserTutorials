@@ -50,6 +50,7 @@ var TTTGame = (function () {
 
 		this.logo = undefined;
 		this.gameOverGraphic = undefined;
+		this.blackOverlay = undefined;
 
 		this.scoreCount = 0;
 	}
@@ -119,6 +120,12 @@ var TTTGame = (function () {
 		this.taxi = new Phaser.Sprite(this.game, x, y, 'taxi');
 		this.taxi.anchor.setTo(0.5, 1.0);
 		this.game.add.existing(this.taxi);
+
+		this.blackOverlay = this.game.add.graphics(0, 0);
+		this.blackOverlay.beginFill(0x000000, 1);
+		this.blackOverlay.drawRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		this.blackOverlay.endFill();
+		this.blackOverlay.visible = false;
 
 		x = this.game.world.centerX;
 		y = this.game.world.centerY - 100;
@@ -443,6 +450,9 @@ var TTTGame = (function () {
 		this.arrObstacles = [];
 		this.gameOverGraphic.visible = true;
 
+		this.blackOverlay.alpha = 0.6;
+		this.blackOverlay.visible = true;
+
 		var dieSpeed = SPEED / 10;
 
 		var tween1 = this.game.add.tween(this.taxi);
@@ -494,6 +504,7 @@ var TTTGame = (function () {
 		this.taxi.rotation = 0;
 
 		this.gameOverGraphic.visible = false;
+		this.blackOverlay.visible = false;
 
 		this.logo.visible = true;
 		this.counter.visible = false;
