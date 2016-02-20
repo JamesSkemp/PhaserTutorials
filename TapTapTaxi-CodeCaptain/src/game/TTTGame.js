@@ -166,10 +166,10 @@ var TTTGame = (function () {
 
 		this.arrTiles.push(sprite);
 
-		this.createTileAtIndex('building', 0);
+		this.addTileAtIndex(new TTTBuilding(this.game, 0, 0), 0);
 		this.createTileAtIndex('tile_road_1', 1);
 		this.createTileAtIndex('empty', 2);
-		this.createTileAtIndex('building', 3);
+		this.addTileAtIndex(new TTTBuilding(this.game, 0, 0), 3);
 		this.createTileAtIndex('empty', 5);
 		this.createTileAtIndex(this.rightQueueOrEmpty(), 6);
 		this.createTileAtIndex('empty', 7);
@@ -233,18 +233,23 @@ var TTTGame = (function () {
 	};
 
 	TTTGame.prototype.createTileAtIndex = function (tile, index) {
-		var middle = 4;
+		var sprite = new Phaser.Sprite(this.game, 0, 0, tile);
 
+		this.addTileAtIndex(sprite, index);
+
+		return sprite;
+	};
+
+	TTTGame.prototype.addTileAtIndex = function (sprite, index) {
+		sprite.anchor.setTo(0.5, 1);
+
+		var middle = 4;
 		// < 0 = layer below middle, > 0 = layer above middle.
 		var offset = index - middle;
 
-		var x = this.roadStartPosition.x;
-		var y = this.roadStartPosition.y + offset * TILE_HEIGHT;
-		var sprite = new Phaser.Sprite(this.game, x, y, tile);
-		sprite.anchor.setTo(0.5, 1.0);
+		sprite.x = this.roadStartPosition.x;
+		sprite.y = this.roadStartPosition.y + offset * TILE_HEIGHT;
 		this.arrTiles[index].addChildAt(sprite, 0);
-
-		return sprite;
 	};
 
 	TTTGame.prototype.moveTilesWithSpeed = function (speed) {
