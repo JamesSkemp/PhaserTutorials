@@ -46,6 +46,8 @@ var TTTGame = (function () {
 		this.hasStarted = false;
 		// Track whether the player is dead.
 		this.isDead = false;
+
+		this.logo = undefined;
 		this.gameOverGraphic = undefined;
 
 		this.scoreCount = 0;
@@ -61,6 +63,8 @@ var TTTGame = (function () {
 		this.game.load.image('tile_road_1');
 		this.game.load.image('taxi');
 		this.game.load.image('obstacle_1');
+		this.game.load.image('logo');
+		this.game.load.image('tapToStart');
 		this.game.load.image('gameOver');
 		this.game.load.image('empty');
 		this.game.load.image('green_end');
@@ -121,6 +125,11 @@ var TTTGame = (function () {
 		this.gameOverGraphic.anchor.setTo(0.5);
 		this.gameOverGraphic.visible = false;
 		this.game.add.existing(this.gameOverGraphic);
+
+		this.logo = this.game.add.sprite(0, 0, 'logo');
+		this.logo.anchor.setTo(0.5);
+		this.logo.x = GAME_WIDTH / 2;
+		this.logo.y = 100;
 
 		this.counter = new TTTCounter(this.game, 0, 0);
 		this.game.add.existing(this.counter);
@@ -397,7 +406,7 @@ var TTTGame = (function () {
 
 		// Start the game the first time the player touches down.
 		if (!this.hasStarted) {
-			this.hasStarted = true;
+			this.startGame();
 		}
 
 		this.mouseTouchDown = true;
@@ -450,6 +459,12 @@ var TTTGame = (function () {
 		tweenRotate.start();
 	};
 
+	TTTGame.prototype.startGame = function () {
+		this.hasStarted = true;
+		this.logo.visible = false;
+		this.counter.visible = true;
+	};
+
 	TTTGame.prototype.reset = function () {
 		this.hasStarted = false;
 		this.isDead = false;
@@ -469,6 +484,9 @@ var TTTGame = (function () {
 		this.taxi.rotation = 0;
 
 		this.gameOverGraphic.visible = false;
+
+		this.logo.visible = true;
+		this.counter.visible = false;
 
 		this.scoreCount = 0;
 		this.counter.setScore(0, false);
