@@ -128,6 +128,8 @@ var TTTGame = (function () {
 		this.counter.y = 40;
 
 		this.reset();
+		
+		this.generateLevel();
 	};
 
 	TTTGame.prototype.update = function () {
@@ -167,6 +169,20 @@ var TTTGame = (function () {
 			this.taxi.y = pointOnRoad.y + this.currentJumpHeight;
 
 			this.checkObstacles();
+		}
+	};
+
+	TTTGame.prototype.generateLevel = function () {
+		var i = 0;
+		// Calculate how many tiles fit on screen and add 2 just to be safe
+		var numberOfTiles = Math.ceil(GAME_WIDTH / TILE_WIDTH) + 2;
+		while (i <= numberOfTiles) {
+			this.generateRoad();
+			if (i != numberOfTiles) {
+				// Move the tiles by TILE_WIDTH
+				this.moveTilesWithSpeed(TILE_WIDTH);
+			};
+			i++;
 		}
 	};
 
