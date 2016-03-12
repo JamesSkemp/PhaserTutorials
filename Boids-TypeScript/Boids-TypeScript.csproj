@@ -24,6 +24,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="app.css" />
+    <Content Include="assets\boid.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
@@ -40,6 +41,7 @@
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
+    <TypeScriptCompile Include="src\States\FlockingBehavior.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\README.md" />
