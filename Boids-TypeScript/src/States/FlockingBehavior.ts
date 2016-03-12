@@ -1,6 +1,5 @@
 ﻿module BoidsProject {
 	export class FlockingBehavior extends Phaser.State {
-
 		// Number of boids.
 		boidsAmount = 50;
 		// Speed of each boid, in pixels per second.
@@ -13,13 +12,10 @@
 		init() {
 			console.log((new Date).toISOString() + ' : Entered FlockingBehavior init()');
 			// init can receive parameters.
-
 		}
 
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered FlockingBehavior preload()');
-
-			// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
 		}
 
 		loadUpdate() {
@@ -44,26 +40,50 @@
 		}
 
 		update() {
+			// Used to calculate the centroid.
+			var centroidArray = [];
+			// Loop through each boid.
+			for (var i = 0; i < this.boidsAmount; i++) {
+				// Next loop through each boid.
+				for (var j = 0; j < this.boidsAmount; j++) {
+					// See if the boid is different, and within the sight radius.
+					if (i != j && this.boids[i].position.distance(this.boids[j].position) < this.boidRadius) {
+						// Keep track of it.
+						centroidArray.push(this.boids[j].position);
+					}
+				}
 
+				var centroid: Phaser.Point;
+				// If there are any boids nearby, determine the midpoint.
+				if (centroidArray.length > 0) {
+					centroid = Phaser.Point.centroid(centroidArray);
+				} else {
+					// Use a random point.
+					centroid = new Phaser.Point(this.game.rnd.between(0, this.game.width - 1), this.game.rnd.between(0, this.game.height - 1));
+				}
+
+				// Rotate the boid towards the centroid.
+				this.boids[i].asset.angle = this.boids[i].position.angle(centroid, true);
+				// Move towards the centroid.
+				this.game.physics.arcade.moveToXY(this.boids[i].asset, centroid.x, centroid.y, this.boidSpeed);
+				// Update the stored position.
+				this.boids[i].position.set(this.boids[i].asset.x, this.boids[i].asset.y);
+			}
 		}
 
 		paused() {
 			console.log((new Date).toISOString() + ' : Entered FlockingBehavior paused()');
-
 		}
 
 		pauseUpdate() {
-
 		}
 
 		resumed() {
 			console.log((new Date).toISOString() + ' : Entered FlockingBehavior resumed()');
-
 		}
 
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered FlockingBehavior shutdown()');
-
 		}
 	}
 }
