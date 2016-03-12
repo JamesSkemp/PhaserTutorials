@@ -42,6 +42,7 @@ In case it provides any benefit, the following is the order in which I completed
 | Swap-Match-Engine-TypeScript | *January 2016* |
 | Concentration-TypeScript | *February 2016* |
 | TapTapTaxi-CodeCaptain | *February 2016* |
+| Boids-TypeScript | *March 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
