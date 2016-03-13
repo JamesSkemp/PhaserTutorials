@@ -10,6 +10,7 @@
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
 			this.load.image('boid');
+			this.load.image('target');
 		}
 
 		create() {
