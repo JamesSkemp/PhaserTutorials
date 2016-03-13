@@ -14,6 +14,7 @@
 			this.state.add('Preloader', Preloader);
 			this.state.add('MainMenu', MainMenu);
 			this.state.add('FlockingBehavior', FlockingBehavior);
+			this.state.add('SteeringBehavior', SteeringBehavior);
 
 			// Start the initial game state.
 			this.state.start('Boot');
