@@ -68,10 +68,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\Phaser Logo Print Quality.png" />
     <Content Include="assets\Phaser-Logo-Small.png" />
     <Content Include="index.html" />
     <Content Include="lib\phaser-2.4.4.js" />
     <Content Include="lib\phaser-2.4.4.min.js" />
+    <Content Include="loading.html" />
     <Content Include="src\game.js" />
     <Content Include="Web.config" />
   </ItemGroup>

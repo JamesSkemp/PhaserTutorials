@@ -1,0 +1,230 @@
+﻿<html>
+<head>
+	<meta charset="UTF-8">
+	<title>0002game</title>
+	<script src="lib/phaser-2.4.4.min.js"></script>
+	<script>
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var platforms;
+var player;
+var cursors;
+var tehla1;
+var tehla2;
+var tehla3;
+var tehla4;
+var tehla5;
+var poc=0;
+var text=null;
+var style=null;
+var delta = 25;
+var postext = 150;
+var rychlost=1;
+var text2;
+var trafil1=false;var trafil2=false;var trafil3=false;var trafil4=false;var trafil5=false;
+
+function preload() {
+	text2 = game.add.text(32, 32, 'Loading...', { fill: '#ffffff' });
+	game.load.onLoadStart.add(loadStart, this);
+	game.load.onFileComplete.add(fileComplete, this);
+	game.load.onLoadComplete.add(loadComplete, this);
+
+	game.load.image('logo-1', 'assets/Phaser Logo Print Quality.png?1');
+	game.load.image('logo-2', 'assets/Phaser Logo Print Quality.png?2');
+	game.load.image('logo-3', 'assets/Phaser Logo Print Quality.png?3');
+	game.load.image('logo-4', 'assets/Phaser Logo Print Quality.png?4');
+	game.load.image('logo-5', 'assets/Phaser Logo Print Quality.png?5');
+	game.load.image('logo-6', 'assets/Phaser Logo Print Quality.png?6');
+	game.load.image('logo-7', 'assets/Phaser Logo Print Quality.png?7');
+	game.load.image('logo-8', 'assets/Phaser Logo Print Quality.png?8');
+	game.load.image('logo-9', 'assets/Phaser Logo Print Quality.png?9');
+}
+
+function loadStart() {
+    text2.setText("Loading...");
+}
+
+function loadComplete() {
+
+    text2.setText("Loading Completed.");
+
+}
+
+
+function fileComplete(progress, cacheKey, success, totalLoaded, totalFiles) {
+
+    text2.setText("File Complete: " + progress + "% - " + totalLoaded + " out of " + totalFiles);
+
+}
+
+
+function create() {
+
+
+    music = game.add.audio('boden');
+
+    //music.play();
+    sounds = [music];
+    game.sound.setDecodedCallback(sounds, start, this);
+    game.world.setBounds(0, 0, 800, 600);
+
+    cursors = game.input.keyboard.createCursorKeys();
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky');
+    //var tehla = game.add.sprite(3, 3, 'brick');
+     tehla1 = game.add.sprite((Math.random() * 800), 0.2*game.world.randomY, 'brick');
+     tehla2 = game.add.sprite((Math.random() * 800), 0.2*game.world.randomY, 'brick');
+     tehla3 = game.add.sprite((Math.random() * 800), 0.2*game.world.randomY, 'brick');
+     tehla4 = game.add.sprite((Math.random() * 800), 0.2*game.world.randomY, 'brick');
+     tehla5 = game.add.sprite((Math.random() * 800), 0.2*game.world.randomY, 'brick');
+
+    //game.add.sprite(0, 0, 'wheelbarrow');
+
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    platforms = game.add.group();
+
+    //  We will enable physics for any object that is created in this group
+    platforms.enableBody = true;
+
+    // Here we create the ground.
+    var ground = platforms.create(0, game.world.height - 64, 'ground');
+
+    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    //ground.scale.setTo(2, 2);
+
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
+
+    //  Now let's create two ledges
+    //var ledge = platforms.create(400, 400, 'ground');
+
+    //ledge.body.immovable = true;
+
+    //ledge = platforms.create(-150, 250, 'ground');
+
+    //ledge.body.immovable = true;
+
+    player = game.add.sprite(32, game.world.height - 120, 'wheelbarrow');
+    //player.body.bounce.y = 0.2;
+    //player.body.gravity.y = 300;
+    //player.body.collideWorldBounds = true;
+    style = { font: "25px Arial", fill: "#00ffff", align: "center" };
+
+    text = game.add.text(125, 25, "Lod zasiahli: ", style);
+    text.anchor.set(0.5);
+
+
+
+
+}
+
+function start() {
+
+    music.loopFull(1.0);
+
+}
+
+function cikoniec(){
+    if(poc==5){
+        alert('Uz ta zasiahlo 5 nepriatelov. Spustam hru znova!');
+        location.reload();
+    }
+}
+
+function update() {
+
+
+        //if(tehla1.y<game.height) game.add.tween(tehla1).to({ y: game.height*1.1 }, 1000, Phaser.Easing.Linear.None, true);
+        if(tehla1.y<game.height) tehla1.y+=rychlost;
+        if(tehla1.y>=game.height) {tehla1.y=game.rnd.integerInRange(20, 200);tehla1.x=game.rnd.integerInRange(20, 500);}
+
+        if(Math.abs(tehla1.y-player.y)<delta && Math.abs(tehla1.x-player.x)<delta && trafil1==false ){
+            poc=poc+1;
+            postext+=50;
+            tehla1.destroy();
+            text = game.add.text(postext, 35, "1", style);
+            trafil1 = true;
+        }
+
+        //if(tehla2.y<game.height) game.add.tween(tehla2).to({ y: game.height*1.1 }, 1000, Phaser.Easing.Linear.None, true);
+        if(tehla2.y<game.height) tehla2.y+=rychlost;
+        if(tehla2.y>=game.height) {tehla2.y=game.rnd.integerInRange(20, 200);tehla2.x=game.rnd.integerInRange(20, 500);}
+
+        if(Math.abs(tehla2.y-player.y)<delta && Math.abs(tehla2.x-player.x)<delta && trafil2==false ){
+            poc=poc+1;
+            postext+=50;
+            tehla2.destroy();
+            text = game.add.text(postext, 35, "2", style);
+            trafil2 = true;
+        }
+
+        //if(tehla3.y<game.height) game.add.tween(tehla3).to({ y: game.height*1.1 }, 1000, Phaser.Easing.Linear.None, true);
+        if(tehla3.y<game.height) tehla3.y+=rychlost;
+        if(tehla3.y>=game.height) {tehla3.y=game.rnd.integerInRange(20, 200);tehla3.x=game.rnd.integerInRange(20, 500);}
+
+        if(Math.abs(tehla3.y-player.y)<delta && Math.abs(tehla3.x-player.x)<delta && trafil3==false ){
+            poc=poc+1;
+            postext+=50;
+            tehla3.destroy();
+            text = game.add.text(postext, 35, "3", style);
+            trafil3 = true;
+        }
+
+        //if(tehla4.y<game.height) game.add.tween(tehla4).to({ y: game.height*1.1 }, 1000, Phaser.Easing.Linear.None, true);
+        if(tehla4.y<game.height) tehla4.y+=rychlost;
+        if(tehla4.y>=game.height) {tehla4.y=game.rnd.integerInRange(20, 200);tehla4.x=game.rnd.integerInRange(20, 500);}
+
+        if(Math.abs(tehla4.y-player.y)<delta && Math.abs(tehla4.x-player.x)<delta && trafil4==false ){
+            poc=poc+1;
+            postext+=50;
+            tehla4.destroy();
+            text = game.add.text(postext, 35, "4", style);
+            trafil4 = true;
+        }
+
+        //if(tehla5.y<game.height) game.add.tween(tehla5).to({ y: game.height*1.1 }, 1000, Phaser.Easing.Linear.None, true);
+        if(tehla5.y<game.height) tehla5.y+=rychlost;
+        if(tehla5.y>=game.height) {tehla5.y=game.rnd.integerInRange(20, 200);tehla5.x=game.rnd.integerInRange(20, 500);}
+
+        if(Math.abs(tehla5.y-player.y)<delta && Math.abs(tehla5.x-player.x)<delta && trafil5==false ){
+            poc=poc+1;
+            postext+=50;
+            tehla4.destroy();
+            text = game.add.text(postext, 35, "5", style);
+            trafil5 = true;
+        }
+
+    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
+    {
+        if(player.x>0) player.x -= 15;
+        cikoniec();
+
+    }
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+    {
+        if(player.x<660) player.x += 15;
+        cikoniec();
+
+    }
+
+
+    game.physics.arcade.collide(player, platforms);
+}
+
+function render() {
+
+    game.debug.text('Hold left/right to move the player.');
+
+}
+
+	</script>
+</head>
+<body>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+</body>
+</html>
