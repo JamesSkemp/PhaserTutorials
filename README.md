@@ -43,6 +43,7 @@ In case it provides any benefit, the following is the order in which I completed
 | Concentration-TypeScript | *February 2016* |
 | TapTapTaxi-CodeCaptain | *February 2016* |
 | Boids-TypeScript | *March 2016* |
+| HiLo-TypeScript | *March 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
@@ -63,7 +64,6 @@ n/a
 - https://github.com/timkg/phaser-super-coin-box
 - https://github.com/dmaslov/super-coin-box
 - https://github.com/rbudiharso/Phaser-Match3
-- http://www.emanueleferonato.com/2014/08/28/phaser-tutorial-understanding-phaser-states/
 - http://www.emanueleferonato.com/2016/02/23/html5-prototype-of-ios-game-perfect-square-made-with-phaser-using-only-tweens-in-100-lines-of-code/
 - Level selection series
 	- http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/
