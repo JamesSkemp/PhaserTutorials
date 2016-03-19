@@ -71,3 +71,4 @@ n/a
 	- http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 	- http://www.emanueleferonato.com/2015/01/21/create-an-html5-level-selection-screen-using-a-scrollable-map-like-in-hero-emblems-game-using-phaser/
 	- http://www.emanueleferonato.com/2016/01/20/phaser-tutorial-creation-of-a-html5-character-selection-screen-like-the-one-in-crossy-road-ios-smash-hit/
+	- http://www.emanueleferonato.com/2016/01/25/create-a-html5-level-select-screen-controlled-by-swipe-without-actually-checking-for-swipes/
