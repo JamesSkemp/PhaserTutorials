@@ -24,6 +24,13 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="app.css" />
+    <Content Include="assets\gameover.png" />
+    <Content Include="assets\gametitle.png" />
+    <Content Include="assets\higher.png" />
+    <Content Include="assets\loading.png" />
+    <Content Include="assets\lower.png" />
+    <Content Include="assets\numbers.png" />
+    <Content Include="assets\play.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
@@ -53,6 +60,8 @@
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
+    <TypeScriptCompile Include="src\States\GameOver.ts" />
+    <TypeScriptCompile Include="src\States\TheGame.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
   </ItemGroup>
   <PropertyGroup>
