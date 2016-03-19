@@ -64,3 +64,10 @@ n/a
 - https://github.com/dmaslov/super-coin-box
 - https://github.com/rbudiharso/Phaser-Match3
 - http://www.emanueleferonato.com/2014/08/28/phaser-tutorial-understanding-phaser-states/
+- http://www.emanueleferonato.com/2016/02/23/html5-prototype-of-ios-game-perfect-square-made-with-phaser-using-only-tweens-in-100-lines-of-code/
+- Level selection series
+	- http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/
+	- http://www.emanueleferonato.com/2014/12/05/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars-finished-prototype/
+	- http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
+	- http://www.emanueleferonato.com/2015/01/21/create-an-html5-level-selection-screen-using-a-scrollable-map-like-in-hero-emblems-game-using-phaser/
+	- http://www.emanueleferonato.com/2016/01/20/phaser-tutorial-creation-of-a-html5-character-selection-screen-like-the-one-in-crossy-road-ios-smash-hit/
