@@ -2,13 +2,21 @@
 	export class Preloader extends Phaser.State {
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered Preloader preload()');
-
+			
+			var loadingBar = this.add.sprite(160, 240, 'loading');
+			loadingBar.anchor.setTo(0.5);
 			// If your game uses a graphic while assets are loaded, you would create the sprite and then display it via the below.
-			//this.load.setPreloadSprite(this.preloadSprite);
+			this.load.setPreloadSprite(loadingBar);
 
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
+			this.game.load.spritesheet('numbers', 'numbers.png', 100, 100);
+			this.game.load.image('gametitle');
+			this.game.load.image('play');
+			this.game.load.image('higher');
+			this.game.load.image('lower');
+			this.game.load.image('gameover');
 		}
 
 		create() {
