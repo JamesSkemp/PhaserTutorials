@@ -1,9 +1,10 @@
 ﻿module HiLoProject {
 	export class GameOver extends Phaser.State {
-		init() {
+		init(score) {
 			console.log((new Date).toISOString() + ' : Entered GameOver init()');
 			// init can receive parameters.
 
+			alert('Score: ' + score);
 		}
 
 		preload() {
@@ -19,18 +20,14 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered GameOver create()');
 
-		}
+			var gameOverTitle = this.game.add.sprite(160, 160, 'gameover');
+			gameOverTitle.anchor.setTo(0.5);
 
-		update() {
-
+			var playButton = this.game.add.button(160, 320, 'play', this.playGame, this);
 		}
 
 		paused() {
 			console.log((new Date).toISOString() + ' : Entered GameOver paused()');
-
-		}
-
-		pauseUpdate() {
 
 		}
 
@@ -42,6 +39,10 @@
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered GameOver shutdown()');
 
+		}
+
+		playGame() {
+			this.game.state.start('TheGame');
 		}
 	}
 }
