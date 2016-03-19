@@ -1,10 +1,12 @@
 ﻿module HiLoProject {
 	export class GameOver extends Phaser.State {
+		score: number | string = 0;
+
 		init(score) {
 			console.log((new Date).toISOString() + ' : Entered GameOver init()');
 			// init can receive parameters.
 
-			alert('Score: ' + score);
+			this.score = score;
 		}
 
 		preload() {
@@ -22,6 +24,9 @@
 
 			var gameOverTitle = this.game.add.sprite(160, 160, 'gameover');
 			gameOverTitle.anchor.setTo(0.5);
+
+			var finalScore = this.game.add.text(this.game.width / 2, this.game.height / 2, this.score.toString() + ' correct', { fill: '#fff', fontSize: '32px' });
+			finalScore.anchor.setTo(0.5);
 
 			var playButton = this.game.add.button(160, 320, 'play', this.playGame, this);
 		}
