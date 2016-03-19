@@ -1,0 +1,93 @@
+{"frames": [
+{
+	"filename": "base",
+	"frame": {"x":1,"y":95,"w":59,"h":29},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":59,"h":29},
+	"sourceSize": {"w":60,"h":30}
+},
+{
+	"filename": "cannon",
+	"frame": {"x":97,"y":48,"w":27,"h":14},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":14},
+	"sourceSize": {"w":27,"h":14}
+},
+{
+	"filename": "dron1",
+	"frame": {"x":71,"y":139,"w":31,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":31,"h":31},
+	"sourceSize": {"w":31,"h":31}
+},
+{
+	"filename": "dron2",
+	"frame": {"x":38,"y":139,"w":31,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":31,"h":31},
+	"sourceSize": {"w":31,"h":31}
+},
+{
+	"filename": "missile",
+	"frame": {"x":97,"y":64,"w":28,"h":11},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":11},
+	"sourceSize": {"w":28,"h":11}
+},
+{
+	"filename": "Explosion001",
+	"frame": {"x":1,"y":126,"w":35,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":10,"w":35,"h":36},
+	"sourceSize": {"w":50,"h":54}
+},
+{
+	"filename": "Explosion002",
+	"frame": {"x":62,"y":95,"w":40,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":7,"w":40,"h":42},
+	"sourceSize": {"w":50,"h":54}
+},
+{
+	"filename": "Explosion003",
+	"frame": {"x":52,"y":1,"w":47,"h":45},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":5,"w":47,"h":45},
+	"sourceSize": {"w":50,"h":54}
+},
+{
+	"filename": "Explosion004",
+	"frame": {"x":1,"y":1,"w":49,"h":45},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":4,"w":49,"h":45},
+	"sourceSize": {"w":50,"h":54}
+},
+{
+	"filename": "Explosion005",
+	"frame": {"x":1,"y":48,"w":47,"h":44},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":47,"h":44},
+	"sourceSize": {"w":50,"h":54}
+},
+{
+	"filename": "Explosion006",
+	"frame": {"x":50,"y":48,"w":45,"h":45},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":7,"w":45,"h":45},
+	"sourceSize": {"w":50,"h":54}
+}],
+"meta": {
+	"app": "Spritor"
+}
+}
