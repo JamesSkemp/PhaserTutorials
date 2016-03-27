@@ -78,3 +78,10 @@ n/a
 	- http://www.emanueleferonato.com/2016/03/18/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser/
 	- http://www.emanueleferonato.com/2016/03/22/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser-step-2/
 	- part 3 appears to be in progress
+
+## Tutorial creators worth following
+
+The following sites are worth following if you're interested in Phaser tutorials.
+
+- [Emanuele Feronato](http://www.emanueleferonato.com/) posts tutorials on a regular basis, and sells a couple complete tutorials.
+- [GameDev Academy](https://gamedevacademy.org/) has a mix of posts, including in Phaser. This is done by the folks behind Zenva, which has a pretty good online series for sale that covers creating a variety of games in Phaser.
