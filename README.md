@@ -78,6 +78,8 @@ n/a
 	- http://www.emanueleferonato.com/2016/03/18/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser/
 	- http://www.emanueleferonato.com/2016/03/22/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser-step-2/
 	- part 3 appears to be in progress
+- Official tutorials
+	- In particular http://phaser.io/tutorials/coding-tips-007
 
 ## Tutorial creators worth following
 
