@@ -78,6 +78,10 @@ n/a
 	- http://www.emanueleferonato.com/2016/03/18/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser/
 	- http://www.emanueleferonato.com/2016/03/22/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser-step-2/
 	- part 3 appears to be in progress
+- Crazy Clocks series
+	- http://www.emanueleferonato.com/2015/12/29/create-a-html5-game-like-ios-hit-clocks-the-game-using-phaser-and-arcade-physics/
+	- http://www.emanueleferonato.com/2016/01/04/clocks-the-game-html5-prototype-step-2-how-to-select-starting-clock/
+	- http://www.emanueleferonato.com/2016/01/07/clocks-the-game-html5-prototype-step-3-actually-playing-the-game/
 - Official tutorials
 	- In particular http://phaser.io/tutorials/coding-tips-007
 
