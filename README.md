@@ -46,6 +46,7 @@ In case it provides any benefit, the following is the order in which I completed
 | TapTapTaxi-CodeCaptain | *February 2016* |
 | Boids-TypeScript | *March 2016* |
 | HiLo-TypeScript | *March 2016* |
+| TwentyFortyEight-TypeScript | *April 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
@@ -66,7 +67,9 @@ n/a
 - https://github.com/timkg/phaser-super-coin-box
 - https://github.com/dmaslov/super-coin-box
 - https://github.com/rbudiharso/Phaser-Match3
-- http://www.emanueleferonato.com/2016/02/23/html5-prototype-of-ios-game-perfect-square-made-with-phaser-using-only-tweens-in-100-lines-of-code/
+- Perfect Square series
+	- http://www.emanueleferonato.com/2016/02/23/html5-prototype-of-ios-game-perfect-square-made-with-phaser-using-only-tweens-in-100-lines-of-code/
+	- http://www.emanueleferonato.com/2016/03/29/html5-prototype-of-ios-game-perfect-square-step-2-adding-levels/
 - Level selection series
 	- http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/
 	- http://www.emanueleferonato.com/2014/12/05/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars-finished-prototype/
