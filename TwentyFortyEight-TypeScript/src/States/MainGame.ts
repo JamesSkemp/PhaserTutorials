@@ -109,7 +109,6 @@
 		}
 
 		moveRight() {
-			console.log('right');
 			if (this.canMove) {
 				this.canMove = false;
 
@@ -161,7 +160,11 @@
 		}
 
 		endMove(moved: boolean) {
-
+			if (moved) {
+				this.addTwo();
+			} else {
+				this.canMove = true;
+			}
 		}
 
 		addTwo() {
@@ -192,6 +195,7 @@
 			fadeIn.to({ alpha: 1 }, 250);
 
 			fadeIn.onComplete.add(function () {
+				this.updateNumbers();
 				this.canMove = true;
 			}, this);
 
