@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module TwentyFortyEightGame {
 	export class Boot extends Phaser.State {
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Boot init()');
