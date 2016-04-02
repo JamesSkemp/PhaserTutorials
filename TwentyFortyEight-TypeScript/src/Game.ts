@@ -13,6 +13,7 @@
 			this.state.add('Boot', Boot);
 			this.state.add('Preloader', Preloader);
 			this.state.add('MainMenu', MainMenu);
+			this.state.add('MainGame', MainGame);
 
 			// Start the initial game state.
 			this.state.start('Boot');
