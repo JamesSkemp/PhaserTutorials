@@ -211,6 +211,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boids-TypeScript", "Boids-T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiLo-TypeScript", "HiLo-TypeScript\HiLo-TypeScript.csproj", "{15EEC5ED-8FED-4366-B46B-5042B69B4462}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwentyFortyEight-TypeScript", "TwentyFortyEight-TypeScript\TwentyFortyEight-TypeScript.csproj", "{0AA6C13B-DAEC-4EE2-A016-8F00BF3BE5F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -325,6 +327,10 @@ Global
 		{15EEC5ED-8FED-4366-B46B-5042B69B4462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15EEC5ED-8FED-4366-B46B-5042B69B4462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15EEC5ED-8FED-4366-B46B-5042B69B4462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA6C13B-DAEC-4EE2-A016-8F00BF3BE5F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA6C13B-DAEC-4EE2-A016-8F00BF3BE5F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA6C13B-DAEC-4EE2-A016-8F00BF3BE5F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA6C13B-DAEC-4EE2-A016-8F00BF3BE5F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
