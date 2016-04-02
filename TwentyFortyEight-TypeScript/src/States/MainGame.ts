@@ -97,7 +97,32 @@
 		}
 
 		moveUp() {
-			console.log('up');
+			if (this.canMove) {
+				this.canMove = false;
+				var moved = false;
+				this.tileSprites.sort("y", Phaser.Group.SORT_ASCENDING);
+				this.tileSprites.forEach(function (item) {
+					var row = this.toRow(item.pos);
+					var col = this.toCol(item.pos);
+					if (row > 0) {
+						var remove = false;
+						for (var i = row - 1; i >= 0; i--) {
+							if (this.cells[i * 4 + col] != 0) {
+								if (this.cells[i * 4 + col] == this.cells[row * 4 + col]) {
+									remove = true;
+									i--;
+								}
+								break
+							}
+						}
+						if (row != i + 1) {
+							moved = true;
+							this.moveTile(item, row * 4 + col, (i + 1) * 4 + col, remove);
+						}
+					}
+				}, this);
+				this.endMove(moved);
+			}
 		}
 
 		moveDown() {
