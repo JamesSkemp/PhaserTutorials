@@ -124,6 +124,8 @@
 
 			// Create a new sprite to add to the game.
 			var tile = this.game.add.sprite(this.toCol(randomValue) * Game.TILE_SIZE, this.toRow(randomValue) * Game.TILE_SIZE, 'tile');
+			// Tile should initially be transparent.
+			tile.alpha = 0;
 
 			// Text to display within the tile.
 			var text = this.game.add.text(Game.TILE_SIZE / 2, Game.TILE_SIZE / 2, "2", { font: '16px Arial bold', align: 'center' });
@@ -131,6 +133,16 @@
 			tile.addChild(text);
 
 			this.tileSprites.add(tile);
+
+			// Fade in the new tile.
+			var fadeIn = this.game.add.tween(tile);
+			fadeIn.to({ alpha: 1 }, 250);
+
+			fadeIn.onComplete.add(function () {
+				this.canMove = true;
+			}, this);
+
+			fadeIn.start();
 		}
 
 		toCol(cell: number): number {
@@ -139,6 +151,10 @@
 
 		toRow(cell: number): number {
 			return Math.floor(cell / 4);
+		}
+
+		updateNumbers() {
+
 		}
 	}
 }
