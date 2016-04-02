@@ -54,6 +54,7 @@
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
+    <TypeScriptCompile Include="src\States\MainGame.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
   </ItemGroup>
   <PropertyGroup>
