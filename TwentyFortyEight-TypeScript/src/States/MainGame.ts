@@ -124,6 +124,13 @@
 
 			// Create a new sprite to add to the game.
 			var tile = this.game.add.sprite(this.toCol(randomValue) * Game.TILE_SIZE, this.toRow(randomValue) * Game.TILE_SIZE, 'tile');
+
+			// Text to display within the tile.
+			var text = this.game.add.text(Game.TILE_SIZE / 2, Game.TILE_SIZE / 2, "2", { font: '16px Arial bold', align: 'center' });
+			text.anchor.setTo(0.5);
+			tile.addChild(text);
+
+			this.tileSprites.add(tile);
 		}
 
 		toCol(cell: number): number {
