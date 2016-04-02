@@ -8,7 +8,7 @@
 			0, 0, 0, 0);
 
 		// this is the group which will contain all tile sprites
-		tileSprites;
+		tileSprites: Phaser.Group;
 
 		// Keyboard input.
 		upKey: Phaser.Key;
@@ -65,6 +65,12 @@
 			this.leftKey.onDown.add(this.moveLeft, this);
 			this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 			this.rightKey.onDown.add(this.moveRight, this);
+
+			this.tileSprites = this.game.add.group();
+
+			// Add two new cells to the game initially.
+			this.addTwo();
+			this.addTwo();
 		}
 
 		update() {
@@ -104,6 +110,28 @@
 
 		moveRight() {
 			console.log('right');
+		}
+
+		addTwo() {
+			// Find an empty tile.
+			var randomValue;
+			do {
+				randomValue = Math.floor(Math.random() * 16);
+			} while (this.cells[randomValue] != 0);
+
+			// Populate the cell with a value.
+			this.cells[randomValue] = 2;
+
+			// Create a new sprite to add to the game.
+			var tile = this.game.add.sprite(this.toCol(randomValue) * Game.TILE_SIZE, this.toRow(randomValue) * Game.TILE_SIZE, 'tile');
+		}
+
+		toCol(cell: number): number {
+			return cell % 4;
+		}
+
+		toRow(cell: number): number {
+			return Math.floor(cell / 4);
 		}
 	}
 }
