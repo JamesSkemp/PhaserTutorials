@@ -110,6 +110,58 @@
 
 		moveRight() {
 			console.log('right');
+			if (this.canMove) {
+				this.canMove = false;
+
+				var moved = false;
+
+				this.tileSprites.sort('x', Phaser.Group.SORT_DESCENDING);
+				this.tileSprites.forEach(function (item) {
+					var row = this.toRow(item.pos);
+					var col = this.toCol(item.pos);
+					if (col < 3) {
+						var remove = false;
+						for (var i = col + 1; i <= 3; i++) {
+							if (this.cells[row * 4 + i] != 0) {
+								if (this.cells[row * 4 + i] == this.cells[row * 4 + col]) {
+									remove = true;
+									i++;
+								}
+								break;
+							}
+						}
+						if (col != i - 1) {
+							moved = true;
+							this.moveTile(item, row * 4 + col, row * 4 + i - 1, remove);
+						}
+					}
+				}, this);
+				this.endMove(moved);
+			}
+		}
+
+		moveTile(tile: Tile, from, to, remove) {
+			this.cells[to] = this.cells[from];
+			this.cells[from] = 0;
+			tile.pos = to;
+
+			var movement = this.game.add.tween(tile);
+			movement.to({ x: Game.TILE_SIZE * this.toCol(to), y: Game.TILE_SIZE * this.toRow(to) }, 150);
+
+			if (remove) {
+				// If we're removing a tile, we need to double the tile we're moving it to.
+				this.cells[to] *= 2;
+				// Then destroy the tile we moved.
+				movement.onComplete.add(function () {
+					tile.destroy();
+				});
+			}
+
+			movement.start();
+		}
+
+		endMove(moved: boolean) {
+
 		}
 
 		addTwo() {
@@ -155,7 +207,12 @@
 		}
 
 		updateNumbers() {
+			this.tileSprites.forEach(function (sprite) {
+				var value = this.cells[sprite.pos];
+				sprite.getChildAt(0).text = value;
+				sprite.tint = this.colors[value];
 
+			}, this);
 		}
 	}
 }
