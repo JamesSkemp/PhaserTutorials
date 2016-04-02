@@ -123,7 +123,8 @@
 			this.cells[randomValue] = 2;
 
 			// Create a new sprite to add to the game.
-			var tile = this.game.add.sprite(this.toCol(randomValue) * Game.TILE_SIZE, this.toRow(randomValue) * Game.TILE_SIZE, 'tile');
+			var tile = new Tile(this.game, this.toCol(randomValue) * Game.TILE_SIZE, this.toRow(randomValue) * Game.TILE_SIZE);
+			tile.pos = randomValue;
 			// Tile should initially be transparent.
 			tile.alpha = 0;
 
