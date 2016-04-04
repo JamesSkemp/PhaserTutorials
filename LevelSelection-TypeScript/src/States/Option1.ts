@@ -1,9 +1,38 @@
 ﻿module LevelSelectProject {
 	export class Option1 extends Phaser.State {
+
+		// Number of thumbnail rows.
+		thumbRows = 5;
+		// Number of thumbnail cololumns.
+		thumbCols = 4;
+		// Width of a thumbnail, in pixels.
+		thumbWidth = 64;
+		// Height of a thumbnail, in pixels.
+		thumbHeight = 64;
+		// Space between thumbnails, in pixels.
+		thumbSpacing = 8;
+		// Array with finished levels and stars collected.
+		// 0 = playable yet unfinished level
+		// 1, 2, 3 = level finished with 1, 2, 3 stars
+		// 4 = locked
+		starsArray = [1, 2, 1, 2, 3, 3, 3, 2, 2, 1, 3, 1, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4];
+		// Number of pages to show all levels.
+		pages = this.starsArray.length / (this.thumbRows * this.thumbCols);
+		// Group to place all level thumbnails.
+		levelThumbsGroup;
+		// Current page.
+		currentPage = 0;
+		// Arrows to navigate through level pages.
+		leftArrow;
+		rightArrow;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Option1 init()');
 			// init can receive parameters.
 
+			// Uncomment to place our game in the center of the screen both horizontally and vertically.
+			this.scale.pageAlignHorizontally = true;
+			this.scale.pageAlignVertically = true;
 		}
 
 		preload() {
