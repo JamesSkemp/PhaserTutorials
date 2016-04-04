@@ -76,12 +76,14 @@
 					for (var j = 0; j < this.thumbCols; j++) {
 						var levelNumber = i * this.thumbCols + j + p * (this.thumbRows * this.thumbCols);
 
-						var levelThumb = this.game.add.button(
+						var levelThumb = new LevelButton(
+							this.game,
 							offsetX + j * (this.thumbWidth + this.thumbSpacing),
 							offsetY + i * (this.thumbHeight + this.thumbSpacing),
 							'levels', this.thumbClicked, this);
 
 						levelThumb.frame = this.starsArray[levelNumber];
+						levelThumb.levelNumber = levelNumber + 1;
 
 						this.levelThumbsGroup.add(levelThumb);
 
@@ -129,7 +131,7 @@
 			console.log(button);
 		}
 
-		thumbClicked(button) {
+		thumbClicked(button: LevelButton) {
 			console.log('thumb clicked');
 			console.log(button);
 		}

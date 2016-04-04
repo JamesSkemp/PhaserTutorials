@@ -38,6 +38,7 @@
     <TypeScriptCompile Include="lib\phaser.comments.d.ts" />
     <TypeScriptCompile Include="lib\pixi.comments.d.ts" />
     <TypeScriptCompile Include="src\Game.ts" />
+    <TypeScriptCompile Include="src\Prefabs\LevelButton.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
