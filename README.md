@@ -47,6 +47,7 @@ In case it provides any benefit, the following is the order in which I completed
 | Boids-TypeScript | *March 2016* |
 | HiLo-TypeScript | *March 2016* |
 | TwentyFortyEight-TypeScript | *April 2016* |
+| LevelSelection-TypeScript | *April 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
@@ -72,7 +73,7 @@ n/a
 	- http://www.emanueleferonato.com/2016/03/29/html5-prototype-of-ios-game-perfect-square-step-2-adding-levels/
 	- part 3 appears to be in progress
 - Level selection series
-	- http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/
+	- ~~http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/~~
 	- http://www.emanueleferonato.com/2014/12/05/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars-finished-prototype/
 	- http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 	- http://www.emanueleferonato.com/2015/01/21/create-an-html5-level-selection-screen-using-a-scrollable-map-like-in-hero-emblems-game-using-phaser/
