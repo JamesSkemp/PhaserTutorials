@@ -23,8 +23,8 @@
 		// Current page.
 		currentPage = 0;
 		// Arrows to navigate through level pages.
-		leftArrow;
-		rightArrow;
+		leftArrow: Phaser.Button;
+		rightArrow: Phaser.Button;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Option1 init()');
@@ -48,6 +48,18 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Option1 create()');
 
+			// Setup both arrows.
+			this.leftArrow = this.game.add.button(50, 420, 'level_arrows', this.arrowClicked);
+			this.leftArrow.anchor.setTo(0.5);
+			this.leftArrow.frame = 0;
+			this.leftArrow.alpha = 0.3;
+
+			this.rightArrow = this.game.add.button(270, 420, 'level_arrows', this.arrowClicked);
+			this.rightArrow.anchor.setTo(0.5);
+			this.rightArrow.frame = 1;
+			if (this.pages == 1) {
+				this.rightArrow.alpha = 0.3;
+			}
 		}
 
 		update() {
@@ -71,6 +83,11 @@
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered Option1 shutdown()');
 
+		}
+
+		arrowClicked(button) {
+			console.log('arrow clicked');
+			console.log(button);
 		}
 	}
 }
