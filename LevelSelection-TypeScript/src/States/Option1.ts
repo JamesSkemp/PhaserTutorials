@@ -49,12 +49,12 @@
 			console.log((new Date).toISOString() + ' : Entered Option1 create()');
 
 			// Setup both arrows.
-			this.leftArrow = this.game.add.button(50, 420, 'level_arrows', this.arrowClicked);
+			this.leftArrow = this.game.add.button(50, 420, 'level_arrows', this.arrowClicked, this);
 			this.leftArrow.anchor.setTo(0.5);
 			this.leftArrow.frame = 0;
 			this.leftArrow.alpha = 0.3;
 
-			this.rightArrow = this.game.add.button(270, 420, 'level_arrows', this.arrowClicked);
+			this.rightArrow = this.game.add.button(270, 420, 'level_arrows', this.arrowClicked, this);
 			this.rightArrow.anchor.setTo(0.5);
 			this.rightArrow.frame = 1;
 			if (this.pages == 1) {
@@ -126,9 +126,39 @@
 
 		}
 
-		arrowClicked(button) {
-			console.log('arrow clicked');
-			console.log(button);
+		arrowClicked(button: Phaser.Button) {
+			if (button.frame == 0 && this.currentPage > 0) {
+				// Pressed the left arrow, and we're not on the first page.
+				this.rightArrow.alpha = 1;
+				this.currentPage--;
+
+				if (this.currentPage == 0) {
+					// Fade the left arrow slightly if now on the first page.
+					button.alpha = 0.3;
+				}
+
+				var buttonsTween = this.game.add.tween(this.levelThumbsGroup);
+				buttonsTween.to({
+					x: this.currentPage * this.game.width * -1
+				}, 400, Phaser.Easing.Cubic.In);
+				buttonsTween.start();
+			}
+			if (button.frame == 1 && this.currentPage < this.pages - 1) {
+				// Pressed the right arrow, and we're not on the last page.
+				this.leftArrow.alpha = 1;
+				this.currentPage++;
+
+				if (this.currentPage == this.pages - 1) {
+					// Fade the right arrow slightly if now on the last page.
+					button.alpha = 0.3;
+				}
+
+				var buttonsTween = this.game.add.tween(this.levelThumbsGroup);
+				buttonsTween.to({
+					x: this.currentPage * this.game.width * -1
+				}, 400, Phaser.Easing.Cubic.In);
+				buttonsTween.start();
+			}
 		}
 
 		thumbClicked(button: LevelButton) {
