@@ -19,7 +19,7 @@
 		// Number of pages to show all levels.
 		pages = this.starsArray.length / (this.thumbRows * this.thumbCols);
 		// Group to place all level thumbnails.
-		levelThumbsGroup;
+		levelThumbsGroup: Phaser.Group;
 		// Current page.
 		currentPage = 0;
 		// Arrows to navigate through level pages.
@@ -60,6 +60,26 @@
 			if (this.pages == 1) {
 				this.rightArrow.alpha = 0.3;
 			}
+
+			this.levelThumbsGroup = this.game.add.group();
+			var levelLength = this.thumbWidth * this.thumbCols + this.thumbSpacing * (this.thumbCols - 1);
+			var levelHeight = this.thumbWidth * this.thumbRows + this.thumbSpacing * (this.thumbRows - 1);
+
+			// Setup each page.
+			for (var p = 0; p < this.pages; p++) {
+				var offsetX = (this.game.width - levelLength) / 2 + this.game.width * p;
+				var offsetY = 20;
+
+				// Setup each row on the page.
+				for (var i = 0; i < this.thumbRows; i++) {
+					// Setup each column in the row.
+					for (var j = 0; j < this.thumbCols; j++) {
+						var levelNumber = i * this.thumbCols + j + p * (this.thumbRows * this.thumbCols);
+
+						var levelThumb = this.game.add.button(offsetX + j * (this.thumbWidth + this.thumbSpacing), offsetY + i * (this.thumbHeight + this.thumbSpacing), 'levels', this.thumbClicked, this);
+					}
+				}
+			}
 		}
 
 		update() {
@@ -87,6 +107,11 @@
 
 		arrowClicked(button) {
 			console.log('arrow clicked');
+			console.log(button);
+		}
+
+		thumbClicked(button) {
+			console.log('thumb clicked');
 			console.log(button);
 		}
 	}
