@@ -76,7 +76,26 @@
 					for (var j = 0; j < this.thumbCols; j++) {
 						var levelNumber = i * this.thumbCols + j + p * (this.thumbRows * this.thumbCols);
 
-						var levelThumb = this.game.add.button(offsetX + j * (this.thumbWidth + this.thumbSpacing), offsetY + i * (this.thumbHeight + this.thumbSpacing), 'levels', this.thumbClicked, this);
+						var levelThumb = this.game.add.button(
+							offsetX + j * (this.thumbWidth + this.thumbSpacing),
+							offsetY + i * (this.thumbHeight + this.thumbSpacing),
+							'levels', this.thumbClicked, this);
+
+						levelThumb.frame = this.starsArray[levelNumber];
+
+						this.levelThumbsGroup.add(levelThumb);
+
+						// Display the level number if unlocked.
+						if (this.starsArray[levelNumber] < 4) {
+							var style = {
+								font: '18px Arial',
+								fill: '#fff'
+							};
+
+							var levelText = this.game.add.text(levelThumb.x + 5, levelThumb.y + 5, (levelNumber + 1).toString(), style);
+							levelText.setShadow(2, 2, 'rgba(0, 0, 0, 0.5)', 1);
+							this.levelThumbsGroup.add(levelText);
+						}
 					}
 				}
 			}
