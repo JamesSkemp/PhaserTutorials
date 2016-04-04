@@ -24,6 +24,8 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="app.css" />
+    <Content Include="assets\levels.png" />
+    <Content Include="assets\level_arrows.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
@@ -39,6 +41,7 @@
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
+    <TypeScriptCompile Include="src\States\Option1.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
   </ItemGroup>
   <ItemGroup>
