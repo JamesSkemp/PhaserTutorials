@@ -132,8 +132,19 @@
 		}
 
 		thumbClicked(button: LevelButton) {
-			console.log('thumb clicked');
-			console.log(button);
+			if (button.frame < 4) {
+				// The level is unlocked, and can be played.
+				alert('play level ' + button.levelNumber);
+			} else {
+				// The level is locked.
+				var buttonTween = this.game.add.tween(button);
+				buttonTween.to({ x: button.x + this.thumbWidth / 15 }, 20, Phaser.Easing.Cubic.Out);
+				buttonTween.to({ x: button.x - this.thumbWidth / 15 }, 20, Phaser.Easing.Cubic.Out);
+				buttonTween.to({ x: button.x + this.thumbWidth / 15 }, 20, Phaser.Easing.Cubic.Out);
+				buttonTween.to({ x: button.x - this.thumbWidth / 15 }, 20, Phaser.Easing.Cubic.Out);
+				buttonTween.to({ x: button.x }, 20, Phaser.Easing.Cubic.Out);
+				buttonTween.start();
+			}
 		}
 	}
 }
