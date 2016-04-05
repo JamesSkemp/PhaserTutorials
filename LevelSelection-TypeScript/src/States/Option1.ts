@@ -168,7 +168,7 @@
 		thumbClicked(button: LevelButton) {
 			if (button.frame < 4) {
 				// The level is unlocked, and can be played.
-				alert('play level ' + button.levelNumber);
+				this.game.state.start('Option1Game', true, false, button.levelNumber);
 			} else {
 				// The level is locked.
 				var buttonTween = this.game.add.tween(button);
