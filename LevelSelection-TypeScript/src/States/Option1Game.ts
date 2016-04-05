@@ -61,8 +61,19 @@
 
 		}
 
-		levelFinished() {
+		levelFinished(button: Phaser.Button) {
+			if (Game.STARS_ARRAY[this.level - 1] < button.frame) {
+				// If the score was improved, update the score stored.
+				Game.STARS_ARRAY[this.level - 1] = <number>button.frame;
+			}
 
+			if (button.frame > 0 && Game.STARS_ARRAY[this.level] == 4 && this.level < Game.STARS_ARRAY.length) {
+				// Unlock the next level if they got at least one star on the level.
+				Game.STARS_ARRAY[this.level] = 0;
+			}
+
+			// Go back to the main level select screen.
+			this.game.state.start('Option1');
 		}
 	}
 }
