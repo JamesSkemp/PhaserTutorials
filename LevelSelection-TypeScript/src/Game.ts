@@ -2,6 +2,15 @@
 	export class Game extends Phaser.Game {
 		// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
 		//static SOME_VARIABLE: number = 10;
+		// Array with finished levels and stars collected.
+		// 0 = playable yet unfinished level
+		// 1, 2, 3 = level finished with 1, 2, 3 stars
+		// 4 = locked
+		static STARS_ARRAY = [
+			0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
+		];
 
 		constructor() {
 			console.log((new Date).toISOString() + ' : Entered Game constructor()');

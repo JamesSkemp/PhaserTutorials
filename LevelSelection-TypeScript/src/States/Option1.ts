@@ -11,17 +11,8 @@
 		thumbHeight = 64;
 		// Space between thumbnails, in pixels.
 		thumbSpacing = 8;
-		// Array with finished levels and stars collected.
-		// 0 = playable yet unfinished level
-		// 1, 2, 3 = level finished with 1, 2, 3 stars
-		// 4 = locked
-		starsArray = [
-			0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
-		];
 		// Number of pages to show all levels.
-		pages = this.starsArray.length / (this.thumbRows * this.thumbCols);
+		pages = Game.STARS_ARRAY.length / (this.thumbRows * this.thumbCols);
 		// Group to place all level thumbnails.
 		levelThumbsGroup: Phaser.Group;
 		// Current page.
@@ -86,13 +77,13 @@
 							offsetY + i * (this.thumbHeight + this.thumbSpacing),
 							'levels', this.thumbClicked, this);
 
-						levelThumb.frame = this.starsArray[levelNumber];
+						levelThumb.frame = Game.STARS_ARRAY[levelNumber];
 						levelThumb.levelNumber = levelNumber + 1;
 
 						this.levelThumbsGroup.add(levelThumb);
 
 						// Display the level number if unlocked.
-						if (this.starsArray[levelNumber] < 4) {
+						if (Game.STARS_ARRAY[levelNumber] < 4) {
 							var style = {
 								font: '18px Arial',
 								fill: '#fff'
