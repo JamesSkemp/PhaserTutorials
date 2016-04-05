@@ -14,6 +14,7 @@
 			this.state.add('Preloader', Preloader);
 			this.state.add('MainMenu', MainMenu);
 			this.state.add('Option1', Option1);
+			this.state.add('Option1Game', Option1Game);
 
 			// Start the initial game state.
 			this.state.start('Boot');

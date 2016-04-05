@@ -11,6 +11,7 @@
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
 			this.load.spritesheet('level_arrows', 'level_arrows.png', 48, 48);
 			this.load.spritesheet('levels', 'levels.png', 64, 64);
+			this.load.image('game');
 		}
 
 		create() {
