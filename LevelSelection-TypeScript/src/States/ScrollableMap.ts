@@ -10,6 +10,8 @@
 			console.log((new Date).toISOString() + ' : Entered ScrollableMap preload()');
 
 			// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
+			this.game.load.image('map');
+			this.game.load.image('town');
 		}
 
 		loadUpdate() {

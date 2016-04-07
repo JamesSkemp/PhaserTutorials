@@ -27,6 +27,8 @@
     <Content Include="assets\game.png" />
     <Content Include="assets\levels.png" />
     <Content Include="assets\level_arrows.png" />
+    <Content Include="assets\map.png" />
+    <Content Include="assets\town.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="lib\phaser.js" />
