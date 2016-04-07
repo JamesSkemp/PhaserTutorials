@@ -5,14 +5,14 @@
 		// Game map.
 		map: Phaser.Image;
 		// Save start touch position.
-		startX;
-		startY;
-		// Handle multitouch.
-		moveIndex;
+		startX: number;
+		startY: number;
+		mapX: number;
+		mapY: number;
 		// Map scrolling speed.
 		mapSpeed = 1;
 		// Town selected.
-		candidateTown;
+		candidateTown: Phaser.Sprite;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered ScrollableMap init()');
@@ -84,22 +84,61 @@
 		}
 
 		fingerOnMap() {
-			console.log('finger on map');
+			this.startX = this.game.input.worldX;
+			this.startY = this.game.input.worldY;
+			this.mapX = this.mapGroup.x;
+			this.mapY = this.mapGroup.y;
 
+			this.game.input.onDown.remove(this.fingerOnMap);
+			this.game.input.onUp.add(this.stopMap, this);
+			this.game.input.addMoveCallback(this.dragMap, this);
 		}
 
 		selectTown(sprite, pointer) {
-			console.log('select town');
-
 			this.candidateTown = sprite;
 		}
 
 		confirmTown(sprite, pointer) {
-			console.log('confirm town');
-
 			if (this.candidateTown == sprite) {
 				alert('Town selected');
 			}
+		}
+
+		dragMap() {
+			var currentX = this.game.input.worldX;
+			var currentY = this.game.input.worldY;
+
+			var deltaX = this.startX - currentX;
+			var deltaY = this.startY - currentY;
+
+			// If they move off the town far enough then they didn't want to select it.
+			if (deltaX * deltaX + deltaY * deltaY > 25) {
+				this.candidateTown = null;
+			}
+
+			this.mapGroup.x = this.mapX - deltaX * this.mapSpeed;
+			this.mapGroup.y = this.mapY - deltaY * this.mapSpeed;
+
+			// Make sure that the map stays in the display.
+			if (this.mapGroup.x < -this.map.width + this.game.width) {
+				this.mapGroup.x = -this.map.width + this.game.width;
+			}
+			if (this.mapGroup.x > 0) {
+				this.mapGroup.x = 0;
+			}
+
+			if (this.mapGroup.y < -this.map.height + this.game.height) {
+				this.mapGroup.y = -this.map.height + this.game.height;
+			}
+			if (this.mapGroup.y > 0) {
+				this.mapGroup.y = 0;
+			}
+		}
+
+		stopMap() {
+			this.game.input.onDown.add(this.fingerOnMap);
+			this.game.input.onUp.remove(this.stopMap);
+			this.game.input.deleteMoveCallback(this.dragMap, this);
 		}
 	}
 }
