@@ -71,7 +71,8 @@ n/a
 - Perfect Square series
 	- http://www.emanueleferonato.com/2016/02/23/html5-prototype-of-ios-game-perfect-square-made-with-phaser-using-only-tweens-in-100-lines-of-code/
 	- http://www.emanueleferonato.com/2016/03/29/html5-prototype-of-ios-game-perfect-square-step-2-adding-levels/
-	- part 3 appears to be in progress
+	- http://www.emanueleferonato.com/2016/04/06/html5-prototype-of-ios-game-perfect-square-step-3-adding-in-game-instructions-and-scaling-the-game-for-any-resolution/
+	- part 4 appears to be in progress
 - Level selection series
 	- ~~http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/~~
 	- ~~http://www.emanueleferonato.com/2014/12/05/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars-finished-prototype/~~
