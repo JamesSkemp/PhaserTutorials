@@ -48,9 +48,16 @@
 				town.anchor.setTo(0.5);
 
 				town.inputEnabled = true;
+				town.events.onInputDown.add(this.selectTown, this);
+				town.events.onInputUp.add(this.confirmTown, this);
 
 				this.mapGroup.add(town);
 			}
+
+			this.mapGroup.x = (this.game.width - this.map.width) / 2;
+			this.mapGroup.y = (this.game.height - this.map.height) / 2;
+
+			this.game.input.onDown.add(this.fingerOnMap, this);
 		}
 
 		update() {
@@ -73,6 +80,21 @@
 
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered ScrollableMap shutdown()');
+
+		}
+
+		fingerOnMap() {
+			console.log('finger on map');
+
+		}
+
+		selectTown(sprite, pointer) {
+			console.log('select town');
+
+		}
+
+		confirmTown(sprite, pointer) {
+			console.log('confirm town');
 
 		}
 	}
