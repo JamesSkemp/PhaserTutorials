@@ -91,11 +91,15 @@
 		selectTown(sprite, pointer) {
 			console.log('select town');
 
+			this.candidateTown = sprite;
 		}
 
 		confirmTown(sprite, pointer) {
 			console.log('confirm town');
 
+			if (this.candidateTown == sprite) {
+				alert('Town selected');
+			}
 		}
 	}
 }
