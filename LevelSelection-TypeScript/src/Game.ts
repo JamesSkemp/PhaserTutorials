@@ -24,6 +24,7 @@
 			this.state.add('MainMenu', MainMenu);
 			this.state.add('Option1', Option1);
 			this.state.add('Option1Game', Option1Game);
+			this.state.add('ScrollableMap', ScrollableMap);
 
 			// Start the initial game state.
 			this.state.start('Boot');

@@ -45,6 +45,7 @@
     <TypeScriptCompile Include="src\States\Preloader.ts" />
     <TypeScriptCompile Include="src\States\Option1.ts" />
     <TypeScriptCompile Include="src\States\Option1Game.ts" />
+    <TypeScriptCompile Include="src\States\ScrollableMap.ts" />
     <TypeScriptCompile Include="src\States\_ExampleState.ts" />
   </ItemGroup>
   <ItemGroup>
