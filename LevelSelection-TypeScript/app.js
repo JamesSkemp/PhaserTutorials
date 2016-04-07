@@ -17,6 +17,7 @@ var LevelSelectProject;
             this.state.add('MainMenu', LevelSelectProject.MainMenu);
             this.state.add('Option1', LevelSelectProject.Option1);
             this.state.add('Option1Game', LevelSelectProject.Option1Game);
+            this.state.add('ScrollableMap', LevelSelectProject.ScrollableMap);
             // Start the initial game state.
             this.state.start('Boot');
         }
@@ -102,8 +103,8 @@ var LevelSelectProject;
             // If we put our game in a div, we need to add the following as well, if you SHOW_ALL.
             //this.game.scale.windowConstraints.bottom = 'visual';
             // Uncomment to place our game in the center of the screen both horizontally and vertically.
-            //this.scale.pageAlignHorizontally = true;
-            //this.scale.pageAlignVertically = true;
+            this.scale.pageAlignHorizontally = true;
+            this.scale.pageAlignVertically = true;
         };
         Boot.prototype.preload = function () {
             console.log((new Date).toISOString() + ' : Entered Boot preload()');
@@ -137,7 +138,12 @@ var LevelSelectProject;
         MainMenu.prototype.create = function () {
             console.log((new Date).toISOString() + ' : Entered MainMenu create()');
             // Handle user input as needed.
-            this.game.state.start('Option1');
+            var link1 = this.game.add.text(0, 0, 'Option 1', { fill: '#fff' });
+            link1.inputEnabled = true;
+            link1.events.onInputDown.add(function () { this.game.state.start('Option1'); }, this);
+            var link2 = this.game.add.text(0, 50, 'Scrollable Map', { fill: '#fff' });
+            link2.inputEnabled = true;
+            link2.events.onInputDown.add(function () { this.game.state.start('ScrollableMap'); }, this);
         };
         return MainMenu;
     })(Phaser.State);
@@ -167,9 +173,6 @@ var LevelSelectProject;
         Option1.prototype.init = function () {
             console.log((new Date).toISOString() + ' : Entered Option1 init()');
             // init can receive parameters.
-            // Uncomment to place our game in the center of the screen both horizontally and vertically.
-            this.scale.pageAlignHorizontally = true;
-            this.scale.pageAlignVertically = true;
         };
         Option1.prototype.preload = function () {
             console.log((new Date).toISOString() + ' : Entered Option1 preload()');
@@ -373,5 +376,109 @@ var LevelSelectProject;
         return Preloader;
     })(Phaser.State);
     LevelSelectProject.Preloader = Preloader;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
+    var ScrollableMap = (function (_super) {
+        __extends(ScrollableMap, _super);
+        function ScrollableMap() {
+            _super.apply(this, arguments);
+            // Map scrolling speed.
+            this.mapSpeed = 1;
+        }
+        ScrollableMap.prototype.init = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap init()');
+            // init can receive parameters.
+        };
+        ScrollableMap.prototype.preload = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap preload()');
+            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
+            this.game.load.image('map');
+            this.game.load.image('town');
+        };
+        ScrollableMap.prototype.loadUpdate = function () {
+            // Called while assets are being loaded.
+        };
+        ScrollableMap.prototype.create = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap create()');
+            this.mapGroup = this.game.add.group();
+            this.map = this.game.add.image(0, 0, 'map');
+            this.mapGroup.add(this.map);
+            // Randomly place ten towns on the map.
+            for (var i = 0; i < 10; i++) {
+                var town = this.game.add.image(this.game.rnd.between(50, this.map.width - 50), this.game.rnd.between(50, this.map.height - 50), 'town');
+                town.anchor.setTo(0.5);
+                town.inputEnabled = true;
+                town.events.onInputDown.add(this.selectTown, this);
+                town.events.onInputUp.add(this.confirmTown, this);
+                this.mapGroup.add(town);
+            }
+            this.mapGroup.x = (this.game.width - this.map.width) / 2;
+            this.mapGroup.y = (this.game.height - this.map.height) / 2;
+            this.game.input.onDown.add(this.fingerOnMap, this);
+        };
+        ScrollableMap.prototype.update = function () {
+        };
+        ScrollableMap.prototype.paused = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap paused()');
+        };
+        ScrollableMap.prototype.pauseUpdate = function () {
+        };
+        ScrollableMap.prototype.resumed = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap resumed()');
+        };
+        ScrollableMap.prototype.shutdown = function () {
+            console.log((new Date).toISOString() + ' : Entered ScrollableMap shutdown()');
+        };
+        ScrollableMap.prototype.fingerOnMap = function () {
+            this.startX = this.game.input.worldX;
+            this.startY = this.game.input.worldY;
+            this.mapX = this.mapGroup.x;
+            this.mapY = this.mapGroup.y;
+            this.game.input.onDown.remove(this.fingerOnMap);
+            this.game.input.onUp.add(this.stopMap, this);
+            this.game.input.addMoveCallback(this.dragMap, this);
+        };
+        ScrollableMap.prototype.selectTown = function (sprite, pointer) {
+            this.candidateTown = sprite;
+        };
+        ScrollableMap.prototype.confirmTown = function (sprite, pointer) {
+            if (this.candidateTown == sprite) {
+                alert('Town selected');
+            }
+        };
+        ScrollableMap.prototype.dragMap = function () {
+            var currentX = this.game.input.worldX;
+            var currentY = this.game.input.worldY;
+            var deltaX = this.startX - currentX;
+            var deltaY = this.startY - currentY;
+            // If they move off the town far enough then they didn't want to select it.
+            if (deltaX * deltaX + deltaY * deltaY > 25) {
+                this.candidateTown = null;
+            }
+            this.mapGroup.x = this.mapX - deltaX * this.mapSpeed;
+            this.mapGroup.y = this.mapY - deltaY * this.mapSpeed;
+            // Make sure that the map stays in the display.
+            if (this.mapGroup.x < -this.map.width + this.game.width) {
+                this.mapGroup.x = -this.map.width + this.game.width;
+            }
+            if (this.mapGroup.x > 0) {
+                this.mapGroup.x = 0;
+            }
+            if (this.mapGroup.y < -this.map.height + this.game.height) {
+                this.mapGroup.y = -this.map.height + this.game.height;
+            }
+            if (this.mapGroup.y > 0) {
+                this.mapGroup.y = 0;
+            }
+        };
+        ScrollableMap.prototype.stopMap = function () {
+            this.game.input.onDown.add(this.fingerOnMap);
+            this.game.input.onUp.remove(this.stopMap);
+            this.game.input.deleteMoveCallback(this.dragMap, this);
+        };
+        return ScrollableMap;
+    })(Phaser.State);
+    LevelSelectProject.ScrollableMap = ScrollableMap;
 })(LevelSelectProject || (LevelSelectProject = {}));
 //# sourceMappingURL=app.js.map
