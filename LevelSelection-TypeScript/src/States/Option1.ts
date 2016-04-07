@@ -24,10 +24,6 @@
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Option1 init()');
 			// init can receive parameters.
-
-			// Uncomment to place our game in the center of the screen both horizontally and vertically.
-			this.scale.pageAlignHorizontally = true;
-			this.scale.pageAlignVertically = true;
 		}
 
 		preload() {

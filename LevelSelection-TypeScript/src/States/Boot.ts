@@ -10,8 +10,8 @@
 			//this.game.scale.windowConstraints.bottom = 'visual';
 
 			// Uncomment to place our game in the center of the screen both horizontally and vertically.
-			//this.scale.pageAlignHorizontally = true;
-			//this.scale.pageAlignVertically = true;
+			this.scale.pageAlignHorizontally = true;
+			this.scale.pageAlignVertically = true;
 		}
 
 		preload() {
