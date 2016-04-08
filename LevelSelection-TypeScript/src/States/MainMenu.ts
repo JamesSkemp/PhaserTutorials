@@ -12,6 +12,10 @@
 			var link2 = this.game.add.text(0, 50, 'Scrollable Map', { fill: '#fff' });
 			link2.inputEnabled = true;
 			link2.events.onInputDown.add(function () { this.game.state.start('ScrollableMap'); }, this);
+
+			var link3 = this.game.add.text(0, 100, 'Character Selection', { fill: '#fff' });
+			link3.inputEnabled = true;
+			link3.events.onInputDown.add(function () { this.game.state.start('CharacterSelection'); }, this);
 		}
 	}
 }
