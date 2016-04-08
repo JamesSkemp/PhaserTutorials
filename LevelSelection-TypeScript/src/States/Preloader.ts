@@ -12,6 +12,9 @@
 			this.load.spritesheet('level_arrows', 'level_arrows.png', 48, 48);
 			this.load.spritesheet('levels', 'levels.png', 64, 64);
 			this.load.spritesheet('game', 'game.png', 200, 80);
+			// Assets for character selection example.
+			this.load.image('fish');
+			this.load.image('transp');
 		}
 
 		create() {
