@@ -16,6 +16,10 @@
 			var link3 = this.game.add.text(0, 100, 'Character Selection', { fill: '#fff' });
 			link3.inputEnabled = true;
 			link3.events.onInputDown.add(function () { this.game.state.start('CharacterSelection'); }, this);
+
+			var link4 = this.game.add.text(0, 150, 'Drag Selection', { fill: '#fff' });
+			link4.inputEnabled = true;
+			link4.events.onInputDown.add(function () { this.game.state.start('DragSelection'); }, this);
 		}
 	}
 }
