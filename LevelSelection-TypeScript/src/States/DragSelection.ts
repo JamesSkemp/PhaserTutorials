@@ -8,6 +8,10 @@
 		thumbWidth = 60;
 		thumbHeight = 60;
 		thumbSpacing = 20;
+		
+		currentPage;
+		pageText: Phaser.Text;
+		scrollingMap: Phaser.TileSprite;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection init()');
@@ -25,6 +29,41 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection create()');
 
+			this.currentPage = 0;
+
+			this.game.stage.backgroundColor = '#004';
+
+			this.pageText = this.game.add.text(this.game.width / 2, 16, 'Swipe to select level page (1 / ' + this.colors.length + ')',
+				{ font: '18px Arial', fill: '#fff' });
+			this.pageText.anchor.setTo(0.5);
+
+			this.scrollingMap = this.game.add.tileSprite(0, 0, this.colors.length * this.game.width, this.game.height, 'transp');
+			this.scrollingMap.inputEnabled = true;
+			this.scrollingMap.input.enableDrag(false);
+			this.scrollingMap.input.allowVerticalDrag = false;
+			this.scrollingMap.input.boundsRect = new Phaser.Rectangle(
+				this.game.width - this.scrollingMap.width, this.game.height - this.scrollingMap.height,
+				this.scrollingMap.width * 2 - this.game.width, this.scrollingMap.height * 2 - this.game.height
+			);
+
+			var rowWidth = this.thumbWidth * this.columns + this.thumbSpacing * (this.columns - 1);
+			var leftMargin = (this.game.width - rowWidth) / 2;
+			var colHeight = this.thumbHeight * this.columns + this.thumbSpacing * (this.columns - 1);
+			var topMargin = (this.game.width - colHeight) / 2;
+
+			for (var p = 0; p < this.colors.length; p++) {
+				for (var i = 0; i < this.columns; i++) {
+					for (var j = 0; j < this.rows; j++) {
+						var thumb = this.game.add.image(
+							p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing)
+							, topMargin + j * (this.thumbHeight + this.thumbSpacing)
+							, 'levelthumb'
+						);
+						thumb.tint = this.colors[p];
+						this.scrollingMap.addChild(thumb);
+					}
+				}
+			}
 		}
 	}
 }
