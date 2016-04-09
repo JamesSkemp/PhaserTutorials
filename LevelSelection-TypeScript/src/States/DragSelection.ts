@@ -12,44 +12,18 @@
 		init() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection init()');
 			// init can receive parameters.
-
 		}
 
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection preload()');
 
 			// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
-		}
-
-		loadUpdate() {
-			// Called while assets are being loaded.
+			this.game.load.image('levelthumb');
+			this.game.load.image('transp');
 		}
 
 		create() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection create()');
-
-		}
-
-		update() {
-
-		}
-
-		paused() {
-			console.log((new Date).toISOString() + ' : Entered DragSelection paused()');
-
-		}
-
-		pauseUpdate() {
-
-		}
-
-		resumed() {
-			console.log((new Date).toISOString() + ' : Entered DragSelection resumed()');
-
-		}
-
-		shutdown() {
-			console.log((new Date).toISOString() + ' : Entered DragSelection shutdown()');
 
 		}
 	}
