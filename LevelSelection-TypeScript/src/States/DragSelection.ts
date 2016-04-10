@@ -13,6 +13,9 @@
 		pageText: Phaser.Text;
 		scrollingMap: Phaser.TileSprite;
 
+		startPosition: number;
+		currentPosition: number;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered DragSelection init()');
 			// init can receive parameters.
@@ -64,6 +67,33 @@
 					}
 				}
 			}
+
+			this.scrollingMap.events.onDragStart.add(function () {
+				this.startPosition = this.scrollingMap.x;
+				this.currentPosition = this.scrollingMap.x;
+			}, this);
+
+			this.scrollingMap.events.onDragStop.add(function () {
+				if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
+					this.changePage(1);
+				} else {
+					if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
+						this.changePage(-1);
+					} else {
+						this.changePage(0);
+					}
+				}
+
+			}, this);
+		}
+
+		changePage(page: number) {
+			this.currentPage += page;
+			this.pageText.text = 'Swipe to select level page (' + (this.currentPage + 1).toString() + ' / ' + this.colors.length + ')';
+
+			var tween = this.game.add.tween(this.scrollingMap).to({
+				x: this.currentPage * -this.game.width
+			}, 300, Phaser.Easing.Cubic.Out, true);
 		}
 	}
 }
