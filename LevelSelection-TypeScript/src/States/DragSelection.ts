@@ -57,12 +57,15 @@
 			for (var p = 0; p < this.colors.length; p++) {
 				for (var i = 0; i < this.columns; i++) {
 					for (var j = 0; j < this.rows; j++) {
-						var thumb = this.game.add.image(
-							p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing)
+						var thumb = new LevelThumb(
+							this.game
+							, p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing)
 							, topMargin + j * (this.thumbHeight + this.thumbSpacing)
-							, 'levelthumb'
 						);
 						thumb.tint = this.colors[p];
+						thumb.levelNumber = p * (this.rows * this.columns) + j * this.columns + i;
+						var levelText = this.game.add.text(0, 0, thumb.levelNumber.toString(), { font: '36px Arial', fill: '#000' });
+						thumb.addChild(levelText);
 						this.scrollingMap.addChild(thumb);
 					}
 				}
