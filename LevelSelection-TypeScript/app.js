@@ -54,6 +54,17 @@ var LevelSelectProject;
 })(LevelSelectProject || (LevelSelectProject = {}));
 var LevelSelectProject;
 (function (LevelSelectProject) {
+    var LevelThumb = (function (_super) {
+        __extends(LevelThumb, _super);
+        function LevelThumb(game, x, y) {
+            _super.call(this, game, x, y, 'levelthumb');
+        }
+        return LevelThumb;
+    })(Phaser.Image);
+    LevelSelectProject.LevelThumb = LevelThumb;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
     var ExampleState = (function (_super) {
         __extends(ExampleState, _super);
         function ExampleState() {
@@ -277,8 +288,11 @@ var LevelSelectProject;
             for (var p = 0; p < this.colors.length; p++) {
                 for (var i = 0; i < this.columns; i++) {
                     for (var j = 0; j < this.rows; j++) {
-                        var thumb = this.game.add.image(p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing), topMargin + j * (this.thumbHeight + this.thumbSpacing), 'levelthumb');
+                        var thumb = new LevelSelectProject.LevelThumb(this.game, p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing), topMargin + j * (this.thumbHeight + this.thumbSpacing));
                         thumb.tint = this.colors[p];
+                        thumb.levelNumber = p * (this.rows * this.columns) + j * this.columns + i;
+                        var levelText = this.game.add.text(0, 0, thumb.levelNumber.toString(), { font: '36px Arial', fill: '#000' });
+                        thumb.addChild(levelText);
                         this.scrollingMap.addChild(thumb);
                     }
                 }
@@ -287,16 +301,27 @@ var LevelSelectProject;
                 this.startPosition = this.scrollingMap.x;
                 this.currentPosition = this.scrollingMap.x;
             }, this);
-            this.scrollingMap.events.onDragStop.add(function () {
-                if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
-                    this.changePage(1);
+            this.scrollingMap.events.onDragStop.add(function (event, pointer) {
+                if (this.startPosition == this.scrollingMap.x) {
+                    for (i = 0; i < this.scrollingMap.children.length; i++) {
+                        var bounds = this.scrollingMap.children[i].getBounds();
+                        if (bounds.contains(pointer.x, pointer.y)) {
+                            alert("Play level " + this.scrollingMap.children[i].levelNumber);
+                            break;
+                        }
+                    }
                 }
                 else {
-                    if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
-                        this.changePage(-1);
+                    if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
+                        this.changePage(1);
                     }
                     else {
-                        this.changePage(0);
+                        if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
+                            this.changePage(-1);
+                        }
+                        else {
+                            this.changePage(0);
+                        }
                     }
                 }
             }, this);
