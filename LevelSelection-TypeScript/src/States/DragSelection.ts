@@ -76,17 +76,26 @@
 				this.currentPosition = this.scrollingMap.x;
 			}, this);
 
-			this.scrollingMap.events.onDragStop.add(function () {
-				if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
-					this.changePage(1);
+			this.scrollingMap.events.onDragStop.add(function (event, pointer) {
+				if (this.startPosition == this.scrollingMap.x) {
+					for (i = 0; i < this.scrollingMap.children.length; i++) {
+						var bounds = this.scrollingMap.children[i].getBounds();
+						if (bounds.contains(pointer.x, pointer.y)) {
+							alert("Play level " + this.scrollingMap.children[i].levelNumber);
+							break;
+						}
+					}
 				} else {
-					if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
-						this.changePage(-1);
+					if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
+						this.changePage(1);
 					} else {
-						this.changePage(0);
+						if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
+							this.changePage(-1);
+						} else {
+							this.changePage(0);
+						}
 					}
 				}
-
 			}, this);
 		}
 
