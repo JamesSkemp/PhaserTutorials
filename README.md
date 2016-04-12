@@ -77,10 +77,9 @@ n/a
 	- ~~http://www.emanueleferonato.com/2014/11/21/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars/~~
 	- ~~http://www.emanueleferonato.com/2014/12/05/html5-phaser-tutorial-how-to-create-a-level-selection-screen-with-locked-levels-and-stars-finished-prototype/~~
 	- ~~http://www.emanueleferonato.com/2015/01/21/create-an-html5-level-selection-screen-using-a-scrollable-map-like-in-hero-emblems-game-using-phaser/~~
-	- http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 	- ~~http://www.emanueleferonato.com/2016/01/20/phaser-tutorial-creation-of-a-html5-character-selection-screen-like-the-one-in-crossy-road-ios-smash-hit/~~
 	- ~~http://www.emanueleferonato.com/2016/01/25/create-a-html5-level-select-screen-controlled-by-swipe-without-actually-checking-for-swipes/~~
-	- http://www.emanueleferonato.com/2016/02/04/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-actually-selecting-a-level/
+	- ~~http://www.emanueleferonato.com/2016/02/04/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-actually-selecting-a-level/~~
 	- http://www.emanueleferonato.com/2016/04/08/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-navigation-with-page-thumbnails/
 - Pop the lock series
 	- http://www.emanueleferonato.com/2016/03/18/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser/
@@ -90,6 +89,7 @@ n/a
 	- http://www.emanueleferonato.com/2015/12/29/create-a-html5-game-like-ios-hit-clocks-the-game-using-phaser-and-arcade-physics/
 	- http://www.emanueleferonato.com/2016/01/04/clocks-the-game-html5-prototype-step-2-how-to-select-starting-clock/
 	- http://www.emanueleferonato.com/2016/01/07/clocks-the-game-html5-prototype-step-3-actually-playing-the-game/
+- http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 - [Official tutorials](http://phaser.io/learn/official-tutorials)
 	- In particular http://phaser.io/tutorials/coding-tips-007
 
