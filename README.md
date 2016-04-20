@@ -81,6 +81,7 @@ n/a
 	- ~~http://www.emanueleferonato.com/2016/01/25/create-a-html5-level-select-screen-controlled-by-swipe-without-actually-checking-for-swipes/~~
 	- ~~http://www.emanueleferonato.com/2016/02/04/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-actually-selecting-a-level/~~
 	- http://www.emanueleferonato.com/2016/04/08/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-navigation-with-page-thumbnails/
+	- http://www.emanueleferonato.com/2016/04/19/create-a-html5-level-select-screen-controlled-by-swipe-new-features-adding-stars-and-saving-progress-on-local-storage/
 - Pop the lock series
 	- http://www.emanueleferonato.com/2016/03/18/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser/
 	- http://www.emanueleferonato.com/2016/03/22/html5-prototype-of-pop-the-lock-ios-blockbuster-using-phaser-step-2/
