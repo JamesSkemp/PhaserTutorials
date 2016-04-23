@@ -1,4 +1,4 @@
-/// <reference path="pixi.comments.d.ts" />
+﻿/// <reference path="pixi.comments.d.ts" />
 /// <reference path="p2.d.ts" />
 
 // Type definitions for Phaser 2.4.7 - 22nd April 2016

@@ -12,11 +12,11 @@ As I've worked through the various tutorials I've created two templates that I u
 
 Of special note is the **_Starter** project which I'll be using as my base project, and will be updating as needed in the future.
 
-This project uses TypeScript with Phaser (2.4.6).
+This project uses TypeScript with Phaser (2.4.7).
 
 ### _Starter Simple
 
-This project uses TypeScript with Phaser (2.4.6), and aims to be a simple version of the **_Starter** project.
+This project uses TypeScript with Phaser (2.4.7), and aims to be a simple version of the **_Starter** project.
 
 ## Completed tutorials
 
