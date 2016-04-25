@@ -32,8 +32,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\p2.d.ts" />
-    <TypeScriptCompile Include="lib\phaser.d.ts" />
-    <TypeScriptCompile Include="lib\pixi.d.ts" />
+    <TypeScriptCompile Include="lib\phaser.comments.d.ts" />
+    <TypeScriptCompile Include="lib\pixi.comments.d.ts" />
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
