@@ -27,6 +27,7 @@
 			this.state.add('ScrollableMap', ScrollableMap);
 			this.state.add('CharacterSelection', CharacterSelection);
 			this.state.add('DragSelection', DragSelection);
+			this.state.add('DragSelection2', DragSelection2);
 
 			// Start the initial game state.
 			this.state.start('Boot');

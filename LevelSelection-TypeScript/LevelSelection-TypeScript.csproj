@@ -26,6 +26,7 @@
     <Content Include="app.css" />
     <Content Include="assets\fish.png" />
     <Content Include="assets\game.png" />
+    <Content Include="assets\levelpages.png" />
     <Content Include="assets\levels.png" />
     <Content Include="assets\levelthumb.png" />
     <Content Include="assets\level_arrows.png" />
@@ -47,6 +48,7 @@
     <TypeScriptCompile Include="src\Prefabs\LevelButton.ts" />
     <TypeScriptCompile Include="src\Prefabs\LevelThumb.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
+    <TypeScriptCompile Include="src\States\DragSelection2.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
     <TypeScriptCompile Include="src\States\Option1.ts" />

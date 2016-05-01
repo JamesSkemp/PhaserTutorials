@@ -80,7 +80,7 @@ n/a
 	- ~~http://www.emanueleferonato.com/2016/01/20/phaser-tutorial-creation-of-a-html5-character-selection-screen-like-the-one-in-crossy-road-ios-smash-hit/~~
 	- ~~http://www.emanueleferonato.com/2016/01/25/create-a-html5-level-select-screen-controlled-by-swipe-without-actually-checking-for-swipes/~~
 	- ~~http://www.emanueleferonato.com/2016/02/04/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-actually-selecting-a-level/~~
-	- http://www.emanueleferonato.com/2016/04/08/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-navigation-with-page-thumbnails/
+	- ~~http://www.emanueleferonato.com/2016/04/08/create-a-html5-level-select-screen-controlled-by-swipe-new-feature-navigation-with-page-thumbnails/~~
 	- http://www.emanueleferonato.com/2016/04/19/create-a-html5-level-select-screen-controlled-by-swipe-new-features-adding-stars-and-saving-progress-on-local-storage/
 	- http://www.emanueleferonato.com/2016/04/26/create-a-html5-level-select-screen-controlled-by-swipe-new-features-bug-fixes-and-animation-when-selecting-locked-levels/
 - Pop the lock series

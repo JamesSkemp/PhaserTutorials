@@ -20,6 +20,10 @@
 			var link4 = this.game.add.text(0, 150, 'Drag Selection', { fill: '#fff' });
 			link4.inputEnabled = true;
 			link4.events.onInputDown.add(function () { this.game.state.start('DragSelection'); }, this);
+
+			var link5 = this.game.add.text(0, 200, 'Drag Selection 2', { fill: '#fff' });
+			link5.inputEnabled = true;
+			link5.events.onInputDown.add(function () { this.game.state.start('DragSelection2'); }, this);
 		}
 	}
 }
