@@ -68,8 +68,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\p2\humstar.png" />
+    <Content Include="assets\p2\spinObj_01.png" />
+    <Content Include="assets\p2\spinObj_06.png" />
+    <Content Include="assets\p2\starfield.jpg" />
     <Content Include="assets\Phaser Logo Print Quality.png" />
     <Content Include="assets\Phaser-Logo-Small.png" />
+    <Content Include="p2-physics.html" />
     <Content Include="index.html" />
     <Content Include="lib\phaser-2.4.4.js" />
     <Content Include="lib\phaser-2.4.4.min.js" />

@@ -23,6 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\p2\humstar.png" />
+    <Content Include="assets\p2\spinObj_01.png" />
+    <Content Include="assets\p2\spinObj_06.png" />
+    <Content Include="assets\p2\starfield.jpg" />
     <Content Include="assets\Phaser-Logo-Small.png" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
@@ -37,6 +41,7 @@
     <TypeScriptCompile Include="src\Game.ts" />
     <TypeScriptCompile Include="src\States\Boot.ts" />
     <TypeScriptCompile Include="src\States\MainMenu.ts" />
+    <TypeScriptCompile Include="src\States\P2PhysicsExample.ts" />
     <TypeScriptCompile Include="src\States\Preloader.ts" />
   </ItemGroup>
   <ItemGroup>
