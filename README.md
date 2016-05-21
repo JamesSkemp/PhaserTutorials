@@ -91,6 +91,9 @@ n/a
 	- http://www.emanueleferonato.com/2015/12/29/create-a-html5-game-like-ios-hit-clocks-the-game-using-phaser-and-arcade-physics/
 	- http://www.emanueleferonato.com/2016/01/04/clocks-the-game-html5-prototype-step-2-how-to-select-starting-clock/
 	- http://www.emanueleferonato.com/2016/01/07/clocks-the-game-html5-prototype-step-3-actually-playing-the-game/
+- Dungeon Raid series
+	- http://www.emanueleferonato.com/2016/05/13/html5-dungeon-raid-tile-engine-made-with-phaser/
+	- http://www.emanueleferonato.com/2016/05/19/html5-dungeon-raid-tile-engine-made-with-phaser-part-2/
 - http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 - [Official tutorials](http://phaser.io/learn/official-tutorials)
 	- In particular http://phaser.io/tutorials/coding-tips-007
