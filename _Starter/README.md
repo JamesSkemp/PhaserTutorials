@@ -7,7 +7,7 @@ The following is a starter project to get started with a new game in Phaser, usi
 - assets
 	- This directory can be used to store any assets (images, audio, etcetera) that your game will use.
 - lib
-	- This directory includes [Phaser 2.4.7](http://phaser.io/), and the necessary TypeScript definitions.
+	- This directory includes [Phaser 2.4.8](http://phaser.io/), and the necessary TypeScript definitions.
 - plugins
 	- This directory is intended to store any plugins that are used by your game.
 	- A collection of plugins can be found in the [Phaser Plugins repository](https://github.com/photonstorm/phaser-plugins).
