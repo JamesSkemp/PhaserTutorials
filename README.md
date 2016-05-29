@@ -95,6 +95,7 @@ n/a
 	- http://www.emanueleferonato.com/2016/05/13/html5-dungeon-raid-tile-engine-made-with-phaser/
 	- http://www.emanueleferonato.com/2016/05/19/html5-dungeon-raid-tile-engine-made-with-phaser-part-2/
 - http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
+- http://www.emanueleferonato.com/2016/05/17/match-3-bejeweled-html5-prototype-made-with-phaser/
 - [Official tutorials](http://phaser.io/learn/official-tutorials)
 	- In particular http://phaser.io/tutorials/coding-tips-007
 
