@@ -51,8 +51,6 @@ declare module PIXI {
     export var glContexts: WebGLRenderingContext[];
     export var instances: any[];
 
-    export var BaseTextureCache: { [key: string]: BaseTexture };
-    export var TextureCache: { [key: string]: Texture };
     export var TextureSilentFail: boolean;
     export var BitmapText: { fonts: {} };
 
@@ -65,7 +63,7 @@ declare module PIXI {
     export function autoDetectRecommendedRenderer(width?: number, height?: number, options?: PixiRendererOptions): PixiRenderer;
 
     export function canUseNewCanvasBlendModes(): boolean;
-    export function getNextPowerOfTwo(number: number): number;
+    export function getNextPowerOfTwo(value: number): number;
 
     export function AjaxRequest(): XMLHttpRequest;
 
@@ -74,7 +72,7 @@ declare module PIXI {
 
 
     export interface IEventCallback {
-        (e?: IEvent): void
+        (e?: IEvent): void;
     }
 
     export interface IEvent {
@@ -87,7 +85,7 @@ declare module PIXI {
     }
 
     export interface IInteractionDataCallback {
-        (interactionData: InteractionData): void
+        (interactionData: InteractionData): void;
     }
 
     export interface PixiRenderer {
@@ -277,16 +275,6 @@ declare module PIXI {
 
 
         /**
-        * Helper function that creates a base texture from the given image url.
-        * If the image is not in the base texture cache it will be created and loaded.
-        * 
-        * @param imageUrl The image url of the texture
-        * @param crossorigin -
-        * @param scaleMode See {{#crossLink "PIXI/scaleModes:property"}}PIXI.scaleModes{{/crossLink}} for possible values
-        */
-        static fromImage(imageUrl: string, crossorigin?: boolean, scaleMode?: scaleModes): BaseTexture;
-
-        /**
         * Helper function that creates a base texture from the given canvas element.
         * 
         * @param canvas The canvas element source of the texture
@@ -391,13 +379,6 @@ declare module PIXI {
         * Sets all glTextures to be dirty.
         */
         dirty(): void;
-
-        /**
-        * Changes the source image of the texture
-        * 
-        * @param newSrc the path of the image
-        */
-        updateSourceImage(newSrc: string): void;
 
         /**
         * Removes the base texture from the GPU, useful for managing resources on the GPU.
@@ -741,7 +722,9 @@ declare module PIXI {
 
     export class ColorMatrixFilter extends AbstractFilter {
 
-        matrix: Matrix;
+        constructor();
+
+        matrix: number[];
 
     }
 
@@ -784,164 +767,39 @@ declare module PIXI {
 
     }
 
-
-    /**
-    * The base class for all objects that are rendered on the screen.
-    * This is an abstract class and should not be used on its own rather it should be extended.
-    */
     export class DisplayObject {
 
-
-        /**
-        * The opacity of the object.
-        */
         alpha: number;
         buttonMode: boolean;
-
-        /**
-        * Set if this display object is cached as a bitmap.
-        * This basically takes a snap shot of the display object as it is at that moment. It can provide a performance benefit for complex static displayObjects.
-        * To remove simply set this property to 'null'
-        */
         cacheAsBitmap: boolean;
         defaultCursor: string;
-
-        /**
-        * The area the filter is applied to like the hitArea this is used as more of an optimisation
-        * rather than figuring out the dimensions of the displayObject each frame you can set this rectangle
-        */
         filterArea: Rectangle;
-
-        /**
-        * Sets the filters for the displayObject.
-        * IMPORTANT: This is a webGL only feature and will be ignored by the Canvas renderer.
-        * 
-        * To remove filters simply set this property to 'null'.
-        * 
-        * You cannot have a filter and a multiply blend mode active at the same time. Setting a filter will reset
-        * this objects blend mode to NORMAL.
-        */
         filters: AbstractFilter[];
-
-        /**
-        * This is the defined area that will pick up mouse / touch events. It is null by default.
-        * Setting it is a neat way of optimising the hitTest function that the interactionManager will use (as it will not need to hit test all the children)
-        */
         hitArea: HitArea;
         interactive: boolean;
-
-        /**
-        * Sets a mask for the displayObject. A mask is an object that limits the visibility of an object to the shape of the mask applied to it.
-        * In PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.
-        * To remove a mask, set this property to null.
-        */
         mask: Graphics;
-
-        /**
-        * [read-only] The display object container that contains this display object.
-        */
         parent: DisplayObjectContainer;
-
-        /**
-        * The pivot point of the displayObject that it rotates around
-        */
         pivot: Point;
-
-        /**
-        * The coordinate of the object relative to the local coordinates of the parent.
-        */
         position: Point;
-
-        /**
-        * Can this object be rendered
-        */
         renderable: boolean;
-
-        /**
-        * The rotation of the object in radians.
-        */
         rotation: number;
-
-        /**
-        * The scale factor of the object.
-        */
         scale: Point;
-
-        /**
-        * [read-only] The stage the display object is connected to, or undefined if it is not connected to the stage.
-        */
         stage: DisplayObjectContainer;
-
-        /**
-        * The visibility of the object.
-        */
         visible: boolean;
-
-        /**
-        * [read-only] The multiplied alpha of the displayObject
-        */
         worldAlpha: number;
-
-        /**
-        * The position of the Display Object based on the world transform.
-        * This value is updated at the end of updateTransform and takes all parent transforms into account.
-        */
-        worldPosition: PIXI.Point;
-
-        /**
-        * The scale of the Display Object based on the world transform.
-        * This value is updated at the end of updateTransform and takes all parent transforms into account.
-        */
-        worldScale: PIXI.Point;
-
-        /**
-        * The rotation of the Display Object, in radians, based on the world transform.
-        * This value is updated at the end of updateTransform and takes all parent transforms into account.
-        */
+        worldPosition: Point;
+        worldScale: Point;
+        worldTransform: Matrix;
         worldRotation: number;
-
-        /**
-        * [read-only] Indicates if the sprite is globally visible.
-        */
         worldVisible: boolean;
-
-        /**
-        * The position of the displayObject on the x axis relative to the local coordinates of the parent.
-        */
         x: number;
-
-        /**
-        * The position of the displayObject on the y axis relative to the local coordinates of the parent.
-        */
         y: number;
 
         click(e: InteractionData): void;
         displayObjectUpdateTransform(): void;
-
-        /**
-        * Retrieves the bounds of the displayObject as a rectangle object
-        * 
-        * @param matrix -
-        * @return the rectangular bounding area
-        */
         getBounds(matrix?: Matrix): Rectangle;
-
-        /**
-        * Retrieves the local bounds of the displayObject as a rectangle object
-        * @return the rectangular bounding area
-        */
         getLocalBounds(): Rectangle;
-
-        /**
-        * Useful function that returns a texture of the displayObject object that can then be used to create sprites
-        * This can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.
-        * 
-        * @param resolution The resolution of the texture being generated
-        * @param scaleMode See {{#crossLink "PIXI/scaleModes:property"}}PIXI.scaleModes{{/crossLink}} for possible values
-        * @param renderer The renderer used to generate the texture.
-        * @return a texture of the graphics object
-        */
-        generateTexture(resolution?: number, scaleMode?: number, renderer?: PixiRenderer): RenderTexture;
+        generateTexture(resolution?: number, scaleMode?: number, renderer?: PixiRenderer | number): RenderTexture;
         mousedown(e: InteractionData): void;
         mouseout(e: InteractionData): void;
         mouseover(e: InteractionData): void;
@@ -952,30 +810,9 @@ declare module PIXI {
         rightdown(e: InteractionData): void;
         rightup(e: InteractionData): void;
         rightupoutside(e: InteractionData): void;
-
-        /**
-        * Sets the object's stage reference, the stage this object is connected to
-        * 
-        * @param stage the stage that the object will have as its current stage reference
-        */
         setStageReference(stage: DisplayObjectContainer): void;
         tap(e: InteractionData): void;
-
-        /**
-        * Calculates the global position of the display object
-        * 
-        * @param position The world origin to calculate from
-        * @return A point object representing the position of this object
-        */
         toGlobal(position: Point): Point;
-
-        /**
-        * Calculates the local position of the display object relative to another point
-        * 
-        * @param position The world origin to calculate from
-        * @param from The DisplayObject to calculate the global position from
-        * @return A point object representing the position of this object
-        */
         toLocal(position: Point, from: DisplayObject): Point;
         touchend(e: InteractionData): void;
         touchendoutside(e: InteractionData): void;
@@ -1014,6 +851,15 @@ declare module PIXI {
         * The width of the displayObjectContainer, setting this will actually modify the scale to achieve the value set
         */
         width: number;
+
+        /**
+        * If `ignoreChildInput`  is `false` it will allow this objects _children_ to be considered as valid for Input events.
+        * 
+        * If this property is `true` then the children will _not_ be considered as valid for Input events.
+        * 
+        * Note that this property isn't recursive: only immediate children are influenced, it doesn't scan further down.
+        */
+        ignoreChildInput: boolean;
 
 
         /**
@@ -1304,10 +1150,6 @@ declare module PIXI {
         * Default: 0xFFFFFF
         */
         tint: number;
-
-        /**
-        * [read-only] The multiplied alpha of the displayObject
-        */
         worldAlpha: number;
 
 
@@ -1449,7 +1291,7 @@ declare module PIXI {
         * @param padding Add optional extra padding to the generated texture (default 0)
         * @return a texture of the graphics object
         */
-        generateTexture(resolution?: number, scaleMode?: number, renderer?: PixiRenderer): RenderTexture;
+        generateTexture(resolution?: number, scaleMode?: number, padding?: number): RenderTexture;
 
         /**
         * Specifies the line style used for subsequent calls to Graphics methods such as the lineTo() method or the drawCircle() method.
@@ -1608,28 +1450,6 @@ declare module PIXI {
         once(eventName: string, fn: Function): Function;
         off(eventName: string, fn: Function): Function;
         removeAllEventListeners(eventName: string): void;
-
-    }
-
-    export class MovieClip extends Sprite {
-
-        static fromFrames(frames: string[]): MovieClip;
-        static fromImages(images: HTMLImageElement[]): HTMLImageElement;
-
-        constructor(textures: Texture[]);
-
-        animationSpeed: number;
-        currentFrame: number;
-        loop: boolean;
-        playing: boolean;
-        textures: Texture[];
-        totalFrames: number;
-
-        gotoAndPlay(frameNumber: number): void;
-        gotoAndStop(frameNumber: number): void;
-        onComplete(): void;
-        play(): void;
-        stop(): void;
 
     }
 
@@ -1926,7 +1746,7 @@ declare module PIXI {
         constructor(...points: Point[]);
         constructor(...points: number[]);
 
-        points: any[]; //number[] Point[]
+        points: any[];
 
         clone(): Polygon;
         contains(x: number, y: number): boolean;
@@ -2039,25 +1859,6 @@ declare module PIXI {
 
 
         /**
-        * Helper function that creates a sprite that will contain a texture from the TextureCache based on the frameId
-        *  The frame ids are created when a Texture packer file has been loaded
-        * 
-        * @param frameId The frame Id of the texture in the cache
-        * @return A new Sprite using a texture from the texture cache matching the frameId
-        */
-        static fromFrame(frameId: string): Sprite;
-
-        /**
-        * Helper function that creates a sprite that will contain a texture based on an image url
-        *  If the image is not in the texture cache it will be loaded
-        * 
-        * @param imageId The image url of the texture
-        * @return A new Sprite using a texture from the texture cache matching the image id
-        */
-        static fromImage(url: string, crossorigin?: boolean, scaleMode?: scaleModes): Sprite;
-
-
-        /**
         * The Sprite object is the base for all textured objects that are rendered to the screen
         * 
         * @param texture The texture for this sprite
@@ -2085,6 +1886,12 @@ declare module PIXI {
         * Default: PIXI.blendModes.NORMAL;
         */
         blendMode: blendModes;
+
+        /**
+        * Controls if this Sprite is processed by the core Phaser game loops and Group loops.
+        * Default: true
+        */
+        exists: boolean;
 
         /**
         * The shader that will be used to render the texture to the stage. Set to null to remove a current shader.
@@ -2192,7 +1999,7 @@ declare module PIXI {
             TRIANGLE_STRIP: number;
             TRIANGLES: number;
 
-        }
+        };
 
 
         /**
@@ -2258,40 +2065,6 @@ declare module PIXI {
         * @param scaleMode See {{#crossLink "PIXI/scaleModes:property"}}PIXI.scaleModes{{/crossLink}} for possible values
         */
         static fromCanvas(canvas: HTMLCanvasElement, scaleMode?: scaleModes): Texture;
-
-        /**
-        * Helper function that returns a Texture objected based on the given frame id.
-        * If the frame id is not in the texture cache an error will be thrown.
-        * 
-        * @param frameId The frame id of the texture
-        */
-        static fromFrame(frameId: string): Texture;
-
-        /**
-        * Helper function that creates a Texture object from the given image url.
-        * If the image is not in the texture cache it will be  created and loaded.
-        * 
-        * @param imageUrl The image url of the texture
-        * @param crossorigin Whether requests should be treated as crossorigin
-        * @param scaleMode See {{#crossLink "PIXI/scaleModes:property"}}PIXI.scaleModes{{/crossLink}} for possible values
-        */
-        static fromImage(imageUrl: string, crossorigin?: boolean, scaleMode?: scaleModes): Texture;
-
-        /**
-        * Adds a texture to the global PIXI.TextureCache. This cache is shared across the whole PIXI object.
-        * 
-        * @param texture The Texture to add to the cache.
-        * @param id The id that the texture will be stored against.
-        */
-        static addTextureToCache(texture: Texture, id: string): void;
-
-        /**
-        * Remove a texture from the global PIXI.TextureCache.
-        * 
-        * @param id The id of the texture to be removed
-        * @return The texture that was removed
-        */
-        static removeTextureFromCache(id: string): Texture;
 
 
         /**
@@ -2451,11 +2224,6 @@ declare module PIXI {
         */
         tileScaleOffset: Point;
 
-
-        /**
-        * Destroy this DisplayObject.
-        * Removes all references to transformCallbacks, its parent, the stage, filters, bounds, mask and cached Sprites.
-        */
         destroy(): void;
 
         /**
@@ -2717,7 +2485,7 @@ declare module PIXI {
         * @param webGL -
         * @param type -
         */
-        static switchMode(webGL: WebGLRenderingContext, type: number): any; //WebGLData
+        static switchMode(webGL: WebGLRenderingContext, type: number): any;
 
         /**
         * Builds a rectangle to draw
@@ -3093,7 +2861,7 @@ declare module PIXI {
         * The number of images in the SpriteBatch before it flushes
         */
         size: number;
-        sprites: any[]; //todo Sprite[]?
+        sprites: any[];
 
         /**
         * Holds the vertices
@@ -3267,7 +3035,7 @@ declare module PIXI {
 
     }
 
-    //SPINE
+    // SPINE
 
     export class BoneData {
 
@@ -3601,7 +3369,7 @@ declare module PIXI {
             rgb888: number;
             rgba8888: number;
 
-        }
+        };
 
         static TextureFilter: {
 
@@ -3613,7 +3381,7 @@ declare module PIXI {
             mipMapNearestLinear: number;
             mipMapLinearLinear: number;
 
-        }
+        };
 
         static textureWrap: {
 
@@ -3621,7 +3389,7 @@ declare module PIXI {
             clampToEdge: number;
             repeat: number;
 
-        }
+        };
 
         constructor(atlasText: string, textureLoader: AtlasLoader);
 
