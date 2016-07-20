@@ -12,11 +12,11 @@ As I've worked through the various tutorials I've created two templates that I u
 
 Of special note is the **_Starter** project which I'll be using as my base project, and will be updating as needed in the future.
 
-This project uses TypeScript with Phaser (2.4.7).
+This project uses TypeScript with Phaser (2.6.1).
 
 ### _Starter Simple
 
-This project uses TypeScript with Phaser (2.4.7), and aims to be a simple version of the **_Starter** project.
+This project uses TypeScript with Phaser (2.6.1), and aims to be a simple version of the **_Starter** project.
 
 ## Completed tutorials
 
@@ -91,7 +91,11 @@ n/a
 	- http://www.emanueleferonato.com/2015/12/29/create-a-html5-game-like-ios-hit-clocks-the-game-using-phaser-and-arcade-physics/
 	- http://www.emanueleferonato.com/2016/01/04/clocks-the-game-html5-prototype-step-2-how-to-select-starting-clock/
 	- http://www.emanueleferonato.com/2016/01/07/clocks-the-game-html5-prototype-step-3-actually-playing-the-game/
+- Dungeon Raid series
+	- http://www.emanueleferonato.com/2016/05/13/html5-dungeon-raid-tile-engine-made-with-phaser/
+	- http://www.emanueleferonato.com/2016/05/19/html5-dungeon-raid-tile-engine-made-with-phaser-part-2/
 - http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
+- http://www.emanueleferonato.com/2016/05/17/match-3-bejeweled-html5-prototype-made-with-phaser/
 - [Official tutorials](http://phaser.io/learn/official-tutorials)
 	- In particular http://phaser.io/tutorials/coding-tips-007
 
