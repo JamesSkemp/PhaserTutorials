@@ -66,44 +66,6 @@ var LevelSelectProject;
 })(LevelSelectProject || (LevelSelectProject = {}));
 var LevelSelectProject;
 (function (LevelSelectProject) {
-    var ExampleState = (function (_super) {
-        __extends(ExampleState, _super);
-        function ExampleState() {
-            _super.apply(this, arguments);
-        }
-        ExampleState.prototype.init = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState init()');
-            // init can receive parameters.
-        };
-        ExampleState.prototype.preload = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState preload()');
-            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
-        };
-        ExampleState.prototype.loadUpdate = function () {
-            // Called while assets are being loaded.
-        };
-        ExampleState.prototype.create = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState create()');
-        };
-        ExampleState.prototype.update = function () {
-        };
-        ExampleState.prototype.paused = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState paused()');
-        };
-        ExampleState.prototype.pauseUpdate = function () {
-        };
-        ExampleState.prototype.resumed = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState resumed()');
-        };
-        ExampleState.prototype.shutdown = function () {
-            console.log((new Date).toISOString() + ' : Entered ExampleState shutdown()');
-        };
-        return ExampleState;
-    }(Phaser.State));
-    LevelSelectProject.ExampleState = ExampleState;
-})(LevelSelectProject || (LevelSelectProject = {}));
-var LevelSelectProject;
-(function (LevelSelectProject) {
     var Boot = (function (_super) {
         __extends(Boot, _super);
         function Boot() {
@@ -141,202 +103,6 @@ var LevelSelectProject;
         return Boot;
     }(Phaser.State));
     LevelSelectProject.Boot = Boot;
-})(LevelSelectProject || (LevelSelectProject = {}));
-var LevelSelectProject;
-(function (LevelSelectProject) {
-    var CharacterSelection = (function (_super) {
-        __extends(CharacterSelection, _super);
-        function CharacterSelection() {
-            _super.apply(this, arguments);
-            this.speedMult = 0.7;
-            this.friction = 0.99;
-            this.colors = [
-                0xac81bd, 0xff5050, 0xdab5ff, 0xb5ffda, 0xfffdd0, 0xcc0000, 0x54748b, 0x4b0082, 0x80ab2f, 0xff784e, 0xe500db, 0x223c4a, 0x223c4a, 0xf1290e, 0x648080, 0xbbc1c4, 0x6f98a2, 0x71717e
-            ];
-        }
-        CharacterSelection.prototype.init = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection init()');
-            // init can receive parameters.
-        };
-        CharacterSelection.prototype.preload = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection preload()');
-            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
-        };
-        CharacterSelection.prototype.loadUpdate = function () {
-            // Called while assets are being loaded.
-        };
-        CharacterSelection.prototype.create = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection create()');
-            this.game.stage.backgroundColor = "#004";
-            this.game.add.text(this.game.width / 2, 50, "Select your fish", { font: '18px Arial', fill: '#fff' }).anchor.setTo(0.5);
-            this.scrollingMap = this.game.add.tileSprite(0, 0, this.game.width / 2 + this.colors.length * 90 + 60, this.game.height, 'transp');
-            this.scrollingMap.inputEnabled = true;
-            this.scrollingMap.input.enableDrag(false);
-            this.scrollingMap.input.allowVerticalDrag = false;
-            this.scrollingMap.input.boundsRect = new Phaser.Rectangle(this.game.width - this.scrollingMap.width, this.game.height - this.scrollingMap.height, this.scrollingMap.width * 2 - this.game.width, this.scrollingMap.height * 2 - this.game.height);
-            this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
-            this.isBeingDragged = false;
-            this.movingSpeed = 0;
-            for (var i = 0; i < this.colors.length; i++) {
-                var fish = this.game.add.image(this.game.width / 2 + i * 90, this.game.height / 2, 'fish');
-                fish.anchor.setTo(0.5);
-                fish.tint = this.colors[i];
-                this.scrollingMap.addChild(fish);
-            }
-            this.scrollingMap.events.onDragStart.add(function () {
-                this.isBeingDragged = true;
-                this.movingSpeed = 0;
-            }, this);
-            this.scrollingMap.events.onDragStop.add(function () {
-                this.isBeingDragged = false;
-            }, this);
-        };
-        CharacterSelection.prototype.update = function () {
-            var zoomed = false;
-            for (var i = 0; i < this.scrollingMap.children.length; i++) {
-                if (Math.abs(this.scrollingMap.children[i].worldPosition.x - this.game.width / 2) < 46 && !zoomed) {
-                    this.scrollingMap.getChildAt(i).scale.set(1.5, 1.5);
-                    zoomed = true;
-                }
-                else {
-                    this.scrollingMap.getChildAt(i).scale.set(1, 1);
-                }
-            }
-            if (this.isBeingDragged) {
-                this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
-            }
-            else {
-                if (this.movingSpeed > 1) {
-                    this.scrollingMap.x += this.movingSpeed * Math.cos(this.movingAngle);
-                    if (this.scrollingMap.x < this.game.width - this.scrollingMap.width) {
-                        this.scrollingMap.x = this.game.width - this.scrollingMap.width;
-                        this.movingSpeed *= 0.5;
-                        this.movingAngle += Math.PI;
-                    }
-                    if (this.scrollingMap.x > 0) {
-                        this.scrollingMap.x = 0;
-                        this.movingSpeed *= 0.5;
-                        this.movingAngle += Math.PI;
-                    }
-                    this.movingSpeed *= this.friction;
-                    this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
-                }
-                else {
-                    var distance = this.savedPosition.distance(this.scrollingMap.position);
-                    var angle = this.savedPosition.angle(this.scrollingMap.position);
-                    if (distance > 4) {
-                        this.movingSpeed = distance;
-                        this.movingAngle = angle;
-                    }
-                }
-            }
-        };
-        CharacterSelection.prototype.paused = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection paused()');
-        };
-        CharacterSelection.prototype.pauseUpdate = function () {
-        };
-        CharacterSelection.prototype.resumed = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection resumed()');
-        };
-        CharacterSelection.prototype.shutdown = function () {
-            console.log((new Date).toISOString() + ' : Entered CharacterSelection shutdown()');
-        };
-        return CharacterSelection;
-    }(Phaser.State));
-    LevelSelectProject.CharacterSelection = CharacterSelection;
-})(LevelSelectProject || (LevelSelectProject = {}));
-var LevelSelectProject;
-(function (LevelSelectProject) {
-    var DragSelection = (function (_super) {
-        __extends(DragSelection, _super);
-        function DragSelection() {
-            _super.apply(this, arguments);
-            this.colors = [
-                0xac81bd, 0xff5050, 0xdab5ff, 0xb5ffda, 0xfffdd0, 0xcc0000, 0x54748b, 0x4b0082, 0x80ab2f, 0xff784e, 0xe500db, 0x223c4a, 0x223c4a, 0xf1290e, 0x648080, 0xbbc1c4, 0x6f98a2, 0x71717e
-            ];
-            this.columns = 3;
-            this.rows = 5;
-            this.thumbWidth = 60;
-            this.thumbHeight = 60;
-            this.thumbSpacing = 20;
-        }
-        DragSelection.prototype.init = function () {
-            console.log((new Date).toISOString() + ' : Entered DragSelection init()');
-            // init can receive parameters.
-        };
-        DragSelection.prototype.preload = function () {
-            console.log((new Date).toISOString() + ' : Entered DragSelection preload()');
-            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
-            this.game.load.image('levelthumb');
-            this.game.load.image('transp');
-        };
-        DragSelection.prototype.create = function () {
-            console.log((new Date).toISOString() + ' : Entered DragSelection create()');
-            this.currentPage = 0;
-            this.game.stage.backgroundColor = '#004';
-            this.pageText = this.game.add.text(this.game.width / 2, 16, 'Swipe to select level page (1 / ' + this.colors.length + ')', { font: '18px Arial', fill: '#fff' });
-            this.pageText.anchor.setTo(0.5);
-            this.scrollingMap = this.game.add.tileSprite(0, 0, this.colors.length * this.game.width, this.game.height, 'transp');
-            this.scrollingMap.inputEnabled = true;
-            this.scrollingMap.input.enableDrag(false);
-            this.scrollingMap.input.allowVerticalDrag = false;
-            this.scrollingMap.input.boundsRect = new Phaser.Rectangle(this.game.width - this.scrollingMap.width, this.game.height - this.scrollingMap.height, this.scrollingMap.width * 2 - this.game.width, this.scrollingMap.height * 2 - this.game.height);
-            var rowWidth = this.thumbWidth * this.columns + this.thumbSpacing * (this.columns - 1);
-            var leftMargin = (this.game.width - rowWidth) / 2;
-            var colHeight = this.thumbHeight * this.columns + this.thumbSpacing * (this.columns - 1);
-            var topMargin = (this.game.width - colHeight) / 2;
-            for (var p = 0; p < this.colors.length; p++) {
-                for (var i = 0; i < this.columns; i++) {
-                    for (var j = 0; j < this.rows; j++) {
-                        var thumb = new LevelSelectProject.LevelThumb(this.game, p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing), topMargin + j * (this.thumbHeight + this.thumbSpacing));
-                        thumb.tint = this.colors[p];
-                        thumb.levelNumber = p * (this.rows * this.columns) + j * this.columns + i;
-                        var levelText = this.game.add.text(0, 0, thumb.levelNumber.toString(), { font: '36px Arial', fill: '#000' });
-                        thumb.addChild(levelText);
-                        this.scrollingMap.addChild(thumb);
-                    }
-                }
-            }
-            this.scrollingMap.events.onDragStart.add(function () {
-                this.startPosition = this.scrollingMap.x;
-                this.currentPosition = this.scrollingMap.x;
-            }, this);
-            this.scrollingMap.events.onDragStop.add(function (event, pointer) {
-                if (this.startPosition == this.scrollingMap.x) {
-                    for (i = 0; i < this.scrollingMap.children.length; i++) {
-                        var bounds = this.scrollingMap.children[i].getBounds();
-                        if (bounds.contains(pointer.x, pointer.y)) {
-                            alert("Play level " + this.scrollingMap.children[i].levelNumber);
-                            break;
-                        }
-                    }
-                }
-                else {
-                    if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
-                        this.changePage(1);
-                    }
-                    else {
-                        if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
-                            this.changePage(-1);
-                        }
-                        else {
-                            this.changePage(0);
-                        }
-                    }
-                }
-            }, this);
-        };
-        DragSelection.prototype.changePage = function (page) {
-            this.currentPage += page;
-            this.pageText.text = 'Swipe to select level page (' + (this.currentPage + 1).toString() + ' / ' + this.colors.length + ')';
-            var tween = this.game.add.tween(this.scrollingMap).to({
-                x: this.currentPage * -this.game.width
-            }, 300, Phaser.Easing.Cubic.Out, true);
-        };
-        return DragSelection;
-    }(Phaser.State));
-    LevelSelectProject.DragSelection = DragSelection;
 })(LevelSelectProject || (LevelSelectProject = {}));
 var LevelSelectProject;
 (function (LevelSelectProject) {
@@ -483,6 +249,36 @@ var LevelSelectProject;
         return MainMenu;
     }(Phaser.State));
     LevelSelectProject.MainMenu = MainMenu;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
+    var Preloader = (function (_super) {
+        __extends(Preloader, _super);
+        function Preloader() {
+            _super.apply(this, arguments);
+        }
+        Preloader.prototype.preload = function () {
+            console.log((new Date).toISOString() + ' : Entered Preloader preload()');
+            // If your game uses a graphic while assets are loaded, you would create the sprite and then display it via the below.
+            //this.load.setPreloadSprite(this.preloadSprite);
+            // Load the actual assets. By default the path will be set to the assets directory.
+            this.load.path = 'assets/';
+            // Assets loaded here can include image and audio files, as well as sprite sheets and more.
+            this.load.spritesheet('level_arrows', 'level_arrows.png', 48, 48);
+            this.load.spritesheet('levels', 'levels.png', 64, 64);
+            this.load.spritesheet('game', 'game.png', 200, 80);
+            // Assets for character selection example.
+            this.load.image('fish');
+            this.load.image('transp');
+        };
+        Preloader.prototype.create = function () {
+            console.log((new Date).toISOString() + ' : Entered Preloader create()');
+            // Once the assets have been preloaded you can move to the next state.
+            this.game.state.start('MainMenu', true, false);
+        };
+        return Preloader;
+    }(Phaser.State));
+    LevelSelectProject.Preloader = Preloader;
 })(LevelSelectProject || (LevelSelectProject = {}));
 var LevelSelectProject;
 (function (LevelSelectProject) {
@@ -687,36 +483,6 @@ var LevelSelectProject;
 })(LevelSelectProject || (LevelSelectProject = {}));
 var LevelSelectProject;
 (function (LevelSelectProject) {
-    var Preloader = (function (_super) {
-        __extends(Preloader, _super);
-        function Preloader() {
-            _super.apply(this, arguments);
-        }
-        Preloader.prototype.preload = function () {
-            console.log((new Date).toISOString() + ' : Entered Preloader preload()');
-            // If your game uses a graphic while assets are loaded, you would create the sprite and then display it via the below.
-            //this.load.setPreloadSprite(this.preloadSprite);
-            // Load the actual assets. By default the path will be set to the assets directory.
-            this.load.path = 'assets/';
-            // Assets loaded here can include image and audio files, as well as sprite sheets and more.
-            this.load.spritesheet('level_arrows', 'level_arrows.png', 48, 48);
-            this.load.spritesheet('levels', 'levels.png', 64, 64);
-            this.load.spritesheet('game', 'game.png', 200, 80);
-            // Assets for character selection example.
-            this.load.image('fish');
-            this.load.image('transp');
-        };
-        Preloader.prototype.create = function () {
-            console.log((new Date).toISOString() + ' : Entered Preloader create()');
-            // Once the assets have been preloaded you can move to the next state.
-            this.game.state.start('MainMenu', true, false);
-        };
-        return Preloader;
-    }(Phaser.State));
-    LevelSelectProject.Preloader = Preloader;
-})(LevelSelectProject || (LevelSelectProject = {}));
-var LevelSelectProject;
-(function (LevelSelectProject) {
     var ScrollableMap = (function (_super) {
         __extends(ScrollableMap, _super);
         function ScrollableMap() {
@@ -818,5 +584,239 @@ var LevelSelectProject;
         return ScrollableMap;
     }(Phaser.State));
     LevelSelectProject.ScrollableMap = ScrollableMap;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
+    var CharacterSelection = (function (_super) {
+        __extends(CharacterSelection, _super);
+        function CharacterSelection() {
+            _super.apply(this, arguments);
+            this.speedMult = 0.7;
+            this.friction = 0.99;
+            this.colors = [
+                0xac81bd, 0xff5050, 0xdab5ff, 0xb5ffda, 0xfffdd0, 0xcc0000, 0x54748b, 0x4b0082, 0x80ab2f, 0xff784e, 0xe500db, 0x223c4a, 0x223c4a, 0xf1290e, 0x648080, 0xbbc1c4, 0x6f98a2, 0x71717e
+            ];
+        }
+        CharacterSelection.prototype.init = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection init()');
+            // init can receive parameters.
+        };
+        CharacterSelection.prototype.preload = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection preload()');
+            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
+        };
+        CharacterSelection.prototype.loadUpdate = function () {
+            // Called while assets are being loaded.
+        };
+        CharacterSelection.prototype.create = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection create()');
+            this.game.stage.backgroundColor = "#004";
+            this.game.add.text(this.game.width / 2, 50, "Select your fish", { font: '18px Arial', fill: '#fff' }).anchor.setTo(0.5);
+            this.scrollingMap = this.game.add.tileSprite(0, 0, this.game.width / 2 + this.colors.length * 90 + 60, this.game.height, 'transp');
+            this.scrollingMap.inputEnabled = true;
+            this.scrollingMap.input.enableDrag(false);
+            this.scrollingMap.input.allowVerticalDrag = false;
+            this.scrollingMap.input.boundsRect = new Phaser.Rectangle(this.game.width - this.scrollingMap.width, this.game.height - this.scrollingMap.height, this.scrollingMap.width * 2 - this.game.width, this.scrollingMap.height * 2 - this.game.height);
+            this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
+            this.isBeingDragged = false;
+            this.movingSpeed = 0;
+            for (var i = 0; i < this.colors.length; i++) {
+                var fish = this.game.add.image(this.game.width / 2 + i * 90, this.game.height / 2, 'fish');
+                fish.anchor.setTo(0.5);
+                fish.tint = this.colors[i];
+                this.scrollingMap.addChild(fish);
+            }
+            this.scrollingMap.events.onDragStart.add(function () {
+                this.isBeingDragged = true;
+                this.movingSpeed = 0;
+            }, this);
+            this.scrollingMap.events.onDragStop.add(function () {
+                this.isBeingDragged = false;
+            }, this);
+        };
+        CharacterSelection.prototype.update = function () {
+            var zoomed = false;
+            for (var i = 0; i < this.scrollingMap.children.length; i++) {
+                if (Math.abs(this.scrollingMap.children[i].worldPosition.x - this.game.width / 2) < 46 && !zoomed) {
+                    this.scrollingMap.getChildAt(i).scale.set(1.5, 1.5);
+                    zoomed = true;
+                }
+                else {
+                    this.scrollingMap.getChildAt(i).scale.set(1, 1);
+                }
+            }
+            if (this.isBeingDragged) {
+                this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
+            }
+            else {
+                if (this.movingSpeed > 1) {
+                    this.scrollingMap.x += this.movingSpeed * Math.cos(this.movingAngle);
+                    if (this.scrollingMap.x < this.game.width - this.scrollingMap.width) {
+                        this.scrollingMap.x = this.game.width - this.scrollingMap.width;
+                        this.movingSpeed *= 0.5;
+                        this.movingAngle += Math.PI;
+                    }
+                    if (this.scrollingMap.x > 0) {
+                        this.scrollingMap.x = 0;
+                        this.movingSpeed *= 0.5;
+                        this.movingAngle += Math.PI;
+                    }
+                    this.movingSpeed *= this.friction;
+                    this.savedPosition = new Phaser.Point(this.scrollingMap.x, this.scrollingMap.y);
+                }
+                else {
+                    var distance = this.savedPosition.distance(this.scrollingMap.position);
+                    var angle = this.savedPosition.angle(this.scrollingMap.position);
+                    if (distance > 4) {
+                        this.movingSpeed = distance;
+                        this.movingAngle = angle;
+                    }
+                }
+            }
+        };
+        CharacterSelection.prototype.paused = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection paused()');
+        };
+        CharacterSelection.prototype.pauseUpdate = function () {
+        };
+        CharacterSelection.prototype.resumed = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection resumed()');
+        };
+        CharacterSelection.prototype.shutdown = function () {
+            console.log((new Date).toISOString() + ' : Entered CharacterSelection shutdown()');
+        };
+        return CharacterSelection;
+    }(Phaser.State));
+    LevelSelectProject.CharacterSelection = CharacterSelection;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
+    var DragSelection = (function (_super) {
+        __extends(DragSelection, _super);
+        function DragSelection() {
+            _super.apply(this, arguments);
+            this.colors = [
+                0xac81bd, 0xff5050, 0xdab5ff, 0xb5ffda, 0xfffdd0, 0xcc0000, 0x54748b, 0x4b0082, 0x80ab2f, 0xff784e, 0xe500db, 0x223c4a, 0x223c4a, 0xf1290e, 0x648080, 0xbbc1c4, 0x6f98a2, 0x71717e
+            ];
+            this.columns = 3;
+            this.rows = 5;
+            this.thumbWidth = 60;
+            this.thumbHeight = 60;
+            this.thumbSpacing = 20;
+        }
+        DragSelection.prototype.init = function () {
+            console.log((new Date).toISOString() + ' : Entered DragSelection init()');
+            // init can receive parameters.
+        };
+        DragSelection.prototype.preload = function () {
+            console.log((new Date).toISOString() + ' : Entered DragSelection preload()');
+            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
+            this.game.load.image('levelthumb');
+            this.game.load.image('transp');
+        };
+        DragSelection.prototype.create = function () {
+            console.log((new Date).toISOString() + ' : Entered DragSelection create()');
+            this.currentPage = 0;
+            this.game.stage.backgroundColor = '#004';
+            this.pageText = this.game.add.text(this.game.width / 2, 16, 'Swipe to select level page (1 / ' + this.colors.length + ')', { font: '18px Arial', fill: '#fff' });
+            this.pageText.anchor.setTo(0.5);
+            this.scrollingMap = this.game.add.tileSprite(0, 0, this.colors.length * this.game.width, this.game.height, 'transp');
+            this.scrollingMap.inputEnabled = true;
+            this.scrollingMap.input.enableDrag(false);
+            this.scrollingMap.input.allowVerticalDrag = false;
+            this.scrollingMap.input.boundsRect = new Phaser.Rectangle(this.game.width - this.scrollingMap.width, this.game.height - this.scrollingMap.height, this.scrollingMap.width * 2 - this.game.width, this.scrollingMap.height * 2 - this.game.height);
+            var rowWidth = this.thumbWidth * this.columns + this.thumbSpacing * (this.columns - 1);
+            var leftMargin = (this.game.width - rowWidth) / 2;
+            var colHeight = this.thumbHeight * this.columns + this.thumbSpacing * (this.columns - 1);
+            var topMargin = (this.game.width - colHeight) / 2;
+            for (var p = 0; p < this.colors.length; p++) {
+                for (var i = 0; i < this.columns; i++) {
+                    for (var j = 0; j < this.rows; j++) {
+                        var thumb = new LevelSelectProject.LevelThumb(this.game, p * this.game.width + leftMargin + i * (this.thumbWidth + this.thumbSpacing), topMargin + j * (this.thumbHeight + this.thumbSpacing));
+                        thumb.tint = this.colors[p];
+                        thumb.levelNumber = p * (this.rows * this.columns) + j * this.columns + i;
+                        var levelText = this.game.add.text(0, 0, thumb.levelNumber.toString(), { font: '36px Arial', fill: '#000' });
+                        thumb.addChild(levelText);
+                        this.scrollingMap.addChild(thumb);
+                    }
+                }
+            }
+            this.scrollingMap.events.onDragStart.add(function () {
+                this.startPosition = this.scrollingMap.x;
+                this.currentPosition = this.scrollingMap.x;
+            }, this);
+            this.scrollingMap.events.onDragStop.add(function (event, pointer) {
+                if (this.startPosition == this.scrollingMap.x) {
+                    for (i = 0; i < this.scrollingMap.children.length; i++) {
+                        var bounds = this.scrollingMap.children[i].getBounds();
+                        if (bounds.contains(pointer.x, pointer.y)) {
+                            alert("Play level " + this.scrollingMap.children[i].levelNumber);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    if (this.startPosition - this.scrollingMap.x > this.game.width / 8) {
+                        this.changePage(1);
+                    }
+                    else {
+                        if (this.startPosition - this.scrollingMap.x < -this.game.width / 8) {
+                            this.changePage(-1);
+                        }
+                        else {
+                            this.changePage(0);
+                        }
+                    }
+                }
+            }, this);
+        };
+        DragSelection.prototype.changePage = function (page) {
+            this.currentPage += page;
+            this.pageText.text = 'Swipe to select level page (' + (this.currentPage + 1).toString() + ' / ' + this.colors.length + ')';
+            var tween = this.game.add.tween(this.scrollingMap).to({
+                x: this.currentPage * -this.game.width
+            }, 300, Phaser.Easing.Cubic.Out, true);
+        };
+        return DragSelection;
+    }(Phaser.State));
+    LevelSelectProject.DragSelection = DragSelection;
+})(LevelSelectProject || (LevelSelectProject = {}));
+var LevelSelectProject;
+(function (LevelSelectProject) {
+    var ExampleState = (function (_super) {
+        __extends(ExampleState, _super);
+        function ExampleState() {
+            _super.apply(this, arguments);
+        }
+        ExampleState.prototype.init = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState init()');
+            // init can receive parameters.
+        };
+        ExampleState.prototype.preload = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState preload()');
+            // Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
+        };
+        ExampleState.prototype.loadUpdate = function () {
+            // Called while assets are being loaded.
+        };
+        ExampleState.prototype.create = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState create()');
+        };
+        ExampleState.prototype.update = function () {
+        };
+        ExampleState.prototype.paused = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState paused()');
+        };
+        ExampleState.prototype.pauseUpdate = function () {
+        };
+        ExampleState.prototype.resumed = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState resumed()');
+        };
+        ExampleState.prototype.shutdown = function () {
+            console.log((new Date).toISOString() + ' : Entered ExampleState shutdown()');
+        };
+        return ExampleState;
+    }(Phaser.State));
+    LevelSelectProject.ExampleState = ExampleState;
 })(LevelSelectProject || (LevelSelectProject = {}));
 //# sourceMappingURL=app.js.map
