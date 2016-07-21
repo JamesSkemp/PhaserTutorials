@@ -94,6 +94,10 @@ n/a
 - Dungeon Raid series
 	- http://www.emanueleferonato.com/2016/05/13/html5-dungeon-raid-tile-engine-made-with-phaser/
 	- http://www.emanueleferonato.com/2016/05/19/html5-dungeon-raid-tile-engine-made-with-phaser-part-2/
+	- http://www.emanueleferonato.com/2016/06/09/html5-dungeon-raid-tile-engine-made-with-phaser-part-3/
+- More Bejeweled/Match-3 cloning
+	- http://www.emanueleferonato.com/2016/06/17/match-3-bejeweled-html5-prototype-made-with-phaser-suggesting-moves/
+	- http://www.emanueleferonato.com/2016/07/05/match-3-bejeweled-html5-prototype-made-with-phaser-detecting-combos/
 - http://www.emanueleferonato.com/2016/01/18/how-to-create-a-html-draggable-and-scrollable-map-with-inertia-using-phaser-framework/
 - http://www.emanueleferonato.com/2016/05/17/match-3-bejeweled-html5-prototype-made-with-phaser/
 - [Official tutorials](http://phaser.io/learn/official-tutorials)
