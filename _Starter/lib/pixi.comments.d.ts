@@ -647,9 +647,9 @@ declare module PIXI {
 
 
         /**
-        * Renders the Stage to this canvas view
+        * Renders the DisplayObjectContainer, usually the Phaser.Stage, to this canvas view.
         * 
-        * @param stage the Stage element to be rendered
+        * @param root The root element to be rendered.
         */
         render(stage: DisplayObjectContainer): void;
 
@@ -796,9 +796,7 @@ declare module PIXI {
         y: number;
 
         click(e: InteractionData): void;
-        displayObjectUpdateTransform(): void;
-        getBounds(matrix?: Matrix): Rectangle;
-        getLocalBounds(): Rectangle;
+        displayObjectUpdateTransform(parent?: DisplayObjectContainer): void;
         generateTexture(resolution?: number, scaleMode?: number, renderer?: PixiRenderer | number): RenderTexture;
         mousedown(e: InteractionData): void;
         mouseout(e: InteractionData): void;
@@ -818,7 +816,7 @@ declare module PIXI {
         touchendoutside(e: InteractionData): void;
         touchstart(e: InteractionData): void;
         touchmove(e: InteractionData): void;
-        updateTransform(parent?: PIXI.DisplayObjectContainer): void;
+        updateTransform(parent?: DisplayObjectContainer): void;
 
     }
 
@@ -880,10 +878,12 @@ declare module PIXI {
         addChildAt(child: DisplayObject, index: number): DisplayObject;
 
         /**
-        * Retrieves the bounds of the displayObjectContainer as a rectangle. The bounds calculation takes all visible children into consideration.
+        * Retrieves the global bounds of the displayObjectContainer as a rectangle. The bounds calculation takes all visible children into consideration.
+        * 
+        * @param targetCoordinateSpace Returns a rectangle that defines the area of the display object relative to the coordinate system of the targetCoordinateSpace object.
         * @return The rectangular bounding area
         */
-        getBounds(): Rectangle;
+        getBounds(targetCoordinateSpace?: DisplayObject | Matrix): Rectangle;
 
         /**
         * Returns the child at the specified index
@@ -902,7 +902,7 @@ declare module PIXI {
         getChildIndex(child: DisplayObject): number;
 
         /**
-        * Retrieves the non-global local bounds of the displayObjectContainer as a rectangle. The calculation takes all visible children into consideration.
+        * Retrieves the non-global local bounds of the displayObjectContainer as a rectangle without any transformations. The calculation takes all visible children into consideration.
         * @return The rectangular bounding area
         */
         getLocalBounds(): Rectangle;
@@ -930,10 +930,6 @@ declare module PIXI {
         * @param endIndex The ending position. Default value is size of the container.
         */
         removeChildren(beginIndex?: number, endIndex?: number): DisplayObject[];
-
-        /**
-        * Removes the current stage reference from the container and all of its children.
-        */
         removeStageReference(): void;
 
         /**
@@ -951,6 +947,13 @@ declare module PIXI {
         * @param child2 -
         */
         swapChildren(child: DisplayObject, child2: DisplayObject): void;
+
+        /**
+        * Determines whether the specified display object is a child of the DisplayObjectContainer instance or the instance itself.
+        * 
+        * @param child -
+        */
+        contains(child: DisplayObject): boolean;
 
     }
 
@@ -1862,11 +1865,6 @@ declare module PIXI {
         * The Sprite object is the base for all textured objects that are rendered to the screen
         * 
         * @param texture The texture for this sprite
-        * 
-        *                A sprite can be created directly from an image like this :
-        *                var sprite = new PIXI.Sprite.fromImage('assets/image.png');
-        *                yourStage.addChild(sprite);
-        *                then obviously don't forget to add it to the stage you have already created
         */
         constructor(texture: Texture);
 
@@ -1894,7 +1892,8 @@ declare module PIXI {
         exists: boolean;
 
         /**
-        * The shader that will be used to render the texture to the stage. Set to null to remove a current shader.
+        * The shader that will be used to render this Sprite.
+        * Set to null to remove a current shader.
         * Default: null
         */
         shader: IPixiShader;
@@ -1930,8 +1929,6 @@ declare module PIXI {
     * 
     *    var container = new PIXI.SpriteBatch();
     * 
-    *    stage.addChild(container);
-    * 
     *    for(var i  = 0; i < 100; i++)
     *    {
     *        var sprite = new PIXI.Sprite.fromImage("myImage.png");
@@ -1948,8 +1945,6 @@ declare module PIXI {
         * And it's extremely easy to use :
         * 
         *    var container = new PIXI.SpriteBatch();
-        * 
-        *    stage.addChild(container);
         * 
         *    for(var i  = 0; i < 100; i++)
         *    {
