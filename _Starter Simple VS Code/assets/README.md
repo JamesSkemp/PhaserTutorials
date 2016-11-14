@@ -1,0 +1,1 @@
+This directory could contain any assets (images, audio, etcetera) the game might require.
