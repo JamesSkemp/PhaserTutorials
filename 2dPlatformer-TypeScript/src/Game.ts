@@ -1,9 +1,9 @@
 ﻿module TwoDPlatformerProject {
 	export class Game extends Phaser.State {
 		player: Phaser.Sprite;
-		wall: Phaser.Sprite;
-		coin: Phaser.Sprite;
-		enemy: Phaser.Sprite;
+		walls: Phaser.Group;
+		coins: Phaser.Group;
+		enemies: Phaser.Group;
 
 		cursor: Phaser.CursorKeys;
 
@@ -49,9 +49,47 @@
 			this.cursor = this.game.input.keyboard.createCursorKeys();
 
 			this.player = this.game.add.sprite(70, this.world.centerY, 'player');
-			this.player.anchor.setTo(0.5);
 			this.player.body.gravity.y = 600;
 
+			this.walls = this.game.add.group();
+			this.coins = this.game.add.group();
+			this.enemies = this.game.add.group();
+
+			// x = wall, ! = lava, o = coin
+			var level = [
+				'xxxxxxxxxxxxxxxxxxxxxx',
+				'!         !          x',
+				'!                 o  x',
+				'!         o          x',
+				'!                    x',
+				'!     o   !    x     x',
+				'xxxxxxxxxxxxxxxx!!!!!x',
+			];
+
+			// Create the level by going through the array
+			for (var i = 0; i < level.length; i++) {
+				for (var j = 0; j < level[i].length; j++) {
+
+					// Create a wall and add it to the 'walls' group
+					if (level[i][j] == 'x') {
+						var wall = this.game.add.sprite(30+20*j, 30+20*i, 'wall');
+						this.walls.add(wall);
+						wall.body.immovable = true;
+					}
+
+					// Create a coin and add it to the 'coins' group
+					else if (level[i][j] == 'o') {
+						var coin = this.game.add.sprite(30+20*j, 30+20*i, 'coin');
+						this.coins.add(coin);
+					}
+
+					// Create a enemy and add it to the 'enemies' group
+					else if (level[i][j] == '!') {
+						var enemy = this.game.add.sprite(30+20*j, 30+20*i, 'enemy');
+						this.enemies.add(enemy);
+					}
+				}
+			}
 			//this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
 			//this.phaserLogo.anchor.setTo(0.5);
 
@@ -59,6 +97,34 @@
 		}
 
 		update() {
+			// Make the player and the walls collide
+			this.game.physics.arcade.collide(this.player, this.walls);
+
+			// Call the 'takeCoin' function when the player takes a coin
+			this.game.physics.arcade.overlap(this.player, this.coins, this.takeCoin, null, this);
+
+			// Call the 'restart' function when the player touches the enemy
+			this.game.physics.arcade.overlap(this.player, this.enemies, this.restart, null, this);
+
+			if (this.cursor.left.isDown) {
+				this.player.body.velocity.x = -200;
+			} else if (this.cursor.right.isDown) {
+				this.player.body.velocity.x = 200;
+			} else {
+				this.player.body.velocity.x = 0;
+			}
+
+			if (this.cursor.up.isDown && this.player.body.touching.down) {
+				this.player.body.velocity.y = -250;
+			}
+		}
+
+		takeCoin(player: any, coin: any) {
+			coin.kill();
+		}
+
+		restart() {
+			this.game.state.start('Game');
 		}
 	}
 }
