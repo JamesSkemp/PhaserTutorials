@@ -48,6 +48,7 @@ In case it provides any benefit, the following is the order in which I completed
 | HiLo-TypeScript | *March 2016* |
 | TwentyFortyEight-TypeScript | *April 2016* |
 | LevelSelection-TypeScript | *April 2016* |
+| 2dPlatformer-TypeScript | *December 2016* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 

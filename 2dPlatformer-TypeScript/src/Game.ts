@@ -75,18 +75,21 @@
 						var wall = this.game.add.sprite(30+20*j, 30+20*i, 'wall');
 						this.walls.add(wall);
 						wall.body.immovable = true;
+						wall.tint = 0x40211b;
 					}
 
 					// Create a coin and add it to the 'coins' group
 					else if (level[i][j] == 'o') {
 						var coin = this.game.add.sprite(30+20*j, 30+20*i, 'coin');
 						this.coins.add(coin);
+						coin.tint = 0xffc300;
 					}
 
 					// Create a enemy and add it to the 'enemies' group
 					else if (level[i][j] == '!') {
 						var enemy = this.game.add.sprite(30+20*j, 30+20*i, 'enemy');
 						this.enemies.add(enemy);
+						enemy.tint = 0x800000;
 					}
 				}
 			}
