@@ -10,14 +10,14 @@
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
 			// If you want to scale the game, you can set that here.
-			//this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 			// If we put our game in a div, we need to add the following as well, if you SHOW_ALL.
-			//this.game.scale.windowConstraints.bottom = 'visual';
+			this.game.scale.windowConstraints.bottom = 'visual';
 
 			// Uncomment to place our game in the center of the screen both horizontally and vertically.
-			//this.scale.pageAlignHorizontally = true;
-			//this.scale.pageAlignVertically = true;
+			this.scale.pageAlignHorizontally = true;
+			this.scale.pageAlignVertically = true;
 
 			// Disable multitouch. It's recommended by the creators to set this unless your game needs multitouch.
 			this.input.maxPointers = 1;
@@ -33,7 +33,6 @@
 
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
-			//this.load.image('Phaser-Logo-Small');
 			this.load.image('player', 'box.png');
 			this.load.image('wall', 'box.png');
 			this.load.image('coin', 'box.png');
@@ -93,21 +92,11 @@
 					}
 				}
 			}
-			//this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
-			//this.phaserLogo.anchor.setTo(0.5);
-
-			//this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: '24px', fill: '#fff' });
 		}
 
 		update() {
 			// Make the player and the walls collide
 			this.game.physics.arcade.collide(this.player, this.walls);
-
-			// Call the 'takeCoin' function when the player takes a coin
-			this.game.physics.arcade.overlap(this.player, this.coins, this.takeCoin, null, this);
-
-			// Call the 'restart' function when the player touches the enemy
-			this.game.physics.arcade.overlap(this.player, this.enemies, this.restart, null, this);
 
 			if (this.cursor.left.isDown) {
 				this.player.body.velocity.x = -200;
@@ -117,9 +106,13 @@
 				this.player.body.velocity.x = 0;
 			}
 
-			if (this.cursor.up.isDown && this.player.body.touching.down) {
+			if (this.cursor.up.isDown && (this.player.body as Phaser.Physics.Arcade.Body).touching.down) {
 				this.player.body.velocity.y = -250;
 			}
+
+			this.game.physics.arcade.overlap(this.player, this.coins, this.takeCoin, null, this);
+
+			this.game.physics.arcade.overlap(this.player, this.enemies, this.restart, null, this);
 		}
 
 		takeCoin(player: any, coin: any) {
