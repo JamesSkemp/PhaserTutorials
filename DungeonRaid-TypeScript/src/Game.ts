@@ -19,24 +19,23 @@
 			this.input.maxPointers = 1;
 
 			// If your game uses a physics system, you can start that here.
-			this.game.physics.startSystem(Phaser.Physics.ARCADE);
+			//this.game.physics.startSystem(Phaser.Physics.ARCADE);
 		}
 
 		preload() {
 			console.log((new Date).toISOString() + ' : Entered Game preload()');
 
+			this.game.stage.backgroundColor = '#444';
+
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
-			this.load.image('Phaser-Logo-Small');
+			this.load.image('tiles');
+			this.load.spritesheet('arrows', 'arrows.png', 420, 420);
 		}
 
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Game create()');
 			// Start building your game here.
-			this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
-			this.phaserLogo.anchor.setTo(0.5);
-
-			this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: '24px', fill: '#fff' });
 		}
 
 		update() {
