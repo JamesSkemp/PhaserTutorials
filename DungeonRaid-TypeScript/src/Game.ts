@@ -1,4 +1,4 @@
-﻿module StarterSimpleProject {
+﻿module DungeonRaidProject {
 	export class Game extends Phaser.State {
 		phaserLogo: Phaser.Sprite;
 		phaserLogoText: Phaser.Text;
