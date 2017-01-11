@@ -1,7 +1,13 @@
 ﻿module DungeonRaidProject {
 	export class Game extends Phaser.State {
-		phaserLogo: Phaser.Sprite;
-		phaserLogoText: Phaser.Text;
+		tileSize: number = 140;
+		fieldSize = {
+			rows: 6,
+			cols: 5
+		};
+		fallSpeed: number = 250;
+		diagonal: boolean = false;
+		colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00];
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
