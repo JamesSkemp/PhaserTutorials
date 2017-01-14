@@ -78,4 +78,14 @@
 			this.removedTiles = [];
 		}
 	}
+
+	export class Tile extends Phaser.Sprite {
+		picked: boolean;
+		coordinate: Phaser.Point;
+		value: number;
+
+		constructor(game, x, y) {
+			super(game, x, y, 'tiles');
+		}
+	}
 }
