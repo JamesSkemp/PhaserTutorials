@@ -8,6 +8,11 @@
 		fallSpeed: number = 250;
 		diagonal: boolean = false;
 		colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00];
+		tilesArray = [];
+		arrowsArray = [];
+		tileGroup: Phaser.Group;
+		arrowsGroup: Phaser.Group;
+		removedTiles = [];
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -42,9 +47,35 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered Game create()');
 			// Start building your game here.
+			this.createLevel();
 		}
 
 		update() {
+		}
+
+		createLevel() {
+			this.tilesArray = [];
+			this.arrowsArray = [];
+			this.tileGroup = this.game.add.group();
+			this.arrowsGroup = this.game.add.group();
+			this.tileGroup.x = (this.game.width - this.tileSize * this.fieldSize.cols) / 2;
+			this.tileGroup.y = (this.game.height - this.tileSize * this.fieldSize.rows) / 2;
+			this.arrowsGroup.x = this.tileGroup.x;
+			this.arrowsGroup.y = this.tileGroup.y;
+
+			var tileMask = this.game.add.graphics(this.tileGroup.x, this.tileGroup.y);
+			tileMask.beginFill(0xffffff);
+			tileMask.drawRect(0, 0, this.tileSize * this.fieldSize.cols, this.tileSize * this.fieldSize.rows);
+			this.tileGroup.mask = tileMask;
+
+			// Create actual tiles.
+			for (var i = 0; i < this.fieldSize.rows; i++) {
+				this.tilesArray[i] = [];
+				for (var j = 0; j < this.fieldSize.cols; j++) {
+					// TODO Add actual tile.
+				}
+			}
+			this.removedTiles = [];
 		}
 	}
 }
