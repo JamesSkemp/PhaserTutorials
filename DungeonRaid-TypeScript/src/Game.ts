@@ -72,10 +72,27 @@
 			for (var i = 0; i < this.fieldSize.rows; i++) {
 				this.tilesArray[i] = [];
 				for (var j = 0; j < this.fieldSize.cols; j++) {
-					// TODO Add actual tile.
+					// Add actual tile.
+					this.addTile(i, j);
 				}
 			}
 			this.removedTiles = [];
+		}
+
+		addTile(row: number, col: number) {
+			var tileXPos = col * this.tileSize + this.tileSize / 2;
+			var tileYPos = row * this.tileSize + this.tileSize / 2;
+			var theTile = new Tile(this.game, tileXPos, tileYPos);
+			theTile.anchor.set(0.5);
+			theTile.picked = false;
+			theTile.coordinate = new Phaser.Point(col, row);
+			theTile.tint = theTile.value;
+
+			this.tilesArray[row][col] = theTile;
+
+			var text = this.game.add.text(-this.tileSize / 4, 0, "R" + theTile.coordinate.y.toString() + " , C" + theTile.coordinate.x.toString(), { fill: "#000", font: "bold 24px Arial" });
+			theTile.addChild(text);
+			this.tileGroup.add(theTile);
 		}
 	}
 
