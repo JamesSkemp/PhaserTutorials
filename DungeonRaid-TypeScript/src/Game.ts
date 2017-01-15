@@ -122,7 +122,19 @@
 
 		releaseTile() {
 			this.game.input.onUp.remove(this.releaseTile, this);
+
+			this.clearPath();
+			
 			console.log("=========");
+		}
+		
+		clearPath() {
+			this.arrowsGroup.removeAll(true);
+			for (var i = 0; i < this.visitedTiles.length; i++) {
+				this.tilesArray[this.visitedTiles[i].y][this.visitedTiles[i].x].visible = false;
+				this.removedTiles.push(this.tilesArray[this.visitedTiles[i].y][this.visitedTiles[i].x]);
+				this.tilesArray[this.visitedTiles[i].y][this.visitedTiles[i].x] = null;
+			}
 		}
 	}
 
