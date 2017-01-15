@@ -166,6 +166,8 @@
 
 			this.tilesFallDown();
 
+			this.placeNewTiles();
+
 			console.log("=========");
 		}
 		
@@ -211,7 +213,7 @@
 
 							var tween = this.game.add.tween(this.tilesArray[i][j]).to({
 								y: this.tilesArray[i][j].y + holes * this.tileSize 
-								}, this.fallSpeed, Phaser.Easing.Linear.None, true);
+							}, this.fallSpeed, Phaser.Easing.Linear.None, true);
 							tween.onComplete.add(this.nextPick, this);
 
 							this.tilesArray[destination.y][destination.x] = this.tilesArray[i][j];
@@ -247,6 +249,35 @@
 		nextPick() {
 			if (!this.game.input.onDown.has(this.pickTile, this)) {
 				this.game.input.onDown.add(this.pickTile, this);
+			}
+		}
+
+		placeNewTiles() {
+			for (var i = 0; i < this.fieldSize.cols; i++) {
+				var holes = this.holesInCol(i);
+				if (holes > 0) {
+					for (var j = 1; j <= holes; j++) {
+						var tileXPos = i * this.tileSize + this.tileSize / 2;
+						var tileYPos = -j * this.tileSize + this.tileSize / 2;
+
+						var theTile: Tile = this.removedTiles.pop();
+						theTile.position = new Phaser.Point(tileXPos, tileYPos);
+						theTile.visible = true;
+						theTile.alpha = 1;
+						theTile.picked = false;
+						theTile.value = Phaser.ArrayUtils.getRandomItem(this.colors);
+						theTile.tint = theTile.value;
+
+						var tween = this.game.add.tween(theTile).to({
+							y: theTile.y + holes * this.tileSize
+						}, this.fallSpeed, Phaser.Easing.Linear.None, true);
+						tween.onComplete.add(this.nextPick, this);
+
+						theTile.coordinate = new Phaser.Point(i, holes - j);
+						this.tilesArray[holes - j][i] = theTile;
+						(theTile.children[0] as Phaser.Text).text = "R" + theTile.coordinate.y + ", C" + theTile.coordinate.x;
+					}
+				}
 			}
 		}
 	}
