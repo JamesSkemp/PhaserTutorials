@@ -113,10 +113,16 @@
 				this.pickedColor = (this.tilesArray[row][col] as Tile).value;
 				
 				this.game.input.onDown.remove(this.pickTile, this);
+				this.game.input.onUp.add(this.releaseTile, this);
 
 				this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
 				console.log("Picked tile at R" + row + " , C" + col);
 			}
+		}
+
+		releaseTile() {
+			this.game.input.onUp.remove(this.releaseTile, this);
+			console.log("=========");
 		}
 	}
 
