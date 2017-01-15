@@ -197,6 +197,26 @@
 				this.tilesArray[this.visitedTiles[i].y][this.visitedTiles[i].x] = null;
 			}
 		}
+
+		holesBelow(row, col) {
+			var result = 0;
+			for (var i = row + 1; i < this.fieldSize.rows; i++) {
+				if (this.tilesArray[i][col] == null) {
+					result++;
+				}
+			}
+			return result;
+		}
+
+		holesInCol(col: number) {
+			var result = 0;
+			for (var i = 0; i < this.fieldSize.rows; i++) {
+				if (this.tilesArray[i][col] == null) {
+					result++;
+				}
+			}
+			return result;
+		}
 	}
 
 	export class Tile extends Phaser.Sprite {
