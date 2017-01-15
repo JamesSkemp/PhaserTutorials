@@ -86,6 +86,7 @@
 			theTile.anchor.set(0.5);
 			theTile.picked = false;
 			theTile.coordinate = new Phaser.Point(col, row);
+			theTile.value = Phaser.ArrayUtils.getRandomItem(this.colors);
 			theTile.tint = theTile.value;
 
 			this.tilesArray[row][col] = theTile;
