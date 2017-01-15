@@ -130,7 +130,7 @@
 				var distance = new Phaser.Point(e.position.x - this.tileGroup.x, e.position.y - this.tileGroup.y).distance(this.tilesArray[row][col]);
 
 				if (distance < this.tileSize * 0.4 && this.tilesArray[row][col].value == this.pickedColor) {
-					if (!this.tilesArray[row][col].picked) {
+					if (!this.tilesArray[row][col].picked && this.checkAdjacent(new Phaser.Point(col, row), this.visitedTiles[this.visitedTiles.length - 1])) {
 						(this.tilesArray[row][col] as Tile).picked = true;
 						(this.tilesArray[row][col] as Tile).alpha = 0.5;
 						this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
@@ -145,6 +145,15 @@
 						 }
 					}
 				}
+			}
+		}
+
+		checkAdjacent(p1: Phaser.Point, p2: Phaser.Point) {
+			if (this.diagonal) {
+				return (Math.abs(p1.x - p2.x) <= 1) && (Math.abs(p1.y - p2.y) <= 1);
+			} else {
+				return (Math.abs(p1.x - p2.x) == 1 && p1.y - p2.y == 0)
+					|| (Math.abs(p1.y - p2.y) == 1 && p1.x - p2.x == 0);
 			}
 		}
 
