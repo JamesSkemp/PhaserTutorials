@@ -114,17 +114,46 @@
 				
 				this.game.input.onDown.remove(this.pickTile, this);
 				this.game.input.onUp.add(this.releaseTile, this);
+				this.game.input.addMoveCallback(this.moveTile, this);
 
 				this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
 				console.log("Picked tile at R" + row + " , C" + col);
 			}
 		}
 
+		moveTile(e: Phaser.Pointer) {
+			//console.log(arguments);
+
+			if (this.tileGroup.getBounds().contains(e.position.x, e.position.y)) {
+				var col = Math.floor((e.position.x - this.tileGroup.x) / this.tileSize);
+				var row = Math.floor((e.position.y - this.tileGroup.y) / this.tileSize);
+				var distance = new Phaser.Point(e.position.x - this.tileGroup.x, e.position.y - this.tileGroup.y).distance(this.tilesArray[row][col]);
+
+				if (distance < this.tileSize * 0.4 && this.tilesArray[row][col].value == this.pickedColor) {
+					if (!this.tilesArray[row][col].picked) {
+						(this.tilesArray[row][col] as Tile).picked = true;
+						(this.tilesArray[row][col] as Tile).alpha = 0.5;
+						this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
+					} else {
+						// Backtracking.
+						if (this.visitedTiles.length > 1 && row == this.visitedTiles[this.visitedTiles.length - 2].y && col == this.visitedTiles[this.visitedTiles.length - 2].x) {
+							this.tilesArray[this.visitedTiles[this.visitedTiles.length - 1].y][this.visitedTiles[this.visitedTiles.length - 1].x].picked = false;
+							this.tilesArray[this.visitedTiles[this.visitedTiles.length - 1].y][this.visitedTiles[this.visitedTiles.length - 1].x].alpha = 1;
+							this.visitedTiles.pop();
+							this.arrowsArray[this.arrowsArray.length - 1].destroy();
+							this.arrowsArray.pop();
+						 }
+					}
+				}
+			}
+		}
+
 		releaseTile() {
 			this.game.input.onUp.remove(this.releaseTile, this);
+			this.game.input.deleteMoveCallback(this.moveTile, this);
 
 			this.clearPath();
-			
+
 			console.log("=========");
 		}
 		
