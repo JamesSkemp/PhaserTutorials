@@ -99,7 +99,9 @@
 			this.tileGroup.add(theTile);
 		}
 
-		pickTile(e) {
+		pickTile(e: Phaser.Pointer) {
+			//console.log(arguments);
+
 			this.visitedTiles = [];
 			this.visitedTiles.length = 0;
 
