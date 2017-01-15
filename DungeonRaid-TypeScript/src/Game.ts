@@ -13,6 +13,8 @@
 		tileGroup: Phaser.Group;
 		arrowsGroup: Phaser.Group;
 		removedTiles = [];
+		visitedTiles = [];
+		pickedColor: number;
 
 		init() {
 			console.log((new Date).toISOString() + ' : Entered Game init()');
@@ -48,6 +50,7 @@
 			console.log((new Date).toISOString() + ' : Entered Game create()');
 			// Start building your game here.
 			this.createLevel();
+			this.game.input.onDown.add(this.pickTile, this);
 		}
 
 		update() {
@@ -94,6 +97,24 @@
 			var text = this.game.add.text(-this.tileSize / 4, 0, "R" + theTile.coordinate.y.toString() + " , C" + theTile.coordinate.x.toString(), { fill: "#000", font: "bold 24px Arial" });
 			theTile.addChild(text);
 			this.tileGroup.add(theTile);
+		}
+
+		pickTile(e) {
+			this.visitedTiles = [];
+			this.visitedTiles.length = 0;
+
+			if (this.tileGroup.getBounds().contains(e.position.x, e.position.y)) {
+				var col = Math.floor((e.position.x - this.tileGroup.x) / this.tileSize);
+				var row = Math.floor((e.position.y - this.tileGroup.y) / this.tileSize);
+				(this.tilesArray[row][col] as Tile).alpha = 0.5;
+				(this.tilesArray[row][col] as Tile).picked = true;
+				this.pickedColor = (this.tilesArray[row][col] as Tile).value;
+				
+				this.game.input.onDown.remove(this.pickTile, this);
+
+				this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
+				console.log("Picked tile at R" + row + " , C" + col);
+			}
 		}
 	}
 
