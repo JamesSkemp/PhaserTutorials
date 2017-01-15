@@ -134,6 +134,7 @@
 						(this.tilesArray[row][col] as Tile).picked = true;
 						(this.tilesArray[row][col] as Tile).alpha = 0.5;
 						this.visitedTiles.push((this.tilesArray[row][col] as Tile).coordinate);
+						this.addArrow();
 					} else {
 						// Backtracking.
 						if (this.visitedTiles.length > 1 && row == this.visitedTiles[this.visitedTiles.length - 2].y && col == this.visitedTiles[this.visitedTiles.length - 2].x) {
@@ -166,6 +167,28 @@
 			console.log("=========");
 		}
 		
+		addArrow() {
+			var fromTile = this.visitedTiles[this.visitedTiles.length - 2];
+			var arrow = this.game.add.sprite(this.tilesArray[fromTile.y][fromTile.x].x, this.tilesArray[fromTile.y][fromTile.x].y, "arrows");
+			this.arrowsGroup.add(arrow);
+			arrow.anchor.set(0.5);
+
+			var tileDiff = new Phaser.Point(this.visitedTiles[this.visitedTiles.length - 1].x, this.visitedTiles[this.visitedTiles.length - 1].y);
+			tileDiff.subtract(this.visitedTiles[this.visitedTiles.length - 2].x, this.visitedTiles[this.visitedTiles.length - 2].y);
+			if (tileDiff.x == 0) {
+				arrow.angle = -90 * tileDiff.y;
+			} else {
+				arrow.angle = 90 * (tileDiff.x + 1);
+				if (tileDiff.y != 0) {
+					arrow.frame = 1;
+					if (tileDiff.y + tileDiff.x == 0) {
+						arrow.angle -= 90;
+					}
+				}
+			}
+			this.arrowsArray.push(arrow);
+		}
+
 		clearPath() {
 			this.arrowsGroup.removeAll(true);
 			for (var i = 0; i < this.visitedTiles.length; i++) {
