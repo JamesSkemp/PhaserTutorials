@@ -164,6 +164,8 @@
 
 			this.clearPath();
 
+			this.tilesFallDown();
+
 			console.log("=========");
 		}
 		
@@ -198,6 +200,30 @@
 			}
 		}
 
+		tilesFallDown() {
+			for (var i = this.fieldSize.cols - 1; i >= 0; i--) {
+				for (var j = 0; j < this.fieldSize.rows; j++) {
+					if (this.tilesArray[i][j] != null) {
+						var holes = this.holesBelow(i, j);
+						if (holes > 0) {
+							var coordinate = new Phaser.Point(this.tilesArray[i][j].coordinate.x, this.tilesArray[i][j].coordinate.y);
+							var destination = new Phaser.Point(j, i + holes);
+
+							var tween = this.game.add.tween(this.tilesArray[i][j]).to({
+								y: this.tilesArray[i][j].y + holes * this.tileSize 
+								}, this.fallSpeed, Phaser.Easing.Linear.None, true);
+							tween.onComplete.add(this.nextPick, this);
+
+							this.tilesArray[destination.y][destination.x] = this.tilesArray[i][j];
+							this.tilesArray[coordinate.y][coordinate.x] = null;
+							this.tilesArray[destination.y][destination.x].coordinate = new Phaser.Point(destination.x, destination.y)
+							this.tilesArray[destination.y][destination.x].children[0].text = "R" + destination.y + ", C" + destination.x; 
+						}
+					}
+				}
+			}
+		}
+
 		holesBelow(row, col) {
 			var result = 0;
 			for (var i = row + 1; i < this.fieldSize.rows; i++) {
@@ -216,6 +242,12 @@
 				}
 			}
 			return result;
+		}
+
+		nextPick() {
+			if (!this.game.input.onDown.has(this.pickTile, this)) {
+				this.game.input.onDown.add(this.pickTile, this);
+			}
 		}
 	}
 
