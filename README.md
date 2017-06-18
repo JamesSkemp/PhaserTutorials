@@ -14,9 +14,13 @@ Of special note is the **_Starter** project which I'll be using as my base proje
 
 This project uses TypeScript with Phaser (2.6.2).
 
+There's also a version that uses Visual Studio Code (**_Starter VS Code**), and another that uses Visual Studio Code and Phaser Community Edition (**_Starter VS Code CE**).
+
 ### _Starter Simple
 
 This project uses TypeScript with Phaser (2.6.2), and aims to be a simple version of the **_Starter** project.
+
+There's also a version that uses Visual Studio Code (**_Starter Simple VS Code**), and another that uses Visual Studio Code and Phaser Community Edition (**_Starter Simple VS Code CE**).
 
 ## Completed tutorials
 
