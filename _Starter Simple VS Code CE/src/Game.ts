@@ -36,7 +36,7 @@
 			this.phaserLogo = this.add.sprite(this.world.centerX, this.world.centerY, 'Phaser-Logo-Small');
 			this.phaserLogo.anchor.setTo(0.5);
 
-			this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: '24px', fill: '#fff' });
+			this.phaserLogoText = this.add.text(this.game.width / 8, this.game.height / 8, 'Powered by', { fontSize: 24, fill: '#fff' });
 		}
 
 		update() {
