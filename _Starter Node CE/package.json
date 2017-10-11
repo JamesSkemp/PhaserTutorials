@@ -11,5 +11,11 @@
     "email": "strivinglife@gmail.com",
     "url": "http://jamesrskemp.com"
   },
-  "homepage": "https://github.com/JamesSkemp/PhaserTutorials"
+  "homepage": "https://github.com/JamesSkemp/PhaserTutorials",
+  "devDependencies": {
+    "typescript": "^2.5.3"
+  },
+  "dependencies": {
+    "phaser-ce": "^2.9.1"
+  }
 }
