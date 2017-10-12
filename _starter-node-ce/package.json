@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com:JamesSkemp/PhaserTutorials.git"
   },
+  "private": true,
   "author": {
     "name": "James Skemp",
     "email": "strivinglife@gmail.com",
@@ -13,7 +14,13 @@
   },
   "homepage": "https://github.com/JamesSkemp/PhaserTutorials",
   "devDependencies": {
-    "typescript": "^2.5.3"
+    "browserify": "^14.4.0",
+    "glob": "^7.1.2",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.2",
+    "tsify": "^3.0.3",
+    "typescript": "^2.5.3",
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "phaser-ce": "^2.9.1"
