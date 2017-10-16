@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"outDir": "build/js"
+		"outFile": "./build/js/app.js",
+		"rootDir": "./src/ts/"
 	}
 }
