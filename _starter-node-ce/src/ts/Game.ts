@@ -1,25 +1,27 @@
-﻿module StarterProject {
-	export class Game extends Phaser.Game {
-		// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
-		//static SOME_VARIABLE: number = 10;
+﻿import * as BootState from "./States/Boot"
+import * as PreloaderState from "./States/Preloader"
+import { MainMenu } from "./States/MainMenu"
 
-		constructor() {
-			console.log((new Date).toISOString() + ' : Entered Game constructor()');
+export class Game extends Phaser.Game {
+	// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
+	//static SOME_VARIABLE: number = 10;
 
-			// Update the width (800) and height (600) accordingly.
-			super(800, 600, Phaser.AUTO, 'content');
+	constructor() {
+		console.log((new Date).toISOString() + ' : Entered Game constructor()');
 
-			// Add the game states.
-			this.state.add('Boot', Boot);
-			this.state.add('Preloader', Preloader);
-			this.state.add('MainMenu', MainMenu);
+		// Update the width (800) and height (600) accordingly.
+		super(800, 600, Phaser.AUTO, 'content');
 
-			// Start the initial game state.
-			this.state.start('Boot');
-		}
+		// Add the game states.
+		this.state.add('Boot', BootState.Boot);
+		this.state.add('Preloader', PreloaderState.Preloader);
+		this.state.add('MainMenu', MainMenu);
+
+		// Start the initial game state.
+		this.state.start('Boot');
 	}
 }
 
 window.onload = () => {
-	var game = new StarterProject.Game();
+	var game = new Game();
 };

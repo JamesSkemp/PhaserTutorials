@@ -1,9 +1,11 @@
 var gulp = require("gulp");
+var ts = require("gulp-typescript");
+var tsProject = ts.createProject("tsconfig.json");
 var browserify = require("browserify");
 var tsify = require("tsify");
 var source = require("vinyl-source-stream");
 var glob = require("glob");
-//var buffer = require("vinyl-buffer");
+var buffer = require("vinyl-buffer");
 
 var paths = {
 	content: [
@@ -37,5 +39,9 @@ gulp.task("default", ["copy-html", "copy-phaser"], function () {
 		.plugin(tsify)
 		.bundle()
 		.pipe(source('app.js'))
+		.pipe(buffer())
+	/*return tsProject.src()
+		.pipe(tsProject())
+		.js*/
 		.pipe(gulp.dest('dist'));
 });
