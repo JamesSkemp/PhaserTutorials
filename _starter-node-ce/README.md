@@ -20,9 +20,18 @@ The following is a starter project to get started with a new game in Phaser CE a
 		- The `title` and `h1` elements should be updated to match the needs of your game.
 		- Includes a reference to the minified Phaser library.
 		- Also includes a reference to a JavaScript file, which the Visual Studio project is setup to output TypeScript files to, and which should be updated to match your needs.
+- gulpfile.js includes gulp tasks used to build the site.
+- package.json contains the Node packages used by this project.
 - README.md is this file, and should be replaced with whatever content is needed for your game.
 - tsconfig.json
 	- This file determines how TypeScript will compile the project.
 	- By default all TypeScript files will be compiled into a single app.js file in the root of the project.
 - .vscode/tasks.json
 	- Used by Visual Studio code when running the build task.
+
+## How to Build the Site
+To build this project you'll need [Node.js](https://nodejs.org) installed.
+
+Next run `npm install` in the root directory to install the various dependencies.
+
+Run `gulp` after modifying code to populate the **dist** directory with the final site contents. 

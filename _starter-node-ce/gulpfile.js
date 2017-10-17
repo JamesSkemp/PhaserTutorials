@@ -40,8 +40,5 @@ gulp.task("default", ["copy-html", "copy-phaser"], function () {
 		.bundle()
 		.pipe(source('app.js'))
 		.pipe(buffer())
-	/*return tsProject.src()
-		.pipe(tsProject())
-		.js*/
 		.pipe(gulp.dest('dist'));
 });
