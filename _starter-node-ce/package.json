@@ -14,16 +14,16 @@
   },
   "homepage": "https://github.com/JamesSkemp/PhaserTutorials",
   "devDependencies": {
-    "browserify": "^14.4.0",
+    "browserify": "^14.5.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
-    "gulp-typescript": "^3.2.2",
+    "gulp-typescript": "^3.2.3",
     "tsify": "^3.0.3",
-    "typescript": "^2.5.3",
+    "typescript": "^2.6.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "phaser-ce": "^2.9.1"
+    "phaser-ce": "^2.9.2"
   }
 }
