@@ -12,15 +12,27 @@ As I've worked through the various tutorials I've created two templates that I u
 
 Of special note is the **_Starter** project which I'll be using as my base project, and will be updating as needed in the future.
 
-This project uses TypeScript with Phaser (2.6.2).
+The base project uses TypeScript with Phaser (2.6.2).
 
-There's also a version that uses Visual Studio Code (**_Starter VS Code**), and another that uses Visual Studio Code and Phaser Community Edition (**_Starter VS Code CE**).
+Other variants use the free [Visual Studio Code][vs-code] and include:
+
+- _Starter VS Code
+	- Uses Visual Studio Code and Phaser 2.6.2, the last official release.
+- _Starter VS Code CE
+	- Uses Visual Studio Code and Phaser Community Edition.
+- _starter-node-ce
+	- Uses Visual Studio Code, Phaser Community Edition, and [Node.js](https://nodejs.org/en/).
 
 ### _Starter Simple
 
-This project uses TypeScript with Phaser (2.6.2), and aims to be a simple version of the **_Starter** project.
+This project uses TypeScript with Phaser (2.6.2), and aims to be a simple version of the **_Starter** project, with all code in a single file.
 
-There's also a version that uses Visual Studio Code (**_Starter Simple VS Code**), and another that uses Visual Studio Code and Phaser Community Edition (**_Starter Simple VS Code CE**).
+Other variants use the free [Visual Studio Code][vs-code] and include:
+
+- _Starter Simple VS Code
+	- Uses Visual Studio Code and Phaser 2.6.2, the last official release.
+- _Starter Simple VS Code CE
+	- Uses Visual Studio Code and Phaser Community Edition.
 
 ## Completed tutorials
 
@@ -116,3 +128,7 @@ The following sites are worth following if you're interested in Phaser tutorials
 
 - [Emanuele Feronato](http://www.emanueleferonato.com/) posts tutorials on a regular basis, and sells a couple complete tutorials.
 - [GameDev Academy](https://gamedevacademy.org/) has a mix of posts, including in Phaser. This is done by the folks behind Zenva, which has a pretty good online series for sale that covers creating a variety of games in Phaser.
+
+
+
+[vs-code]: https://code.visualstudio.com/

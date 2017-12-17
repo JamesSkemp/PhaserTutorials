@@ -1,0 +1,12 @@
+build/
+dist/
+
+# Dependency directories
+node_modules/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
