@@ -24,6 +24,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "phaser-ce": "^2.9.2"
+    "phaser-ce": "^2.9.3"
   }
 }
