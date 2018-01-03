@@ -1,1 +1,1 @@
-/// <reference path='../../node_modules/phaser-ce/typescript/phaser.d.ts' />
+/// <reference path='../../node_modules/phaser-ce/typescript/phaser.comments.d.ts' />
