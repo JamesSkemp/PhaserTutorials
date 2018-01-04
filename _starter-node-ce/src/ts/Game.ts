@@ -1,6 +1,6 @@
-﻿import * as BootState from "./States/Boot"
-import * as PreloaderState from "./States/Preloader"
-import * as MainMenuState from "./States/MainMenu"
+﻿import BootState from "./States/Boot"
+import PreloaderState from "./States/Preloader"
+import MainMenuState from "./States/MainMenu"
 
 export default class Game extends Phaser.Game {
 	// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
