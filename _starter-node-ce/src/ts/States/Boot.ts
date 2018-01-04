@@ -1,4 +1,11 @@
-﻿export default class Boot extends Phaser.State {
+﻿import PreloaderState from './Preloader';
+
+export default class Boot extends Phaser.State {
+	/**
+	 * Unique name of the state.
+	 */
+	public static Name: string = "Boot";
+
 	init() {
 		console.log((new Date).toISOString() + ' : Entered Boot init()');
 		// If you want to scale the game, you can set that here.
@@ -36,6 +43,6 @@
 		//this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// Load the next state, which will be preloading the assets for the game.
-		this.game.state.start('Preloader', true, false);
+		this.game.state.start(PreloaderState.Name, true, false);
 	}
 }

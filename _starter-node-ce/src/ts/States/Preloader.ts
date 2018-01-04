@@ -1,4 +1,11 @@
-﻿export default class Preloader extends Phaser.State {
+﻿import MainMenuState from './MainMenu';
+
+export default class Preloader extends Phaser.State {
+	/**
+	 * Unique name of the state.
+	 */
+	public static Name: string = "Preloader";
+
 	preload() {
 		console.log((new Date).toISOString() + ' : Entered Preloader preload()');
 
@@ -14,6 +21,6 @@
 		console.log((new Date).toISOString() + ' : Entered Preloader create()');
 
 		// Once the assets have been preloaded you can move to the next state.
-		this.game.state.start('MainMenu', true, false);
+		this.game.state.start(MainMenuState.Name, true, false);
 	}
 }
