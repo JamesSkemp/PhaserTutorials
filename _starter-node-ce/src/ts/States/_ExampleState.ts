@@ -1,4 +1,4 @@
-﻿export class ExampleState extends Phaser.State {
+﻿export default class ExampleState extends Phaser.State {
 	init() {
 		console.log((new Date).toISOString() + ' : Entered ExampleState init()');
 		// init can receive parameters.
