@@ -1,4 +1,4 @@
-﻿export class MainMenu extends Phaser.State {
+﻿export default class MainMenu extends Phaser.State {
 	create() {
 		console.log((new Date).toISOString() + ' : Entered MainMenu create()');
 

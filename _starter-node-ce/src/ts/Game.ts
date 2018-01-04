@@ -2,7 +2,7 @@
 import * as PreloaderState from "./States/Preloader"
 import * as MainMenuState from "./States/MainMenu"
 
-export class Game extends Phaser.Game {
+export default class Game extends Phaser.Game {
 	// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
 	//static SOME_VARIABLE: number = 10;
 
@@ -13,9 +13,9 @@ export class Game extends Phaser.Game {
 		super(800, 600, Phaser.AUTO, 'content');
 
 		// Add the game states.
-		this.state.add('Boot', BootState.Boot);
-		this.state.add('Preloader', PreloaderState.Preloader);
-		this.state.add('MainMenu', MainMenuState.MainMenu);
+		this.state.add('Boot', BootState);
+		this.state.add('Preloader', PreloaderState);
+		this.state.add('MainMenu', MainMenuState);
 
 		// Start the initial game state.
 		this.state.start('Boot');

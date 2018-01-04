@@ -1,4 +1,4 @@
-﻿export class Preloader extends Phaser.State {
+﻿export default class Preloader extends Phaser.State {
 	preload() {
 		console.log((new Date).toISOString() + ' : Entered Preloader preload()');
 

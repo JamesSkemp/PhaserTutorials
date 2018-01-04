@@ -1,4 +1,4 @@
-﻿export class Boot extends Phaser.State {
+﻿export default class Boot extends Phaser.State {
 	init() {
 		console.log((new Date).toISOString() + ' : Entered Boot init()');
 		// If you want to scale the game, you can set that here.
