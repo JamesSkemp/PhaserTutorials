@@ -1,7 +1,14 @@
-﻿// Create a game with dimensions 800x600, and use the WebGL (default) or Canvas renderer, depending upon the browser.
-var game = new Phaser.Game(800, 600, Phaser.AUTO);
+﻿export default class Game extends Phaser.Game {
+	// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
+	//static SOME_VARIABLE: number = 10;
 
-game.state.add('play', {
+	constructor() {
+		console.log((new Date).toISOString() + ' : Entered Game constructor()');
+
+		// Update the width (800) and height (600) accordingly.
+		super(800, 600, Phaser.AUTO, 'content');
+
+this.state.add('play', {
 	preload: function () {
 		// Load in the images for our background.
 		this.game.load.image('forest-back', 'assets/parallax_forest_pack/layers/parallax-forest-back-trees.png');
@@ -148,7 +155,7 @@ game.state.add('play', {
 			// Don't draw them until we need to.
 			dmgText.exists = false;
 			// The text will start where we click and fly off in a random direction, over the course of 1000 ms.
-			dmgText.tween = game.add.tween(dmgText)
+			dmgText.tween = this.game.add.tween(dmgText)
 				.to({
 					alpha: 0,
 					y: 100,
@@ -338,4 +345,11 @@ game.state.add('play', {
 	}
 });
 
-game.state.start('play');
+this.state.start('play');
+}
+}
+
+window.onload = () => {
+	var game = new Game();
+};
+
