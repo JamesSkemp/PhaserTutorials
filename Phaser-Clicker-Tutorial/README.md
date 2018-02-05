@@ -1,6 +1,8 @@
 # Phaser Clicker Tutorial
 Phaser application based upon [Ben Sparks' tutorial](http://gamedevacademy.org/phaser-tutorial-how-to-create-an-idle-clicker-game/).
 
+Converted to TypeScript and Phaser CE February 5, 2018.
+
 ## Assets
 Assets in assets/496_RPG_icons are licensed under a CC0 license, and are available from http://opengameart.org/content/496-pixel-art-icons-for-medievalfantasy-rpg
 > Author is [7Soul1](http://7soul1.deviantart.com/)
