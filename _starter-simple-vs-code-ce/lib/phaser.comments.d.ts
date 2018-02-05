@@ -895,19 +895,6 @@ declare module Phaser {
         * @return The nearest value found.
         */
         static findClosest(value: number, arr: number[]): number;
-
-        /**
-        * Moves the element from the start of the array to the end, shifting all items in the process.
-        * The "rotation" happens to the left.
-        * 
-        * Before: `[ A, B, C, D, E, F ]`
-        * After: `[ B, C, D, E, F, A ]`
-        * 
-        * See also Phaser.ArrayUtils.rotateRight
-        * 
-        * @param array The array to rotate. The array is modified.
-        * @return The rotated value.
-        */
         static rotate(array: any[]): any;
 
         /**
@@ -4306,7 +4293,9 @@ declare module Phaser {
         static setImageRenderingBicubic(canvas: HTMLCanvasElement): HTMLCanvasElement;
 
         /**
-        * Sets the CSS image-rendering property on the given canvas to be 'crisp' (aka 'optimize contrast' on webkit).
+        * Sets the CSS image-rendering property to `pixelated` or `crisp-edges`.
+        * This can remove blurring when the game canvas is scaled up.
+        * In some browsers this has no visible effect in WEBGL mode.
         * Note that if this doesn't given the desired result then see the setSmoothingEnabled.
         * 
         * @param canvas The canvas to set image-rendering crisp on.
@@ -4669,6 +4658,66 @@ declare module Phaser {
     * The Phaser.Color class is a set of static methods that assist in color manipulation and conversion.
     */
     class Color {
+
+
+        /**
+        * Aqua (0x00ffff)
+        * Default: 65535
+        */
+        static AQUA: number;
+
+        /**
+        * Black (0x000000)
+        */
+        static BLACK: number;
+
+        /**
+        * Blue (0x0000ff)
+        * Default: 255
+        */
+        static BLUE: number;
+
+        /**
+        * Gray (0x666666)
+        * Default: 6710886
+        */
+        static GRAY: number;
+
+        /**
+        * Green (0x00ff00)
+        * Default: 65280
+        */
+        static GREEN: number;
+
+        /**
+        * Orange (0xff9900)
+        * Default: 16750848
+        */
+        static ORANGE: number;
+
+        /**
+        * Red (0xff0000)
+        * Default: 16711680
+        */
+        static RED: number;
+
+        /**
+        * Violet/purple (0xff00ff)
+        * Default: 16711935
+        */
+        static VIOLET: number;
+
+        /**
+        * White (0xffffff)
+        * Default: 16777215
+        */
+        static WHITE: number;
+
+        /**
+        * Yellow (0xffff00)
+        * Default: 16776960
+        */
+        static YELLOW: number;
 
 
         /**
@@ -5596,11 +5645,6 @@ declare module Phaser {
         * @return True if the given file type is supported by the browser, otherwise false.
         */
         static canPlayVideo(type: string): boolean;
-
-        /**
-        * Returns false.
-        * @return false
-        */
         static isConsoleOpen(): boolean;
 
         /**
@@ -7598,15 +7642,21 @@ declare module Phaser {
 
     interface IGameConfig {
 
-        backgroundColor?: string;
+        alignH?: boolean;
+        alignV?: boolean;
+        antialias?: boolean;
+        backgroundColor?: number | string;
         canvas?: HTMLCanvasElement;
         canvasId?: string;
         canvasStyle?: string;
+        crisp?: boolean;
         disableVisibilityChange?: boolean;
-        fullScreenScaleMode?: number;
-        antialias?: boolean;
+        disableStart?: boolean;
         enableDebug?: boolean;
+        failIfMajorPerformanceCaveat?: boolean;
         forceSetTimeOut?: boolean;
+        fullScreenScaleMode?: number;
+        fullScreenTarget?: HTMLElement;
         height?: number | string;
         multiTexture?: boolean;
         parent?: HTMLElement | string;
@@ -7614,10 +7664,15 @@ declare module Phaser {
         preserveDrawingBuffer?: boolean;
         renderer?: number;
         resolution?: number;
+        roundPixels?: boolean;
+        scaleH?: number;
         scaleMode?: number;
+        scaleV?: number
         seed?: number;
-        state?: any; // Phaser.State | function | object
+        state?: any;
         transparent?: boolean;
+        trimH?: number;
+        trimV?: number;
         width?: number | string;
 
     }
@@ -7875,6 +7930,11 @@ declare module Phaser {
         device: Phaser.Device;
 
         /**
+        * When {@link Phaser.Game#forceSingleUpdate forceSingleUpdate} is off, skip {@link #updateRender rendering} if logic updates are spiraling upwards.
+        */
+        dropFrames: boolean;
+
+        /**
         * Should the game loop force a logic update, regardless of the delta timer? You can toggle it on the fly.
         */
         forceSingleUpdate: boolean;
@@ -7977,6 +8037,11 @@ declare module Phaser {
         paused: boolean;
 
         /**
+        * Destroy the game at the next update.
+        */
+        pendingDestroy: boolean;
+
+        /**
         * An internal property used by enableStep, but also useful to query from your own game objects.
         */
         pendingStep: boolean;
@@ -8074,13 +8139,13 @@ declare module Phaser {
         tweens: Phaser.TweenManager;
 
         /**
-        * The ID of the current/last logic update applied this render frame, starting from 0.
+        * The ID of the current/last logic update applied this animation frame, starting from 0.
         * The first update is `currentUpdateID === 0` and the last update is `currentUpdateID === updatesThisFrame.`
         */
         currentUpdateID: number;
 
         /**
-        * Number of logic updates expected to occur this render frame; will be 1 unless there are catch-ups required (and allowed).
+        * Number of logic updates expected to occur this animation frame; will be 1 unless there are catch-ups required (and allowed).
         */
         updatesThisFrame: number;
 
@@ -8110,6 +8175,8 @@ declare module Phaser {
         * 
         * Then sets all of those local handlers to null, destroys the renderer, removes the canvas from the DOM
         * and resets the PIXI default renderer.
+        * 
+        * To destroy the game during an update callback, set {@link Phaser.Game#pendingDestroy pendingDestroy} instead.
         */
         destroy(): void;
 
@@ -8591,7 +8658,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created bitmapText object.
         */
-        bitmapText(x: number, y: number, font: string, text?: string, size?: number, group?: Phaser.Group): Phaser.BitmapText;
+        bitmapText(x: number, y: number, font: string, text?: string, size?: number, group?: Phaser.Group | Phaser.Stage): Phaser.BitmapText;
 
         /**
         * Creates a new Button object.
@@ -8608,7 +8675,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created Button object.
         */
-        button(x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: any, outFrame?: any, downFrame?: any, upFrame?: any, group?: Phaser.Group): Phaser.Button;
+        button(x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: any, outFrame?: any, downFrame?: any, upFrame?: any, group?: Phaser.Group | Phaser.Stage): Phaser.Button;
 
         /**
         * Create a new Emitter.
@@ -8649,7 +8716,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created graphics object.
         */
-        graphics(x?: number, y?: number, group?: Phaser.Group): Phaser.Graphics;
+        graphics(x?: number, y?: number, group?: Phaser.Group | Phaser.Stage): Phaser.Graphics;
 
         /**
         * A Group is a container for display objects that allows for fast pooling, recycling and collision checks.
@@ -8678,7 +8745,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created Image object.
         */
-        image(x?: number, y?: number, key?: any, frame?: any, group?: Phaser.Group): Phaser.Image;
+        image(x?: number, y?: number, key?: any, frame?: any, group?: Phaser.Group | Phaser.Stage): Phaser.Image;
 
         /**
         * A Group is a container for display objects that allows for fast pooling, recycling and collision checks.
@@ -8779,7 +8846,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created Sprite object.
         */
-        sprite(x?: number, y?: number, key?: any, frame?: any, group?: Phaser.Group): Phaser.Sprite;
+        sprite(x?: number, y?: number, key?: any, frame?: any, group?: Phaser.Group | Phaser.Stage): Phaser.Sprite;
 
         /**
         * A SpriteBatch is a really fast version of a Phaser Group built solely for speed.
@@ -8791,7 +8858,7 @@ declare module Phaser {
         * @param addToStage If set to true this Sprite Batch will be added directly to the Game.Stage instead of the parent.
         * @return The newly created Sprite Batch.
         */
-        spriteBatch(parent: any, name?: string, addToStage?: boolean): Phaser.Group;
+        spriteBatch(parent: any, name?: string, addToStage?: boolean): Phaser.Group | Phaser.Stage;
 
         /**
         * Creates a new Text object.
@@ -8803,7 +8870,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created text object.
         */
-        text(x?: number, y?: number, text?: string, style?: PhaserTextStyle, group?: Phaser.Group): Phaser.Text;
+        text(x?: number, y?: number, text?: string, style?: PhaserTextStyle, group?: Phaser.Group | Phaser.Stage): Phaser.Text;
 
         /**
         * Creates a new Phaser.Tilemap object.
@@ -8835,7 +8902,7 @@ declare module Phaser {
         * @param group Optional Group to add the object to. If not specified it will be added to the World group.
         * @return The newly created TileSprite object.
         */
-        tileSprite(x: number, y: number, width: number, height: number, key?: any, frame?: any, group?: Phaser.Group): Phaser.TileSprite;
+        tileSprite(x: number, y: number, width: number, height: number, key?: any, frame?: any, group?: Phaser.Group | Phaser.Stage): Phaser.TileSprite;
 
         /**
         * Create a tween on a specific object.
@@ -9001,7 +9068,11 @@ declare module Phaser {
         * Local reference to game.
         */
         game: Phaser.Game;
-        onAxisCallBack: Function;
+
+        /**
+        * This callback is invoked every time any gamepad axis is changed.
+        */
+        onAxisCallback: Function;
 
         /**
         * This callback is invoked every time any gamepad is connected
@@ -9259,13 +9330,13 @@ declare module Phaser {
         cameraOffset: Phaser.Point;
 
         /**
-        * The center x coordinate of the Game Object.
+        * The local center x coordinate of the Game Object.
         * This is the same as `(x - offsetX) + (width / 2)`.
         */
         centerX: number;
 
         /**
-        * The center y coordinate of the Game Object.
+        * The local center y coordinate of the Game Object.
         * This is the same as `(y - offsetY) + (height / 2)`.
         */
         centerY: number;
@@ -9510,7 +9581,7 @@ declare module Phaser {
         right: number;
 
         /**
-        * The tint applied to the graphic shape. This is a hex value. Apply a value of 0xFFFFFF to reset the tint.
+        * The tint applied to the graphic shape. This is a hex value. Apply a value of 0xFFFFFF (Phaser.Color.WHITE) to reset the tint.
         * Default: 0xFFFFFF
         */
         tint: number;
@@ -10292,7 +10363,7 @@ declare module Phaser {
         * 
         * If `Group.inputEnableChildren` is set, then an Input Handler will be created on the object, so long as one does not already exist.
         * 
-        * Use {@link Phaser.Group#addAt addAt} to control where a child is added. Use {@link Phaser.Group#create create} to create and add a new child.
+        * Use {@link Phaser.Group#create create} to create and add a new child.
         * 
         * @param child The display object to add as a child.
         * @param silent If true the child will not dispatch the `onAddedToGroup` event.
@@ -11334,13 +11405,13 @@ declare module Phaser {
         cameraOffset: Phaser.Point;
 
         /**
-        * The center x coordinate of the Game Object.
+        * The local center x coordinate of the Game Object.
         * This is the same as `(x - offsetX) + (width / 2)`.
         */
         centerX: number;
 
         /**
-        * The center y coordinate of the Game Object.
+        * The local center y coordinate of the Game Object.
         * This is the same as `(y - offsetY) + (height / 2)`.
         */
         centerY: number;
@@ -12246,7 +12317,12 @@ declare module Phaser {
         * A point object representing the current position of the Pointer.
         */
         position: Phaser.Point;
-        pointer: Phaser.Pointer[];
+
+        /**
+        * An array of non-mouse pointers that have been added to the game.
+        * The properties `pointer1..N` are aliases for `pointers[0..N-1]`.
+        */
+        pointers: Phaser.Pointer[];
 
         /**
         * The total number of entries that can be recorded into the Pointer objects tracking history.
@@ -14132,11 +14208,15 @@ declare module Phaser {
         * This object can also be used to set the `X-Requested-With` header to
         * `XMLHttpRequest` (or any other value you need). To enable this do:
         * 
-        * `this.load.headers.requestedWith = 'XMLHttpRequest'`
+        * ```javascript
+        * this.load.headers.requestedWith = 'XMLHttpRequest'
+        * ```
         * 
         * before adding anything to the Loader. The XHR loader will then call:
         * 
-        * `setRequestHeader('X-Requested-With', this.headers['requestedWith'])`
+        * ```javascript
+        * setRequestHeader('X-Requested-With', this.headers['requestedWith'])
+        * ```
         * Default: {"undefined":"application/xml"}
         */
         headers: any;
@@ -14206,10 +14286,12 @@ declare module Phaser {
         /**
         * The value of `path`, if set, is placed before any _relative_ file path given. For example:
         * 
-        * `load.path = "images/sprites/";
+        * ```javascript
+        * load.path = "images/sprites/";
         * load.image("ball", "ball.png");
         * load.image("tree", "level1/oaktree.png");
-        * load.image("boom", "http://server.com/explode.png");`
+        * load.image("boom", "http://server.com/explode.png");
+        * ```
         * 
         * Would load the `ball` file from `images/sprites/ball.png` and the tree from
         * `images/sprites/level1/oaktree.png` but the file `boom` would load from the URL
@@ -14245,12 +14327,6 @@ declare module Phaser {
         * If true all calls to Loader.reset will be ignored. Useful if you need to create a load queue before swapping to a preloader state.
         */
         resetLocked: boolean;
-
-        /**
-        * If true and if the browser supports XDomainRequest, it will be used in preference for XHR.
-        * 
-        * This is only relevant for IE 9 and should _only_ be enabled for IE 9 clients when required by the server/CDN.
-        */
         useXDomainRequest: boolean;
 
 
@@ -15139,6 +15215,10 @@ declare module Phaser {
         * @return The transformed url. In rare cases where the url isn't specified it will return false instead.
         */
         transformUrl(url: string, file?: any): string;
+
+        /**
+        * Update the loading sprite progress.
+        */
         updateProgress(): void;
 
         /**
@@ -15219,20 +15299,6 @@ declare module Phaser {
         * @param onerror The function to call on error. Invoked in `this` context and supplied with `(file, xhr)` arguments. - Default: fileError
         */
         xhrLoad(file: any, url: string, type: string, onload: Function, onerror?: Function): void;
-
-        /**
-        * Starts the xhr loader - using XDomainRequest.
-        * This should _only_ be used with IE 9. Phaser does not support IE 8 and XDR is deprecated in IE 10.
-        * 
-        * This is designed specifically to use with asset file processing.
-        * 
-        * @param file The file/pack to load.
-        * @param url The URL of the file.
-        * @param type The xhr responseType.
-        * @param onload The function to call on success. Invoked in `this` context and supplied with `(file, xhr)` arguments.
-        * @param onerror The function to call on error. Invoked in `this` context and supplied with `(file, xhr)` arguments. - Default: fileError
-        */
-        xhrLoadWithXDR(file: any, url: string, type: string, onload: Function, onerror?: Function): void;
 
         /**
         * Successfully loaded an XML file - only used for certain types.
@@ -16650,13 +16716,13 @@ declare module Phaser {
 
 
     /**
-    * Phaser.Particles is the Particle Manager for the game. It is called during the game update loop and in turn updates any Emitters attached to it.
+    * Phaser.Particles tracks any Emitters attached to it.
     */
     class Particles {
 
 
         /**
-        * Phaser.Particles is the Particle Manager for the game. It is called during the game update loop and in turn updates any Emitters attached to it.
+        * Phaser.Particles tracks any Emitters attached to it.
         * 
         * @param game A reference to the currently running game.
         */
@@ -16693,12 +16759,6 @@ declare module Phaser {
         * @param emitter The emitter to remove.
         */
         remove(emitter: Phaser.Particles.Arcade.Emitter): void;
-
-        /**
-        * Updates all Emitters who have their exists value set to true.
-        * 
-        * Phaser no longer uses this method; Emitters receive updates via {@link Phaser.Stage#update} instead.
-        */
         update(): void;
 
     }
@@ -17444,6 +17504,12 @@ declare module Phaser {
         playing: boolean;
 
         /**
+        * Start playing the video when it's unlocked.
+        * Default: true
+        */
+        playWhenUnlocked: boolean;
+
+        /**
         * Gets or sets if the Video is set to loop.
         * Please note that at present some browsers (i.e. Chrome) do not support *seamless* video looping.
         * If the video isn't yet set this will always return false.
@@ -17522,6 +17588,11 @@ declare module Phaser {
         * This signal is dispatched when the Video completes playback, i.e. enters an 'ended' state. On iOS specifically it also fires if the user hits the 'Done' button at any point during playback. Videos set to loop will never dispatch this signal.
         */
         onComplete: Phaser.Signal;
+
+        /**
+        * This signal is dispatched when the Video is unlocked.
+        */
+        onTouchUnlock: Phaser.Signal;
         onUpdate: Phaser.Signal;
 
         /**
@@ -17783,6 +17854,7 @@ declare module Phaser {
 
             /**
             * A value added to the delta values during collision checks.
+            * Default: 4
             */
             static OVERLAP_BIAS: number;
             static TILE_BIAS: number;
@@ -17958,10 +18030,11 @@ declare module Phaser {
             * 
             * @param source The {@link Phaser.Point Point} or Display Object distances will be measured from.
             * @param targets The {@link Phaser.Point Points} or Display Objects whose distances to the source will be compared.
-            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default).
+            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default). If `useCenter` is true, this value is ignored.
+            * @param useCenter Calculate the distance using the {@link Phaser.Sprite#centerX} and {@link Phaser.Sprite#centerY} coordinates. If true, this value overrides the `world` argument.
             * @return - The first target closest to the origin.
             */
-            closest(source: any, targets: any[], world?: boolean): any;
+            closest(source: any, targets: any[], world?: boolean, useCenter?: boolean): any;
 
             /**
             * Checks for collision between two game objects and separates them if colliding ({@link https://gist.github.com/samme/cbb81dd19f564dcfe2232761e575063d details}). If you don't require separation then use {@link Phaser.Physics.Arcade#overlap overlap} instead.
@@ -18034,17 +18107,24 @@ declare module Phaser {
             * instead of its `x` and `y` values. This is useful of the object has been nested inside an offset Group,
             * or parent Game Object.
             * 
+            * If you have nested objects and need to calculate the distance between their centers in World coordinates,
+            * set their anchors to (0.5, 0.5) and use the `world` argument.
+            * 
+            * If objects aren't nested or they share a parent's offset, you can calculate the distance between their
+            * centers with the `useCenter` argument, regardless of their anchor values.
+            * 
             * @param source The Display Object to test from.
             * @param target The Display Object to test to.
-            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default)
+            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default). If `useCenter` is true, this value is ignored.
+            * @param useCenter Calculate the distance using the {@link Phaser.Sprite#centerX} and {@link Phaser.Sprite#centerY} coordinates. If true, this value overrides the `world` argument.
             * @return The distance between the source and target objects.
             */
-            distanceBetween(source: any, target: any, world?: boolean): number;
+            distanceBetween(source: any, target: any, world?: boolean, useCenter?: boolean): number;
 
             /**
             * Find the distance between a display object (like a Sprite) and a Pointer. If no Pointer is given the Input.activePointer is used.
             * The calculation is made from the display objects x/y coordinate. This may be the top-left if its anchor hasn't been changed.
-            * If you need to calculate from the center of a display object instead use the method distanceBetweenCenters()
+            * If you need to calculate from the center of a display object instead use {@link Phaser.Physics.Arcade#distanceBetween distanceBetween} with the `useCenter` argument.
             * 
             * The optional `world` argument allows you to return the result based on the Game Objects `world` property,
             * instead of its `x` and `y` values. This is useful of the object has been nested inside an offset Group,
@@ -18060,7 +18140,7 @@ declare module Phaser {
             /**
             * Find the distance between a display object (like a Sprite) and the given x/y coordinates.
             * The calculation is made from the display objects x/y coordinate. This may be the top-left if its anchor hasn't been changed.
-            * If you need to calculate from the center of a display object instead use the method distanceBetweenCenters()
+            * If you need to calculate from the center of a display object instead use {@link Phaser.Physics.Arcade#distanceBetween distanceBetween} with the `useCenter` argument.
             * 
             * The optional `world` argument allows you to return the result based on the Game Objects `world` property,
             * instead of its `x` and `y` values. This is useful of the object has been nested inside an offset Group,
@@ -18099,10 +18179,11 @@ declare module Phaser {
             * 
             * @param source The {@link Phaser.Point Point} or Display Object distances will be measured from.
             * @param targets The {@link Phaser.Point Points} or Display Objects whose distances to the source will be compared.
-            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default).
+            * @param world Calculate the distance using World coordinates (true), or Object coordinates (false, the default). If `useCenter` is true, this value is ignored.
+            * @param useCenter Calculate the distance using the {@link Phaser.Sprite#centerX} and {@link Phaser.Sprite#centerY} coordinates. If true, this value overrides the `world` argument.
             * @return - The target closest to the origin.
             */
-            farthest(source: any, targets: any[], world?: boolean): any;
+            farthest(source: any, targets: any[], world?: boolean, useCenter?: boolean): any;
 
             /**
             * Given a Group and a location this will check to see which Group children overlap with the coordinates.
@@ -22832,6 +22913,12 @@ declare module Phaser {
         rotate(x: number, y: number, angle: number, asDegrees?: boolean, distance?: number): Phaser.Point;
 
         /**
+        * Math.round() both the x and y properties of this Point.
+        * @return This Point object.
+        */
+        round(): Phaser.Point;
+
+        /**
         * Make this Point perpendicular (-90 degrees rotation)
         * @return This Point object.
         */
@@ -23418,9 +23505,9 @@ declare module Phaser {
         flattened: boolean;
 
         /**
-        * Sets and modifies the points of this polygon.
+        * The points of this polygon.
         * 
-        * See {@link Phaser.Polygon#setTo setTo} for the different kinds of arrays formats that can be assigned. The array of vertex points.
+        * You can modify these with {@link Phaser.Polygon#setTo setTo}. The array of vertex points.
         */
         points: number[] | Phaser.Point[];
 
@@ -26057,48 +26144,48 @@ declare module Phaser {
         name: string;
 
         /**
-        * The onDecoded event is dispatched when the sound has finished decoding (typically for mp3 files)
+        * The onDecoded event is dispatched when the sound has finished decoding (typically for mp3 files). It passes one argument, this sound.
         */
         onDecoded: Phaser.Signal;
         onEndedHandler: () => void;
 
         /**
-        * The onFadeComplete event is dispatched when this sound finishes fading either in or out.
+        * The onFadeComplete event is dispatched when this sound finishes fading either in or out. It passes two arguments: this sound and its current {@link Phaser.Sound#volume volume}.
         */
         onFadeComplete: Phaser.Signal;
 
         /**
-        * The onLoop event is dispatched when this sound loops during playback.
+        * The onLoop event is dispatched when this sound loops during playback. It passes one argument, this sound.
         */
         onLoop: Phaser.Signal;
 
         /**
-        * The onMarkerComplete event is dispatched when a marker within this sound completes playback.
+        * The onMarkerComplete event is dispatched when a marker within this sound completes playback. It passes two arguments: the {@link Phaser.Sound#currentMarker currentMarker} and this sound.
         */
         onMarkerComplete: Phaser.Signal;
 
         /**
-        * The onMute event is dispatched when this sound is muted.
+        * The onMute event is dispatched when this sound is muted. It passes one argument, this sound.
         */
         onMute: Phaser.Signal;
 
         /**
-        * The onPause event is dispatched when this sound is paused.
+        * The onPause event is dispatched when this sound is paused. It passes one argument, this sound.
         */
         onPause: Phaser.Signal;
 
         /**
-        * The onPlay event is dispatched each time this sound is played.
+        * The onPlay event is dispatched each time this sound is played or a looping marker is restarted. It passes one argument, this sound.
         */
         onPlay: Phaser.Signal;
 
         /**
-        * The onResume event is dispatched when this sound is resumed from a paused state.
+        * The onResume event is dispatched when this sound is resumed from a paused state. It passes one argument, this sound.
         */
         onResume: Phaser.Signal;
 
         /**
-        * The onStop event is dispatched when this sound stops playback.
+        * The onStop event is dispatched when this sound stops playback or when a non-looping marker completes. It passes two arguments: this sound and any {@link #currentMarker marker} that was playing.
         */
         onStop: Phaser.Signal;
 
@@ -26461,6 +26548,12 @@ declare module Phaser {
         remove(sound: Phaser.Sound): boolean;
 
         /**
+        * Removes all Sounds from the SoundManager.
+        * The removed Sounds are destroyed before removal.
+        */
+        removeAll(): void;
+
+        /**
         * Removes all Sounds from the SoundManager that have an asset key matching the given value.
         * The removed Sounds are destroyed before removal.
         * 
@@ -26620,13 +26713,13 @@ declare module Phaser {
         cameraOffset: Phaser.Point;
 
         /**
-        * The center x coordinate of the Game Object.
+        * The local center x coordinate of the Game Object.
         * This is the same as `(x - offsetX) + (width / 2)`.
         */
         centerX: number;
 
         /**
-        * The center y coordinate of the Game Object.
+        * The local center y coordinate of the Game Object.
         * This is the same as `(y - offsetY) + (height / 2)`.
         */
         centerY: number;
@@ -27458,6 +27551,22 @@ declare module Phaser {
 
 
         /**
+        * Adds an existing object to the Stage.
+        * 
+        * The child is automatically added to the front of the Stage, and is displayed above every previous child.
+        * Or if the _optional_ `index` is specified, the child is added at the location specified by the index value,
+        * this allows you to control child ordering.
+        * 
+        * If the object was already on the Stage, it is simply returned, and nothing else happens to it.
+        * 
+        * @param child The display object to add as a child.
+        * @param silent Unused. Kept for compatibility with {@link Phaser.Group#add}.
+        * @param index The index to insert the object to.
+        * @return The child that was added to the group.
+        */
+        add(child: any, silent?: boolean, index?: number): any;
+
+        /**
         * Parses a Game configuration object.
         * 
         * @param config The configuration object to parse.
@@ -27622,6 +27731,11 @@ declare module Phaser {
         * A scale mode that allows a custom scale factor - see {@link Phaser.ScaleManager#scaleMode scaleMode}.
         */
         static USER_SCALE: number;
+
+        /**
+        * Names of the scale modes, indexed by value.
+        */
+        static MODES: string[];
 
 
         /**
@@ -29739,6 +29853,7 @@ declare module Phaser {
         * Indicating collide with any object on the top.
         */
         collideUp: boolean;
+        debug: boolean;
 
         /**
         * Is the bottom of this tile an interesting edge?
@@ -31706,9 +31821,12 @@ declare module Phaser {
         advancedTiming: boolean;
 
         /**
-        * The desired frame rate of the game.
+        * The number of logic updates per second.
         * 
-        * This is used is used to calculate the physic / logic multiplier and how to apply catch-up logic updates. The desired frame rate of the game. Defaults to 60.
+        * This is used is used to calculate the physic / logic multiplier and how to apply catch-up logic updates.
+        * 
+        * The render rate is unaffected unless you also turn off {@link Phaser.Game#forceSingleRender}.
+        * Default: 60
         */
         desiredFps: number;
 
@@ -31721,6 +31839,8 @@ declare module Phaser {
         * Elapsed time since the last time update, in milliseconds, based on `now`.
         * 
         * This value _may_ include time that the game is paused/inactive.
+        * 
+        * While the game is active, this will be similar to (1000 / {@link Phaser.Time#fps fps}).
         * 
         * _Note:_ This is updated only once per game loop - even if multiple logic update steps are done.
         * Use {@link Phaser.Timer#physicsTime physicsTime} as a basis of game/logic calculations instead.
@@ -31766,7 +31886,7 @@ declare module Phaser {
         fpsMin: number;
 
         /**
-        * Advanced timing result: The number of render frames record in the last second.
+        * Advanced timing result: The number of animation frames received from the browser in the last second.
         * 
         * Only calculated if {@link Phaser.Time#advancedTiming advancedTiming} is enabled.
         */
@@ -31835,6 +31955,20 @@ declare module Phaser {
         prevTime: number;
 
         /**
+        * Advanced timing result: The number of {@link Phaser.Game#updateRender renders} made in the last second.
+        * 
+        * Only calculated if {@link Phaser.Time#advancedTiming advancedTiming} is enabled.
+        */
+        renders: number;
+
+        /**
+        * Advanced timing result: Renders per second.
+        * 
+        * Only calculated if {@link Phaser.Time#advancedTiming advancedTiming} is enabled.
+        */
+        rps: number;
+
+        /**
         * Scaling factor to make the game move smoothly in slow motion (or fast motion)
         * 
         * - 1.0 = normal speed
@@ -31869,6 +32003,20 @@ declare module Phaser {
         * The value that setTimeout needs to work out when to next update
         */
         timeToCall: number;
+
+        /**
+        * Advanced timing result: The number of {@link Phaser.Game#updateLogic logic updates} made in the last second.
+        * 
+        * Only calculated if {@link Phaser.Time#advancedTiming advancedTiming} is enabled.
+        */
+        updates: number;
+
+        /**
+        * Advanced timing result: Logic updates per second.
+        * 
+        * Only calculated if {@link Phaser.Time#advancedTiming advancedTiming} is enabled.
+        */
+        ups: number;
 
 
         /**
@@ -32331,15 +32479,7 @@ declare module Phaser {
         touchStartCallback: Function;
         touchLockCallbacks: Function[];
 
-
-        /**
-        * Adds a callback that is fired when a browser touchstart or touchend event is received.
-        */
         addTouchLockCallback(callback: Function, context?: any, onEnd?: boolean): void;
-
-        /**
-        * Removes the callback at the defined index from the touchLockCallbacks array.
-        */
         removeTouchLockCallback(callback: Function, context?: any): boolean;
 
         /**
@@ -33113,10 +33253,13 @@ declare module Phaser {
         /**
         * Checks to see if a particular Sprite is currently being tweened.
         * 
+        * The `checkIsRunning` parameter will exclude tweens that have **just** completed or been stopped but haven't yet been removed from the manager.
+        * 
         * @param object The object to check for tweens against.
+        * @param checkIsRunning Also check that the tween is running and is not marked for deletion.
         * @return Returns true if the object is currently being tweened, false if not.
         */
-        isTweening(object: any): boolean;
+        isTweening(object: any, checkIsRunning?: boolean): boolean;
 
         /**
         * Remove a tween from this manager.
@@ -33532,6 +33675,21 @@ declare module Phaser {
             line(...args: string[]): void;
 
             /**
+            * Prints the progress of a {@link Phaser.Loader}.
+            * 
+            * Typically you would call this within a {@link State#loadRender} callback and pass `game.load` ({@link Phaser.Game#load}).
+            * 
+            * You can enable {@link Phaser.Loader#resetLocked} to temporarily hold the loader in its 'complete' state.
+            * Just remember to disable it before restarting the loader (such as when changing states).
+            * 
+            * @param loader The loader. Usually `game.load` ({@link Phaser.Game#load}).
+            * @param x The X value the debug info will start from.
+            * @param y The Y value the debug info will start from.
+            * @param color The color the debug text will drawn in. - Default: 'rgb(255,255,255)'
+            */
+            loader(loader: Phaser.Loader, x: number, y: number, color?: string): void;
+
+            /**
             * Prints Phaser {@link Phaser.VERSION version}, {@link Phaser.Game.#renderType rendering mode}, and {@link Phaser.Device#webAudio device audio support}.
             * 
             * @param x The X value the debug info will start from.
@@ -33615,6 +33773,24 @@ declare module Phaser {
             * @param filled Render the rectangle as a fillRect (default, true) or a strokeRect (false) - Default: true
             */
             ropeSegments(rope: Phaser.Rope, color?: number, filled?: boolean): void;
+
+            /**
+            * Render Sound Manager information, including volume, mute, audio mode, and locked status.
+            * 
+            * @param x X position of the debug info to be rendered.
+            * @param y Y position of the debug info to be rendered.
+            * @param color color of the debug info to be rendered. (format is css color string). - Default: 'rgb(255,255,255)'
+            */
+            sound(x: number, y: number, color?: string): void;
+
+            /**
+            * Prints game/canvas dimensions and {@link Phaser.ScaleManager game scale} settings.
+            * 
+            * @param x The X value the debug info will start from.
+            * @param y The Y value the debug info will start from.
+            * @param color The color the debug text will drawn in. - Default: 'rgb(255,255,255)'
+            */
+            scale(x: number, y: number, color?: string): void;
 
             /**
             * Render Sound information, including decoded state, duration, volume and more.
@@ -33732,7 +33908,7 @@ declare module Phaser {
     * ```javascript
     * var weapon = this.game.plugins.add(Phaser.Weapon);
     * // …
-    * weapon.createBullets();
+    * weapon.createBullets(10, 'bullet');
     * ```
     */
     class Weapon extends Phaser.Plugin {
@@ -33764,7 +33940,7 @@ declare module Phaser {
         * ```javascript
         * var weapon = this.game.plugins.add(Phaser.Weapon);
         * // …
-        * weapon.createBullets();
+        * weapon.createBullets(10, 'bullet');
         * ```
         * 
         * @param game A reference to the current Phaser.Game instance.
