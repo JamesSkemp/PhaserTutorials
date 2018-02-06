@@ -1,4 +1,9 @@
 ﻿export default class ExampleState extends Phaser.State {
+	/**
+	 * Unique name of the state.
+	 */
+	public static Name: string = "ExampleState";
+
 	init() {
 		console.log((new Date).toISOString() + ' : Entered ExampleState init()');
 		// init can receive parameters.
