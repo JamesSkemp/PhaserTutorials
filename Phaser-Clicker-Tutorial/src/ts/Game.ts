@@ -1,4 +1,6 @@
-﻿export default class Game extends Phaser.Game {
+﻿import PreloaderState from "./States/Preloader";
+
+export default class Game extends Phaser.Game {
 	// Define static/constant variables here, as needed. Reference later by Game.SOME_VARIABLE.
 	//static SOME_VARIABLE: number = 10;
 
@@ -8,35 +10,10 @@
 		// Update the width (800) and height (600) accordingly.
 		super(800, 600, Phaser.AUTO, 'content');
 
+		this.state.add(PreloaderState.Name, PreloaderState);
+
 this.state.add('play', {
 	preload: function () {
-		// Load in the images for our background.
-		this.game.load.image('forest-back', 'assets/parallax_forest_pack/layers/parallax-forest-back-trees.png');
-		this.game.load.image('forest-lights', 'assets/parallax_forest_pack/layers/parallax-forest-lights.png');
-		this.game.load.image('forest-middle', 'assets/parallax_forest_pack/layers/parallax-forest-middle-trees.png');
-		this.game.load.image('forest-front', 'assets/parallax_forest_pack/layers/parallax-forest-front-trees.png');
-
-		// Sizes are the width and height of an individual image, and how many frames there are.
-		this.game.load.spritesheet('aerocephal', 'assets/allacrost_enemy_sprites/aerocephal.png', 768 / 4, 192, 4);
-		this.game.load.spritesheet('arcana_drake', 'assets/allacrost_enemy_sprites/arcana_drake.png', 768 / 4, 256, 4);
-		this.game.load.spritesheet('aurum-drakueli', 'assets/allacrost_enemy_sprites/aurum-drakueli.png', 1280 / 4, 256, 4);
-		this.game.load.spritesheet('bat', 'assets/allacrost_enemy_sprites/bat.png', 512 / 4, 128, 4);
-		this.game.load.spritesheet('daemarbora', 'assets/allacrost_enemy_sprites/daemarbora.png', 512 / 4, 128, 4);
-		this.game.load.spritesheet('deceleon', 'assets/allacrost_enemy_sprites/deceleon.png', 1024 / 4, 256, 4);
-		this.game.load.spritesheet('demonic_essence', 'assets/allacrost_enemy_sprites/demonic_essence.png', 512 / 4, 192, 4);
-		this.game.load.spritesheet('dune_crawler', 'assets/allacrost_enemy_sprites/dune_crawler.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('green_slime', 'assets/allacrost_enemy_sprites/green_slime.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('nagaruda', 'assets/allacrost_enemy_sprites/nagaruda.png', 768 / 4, 256, 4);
-		this.game.load.spritesheet('rat', 'assets/allacrost_enemy_sprites/rat.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('scorpion', 'assets/allacrost_enemy_sprites/scorpion.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('scorpion_goliath', 'assets/allacrost_enemy_sprites/scorpion_goliath.png', 2048 / 4, 448, 4);
-		this.game.load.spritesheet('skeleton', 'assets/allacrost_enemy_sprites/skeleton.png', 256 / 4, 128, 4);
-		this.game.load.spritesheet('snake', 'assets/allacrost_enemy_sprites/snake.png', 512 / 4, 64, 4);
-		this.game.load.spritesheet('spider', 'assets/allacrost_enemy_sprites/spider.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('stygian_lizard', 'assets/allacrost_enemy_sprites/stygian_lizard.png', 768 / 4, 192, 4);
-
-		this.game.load.image('gold_coin', 'assets/496_RPG_icons/I_GoldCoin.png');
-
 		// Upgrades panel.
 		var bmd = this.game.add.bitmapData(250, 500);
 		bmd.ctx.fillStyle = '#9a783d';
@@ -53,9 +30,6 @@ this.state.add('play', {
 		buttonImage.ctx.fillRect(0, 0, 225, 48);
 		buttonImage.ctx.strokeRect(0, 0, 225, 48);
 		this.game.cache.addBitmapData('button', buttonImage);
-
-		this.game.load.image('dagger', 'assets/496_RPG_icons/W_Dagger002.png');
-		this.game.load.image('swordIcon1', 'assets/496_RPG_icons/S_Sword15.png');
 
 		// Current world level.
 		this.level = 1;
@@ -345,8 +319,8 @@ this.state.add('play', {
 	}
 });
 
-this.state.start('play');
-}
+		this.state.start(PreloaderState.Name);
+	}
 }
 
 window.onload = () => {
