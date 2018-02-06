@@ -1,36 +1,38 @@
-﻿/// <reference path="../lib/phaser-2.4.3.js" />
-// Create a game with dimensions 800x600, and use the WebGL (default) or Canvas renderer, depending upon the browser.
-var game = new Phaser.Game(800, 600, Phaser.AUTO);
+export default class Play extends Phaser.State {
+	/**
+	 * Unique name of the state.
+	 */
+	public static Name: string = "Play";
 
-game.state.add('play', {
-	preload: function () {
-		// Load in the images for our background.
-		this.game.load.image('forest-back', 'assets/parallax_forest_pack/layers/parallax-forest-back-trees.png');
-		this.game.load.image('forest-lights', 'assets/parallax_forest_pack/layers/parallax-forest-lights.png');
-		this.game.load.image('forest-middle', 'assets/parallax_forest_pack/layers/parallax-forest-middle-trees.png');
-		this.game.load.image('forest-front', 'assets/parallax_forest_pack/layers/parallax-forest-front-trees.png');
+	level: number;
+	levelKills: number;
+	levelKillsRequired: number;
+	background: Phaser.Group;
+	monsters: Phaser.Group;
+	currentMonster: any;
+	player: any;
+	monsterInfoUI: Phaser.Group;
+	monsterNameText: Phaser.Text;
+	monsterHealthText: Phaser.Text;
+	dmgTextPool: Phaser.Group;
+	coins: Phaser.Group;
+	playerGoldText: Phaser.Text;
+	upgradePanel: Phaser.Image;
+	levelUI: Phaser.Group;
+	levelText: Phaser.Text;
+	levelKillsText: Phaser.Text;
+	dpsTimer: Phaser.TimerEvent;
 
-		// Sizes are the width and height of an individual image, and how many frames there are.
-		this.game.load.spritesheet('aerocephal', 'assets/allacrost_enemy_sprites/aerocephal.png', 768 / 4, 192, 4);
-		this.game.load.spritesheet('arcana_drake', 'assets/allacrost_enemy_sprites/arcana_drake.png', 768 / 4, 256, 4);
-		this.game.load.spritesheet('aurum-drakueli', 'assets/allacrost_enemy_sprites/aurum-drakueli.png', 1280 / 4, 256, 4);
-		this.game.load.spritesheet('bat', 'assets/allacrost_enemy_sprites/bat.png', 512 / 4, 128, 4);
-		this.game.load.spritesheet('daemarbora', 'assets/allacrost_enemy_sprites/daemarbora.png', 512 / 4, 128, 4);
-		this.game.load.spritesheet('deceleon', 'assets/allacrost_enemy_sprites/deceleon.png', 1024 / 4, 256, 4);
-		this.game.load.spritesheet('demonic_essence', 'assets/allacrost_enemy_sprites/demonic_essence.png', 512 / 4, 192, 4);
-		this.game.load.spritesheet('dune_crawler', 'assets/allacrost_enemy_sprites/dune_crawler.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('green_slime', 'assets/allacrost_enemy_sprites/green_slime.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('nagaruda', 'assets/allacrost_enemy_sprites/nagaruda.png', 768 / 4, 256, 4);
-		this.game.load.spritesheet('rat', 'assets/allacrost_enemy_sprites/rat.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('scorpion', 'assets/allacrost_enemy_sprites/scorpion.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('scorpion_goliath', 'assets/allacrost_enemy_sprites/scorpion_goliath.png', 2048 / 4, 448, 4);
-		this.game.load.spritesheet('skeleton', 'assets/allacrost_enemy_sprites/skeleton.png', 256 / 4, 128, 4);
-		this.game.load.spritesheet('snake', 'assets/allacrost_enemy_sprites/snake.png', 512 / 4, 64, 4);
-		this.game.load.spritesheet('spider', 'assets/allacrost_enemy_sprites/spider.png', 256 / 4, 64, 4);
-		this.game.load.spritesheet('stygian_lizard', 'assets/allacrost_enemy_sprites/stygian_lizard.png', 768 / 4, 192, 4);
+	init() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState init()');
+		// init can receive parameters.
 
-		this.game.load.image('gold_coin', 'assets/496_RPG_icons/I_GoldCoin.png');
+	}
 
+	preload() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState preload()');
+
+		// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
 		// Upgrades panel.
 		var bmd = this.game.add.bitmapData(250, 500);
 		bmd.ctx.fillStyle = '#9a783d';
@@ -48,28 +50,30 @@ game.state.add('play', {
 		buttonImage.ctx.strokeRect(0, 0, 225, 48);
 		this.game.cache.addBitmapData('button', buttonImage);
 
-		this.game.load.image('dagger', 'assets/496_RPG_icons/W_Dagger002.png');
-		this.game.load.image('swordIcon1', 'assets/496_RPG_icons/S_Sword15.png');
-
 		// Current world level.
 		this.level = 1;
 		// Number of monsters killed in this level.
 		this.levelKills = 0;
 		// Number of monsters that have to be killed before advancing a level.
 		this.levelKillsRequired = 10;
-	},
+	}
 
-	create: function () {
-		var state = this;
+	loadUpdate() {
+		// Called while assets are being loaded.
+	}
+
+	create() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState create()');
+
 		// Create a group to hold our related background images.
 		this.background = this.game.add.group();
 		// Setup each of our background layers to take the full screen.
 		['forest-back', 'forest-lights', 'forest-middle', 'forest-front']
-			.forEach(function (image) {
-				var bg = state.game.add.tileSprite(0, 0, state.game.world.width, state.game.world.height, image, '', state.background);
+			.forEach((image) => {
+				var bg: Phaser.TileSprite = this.game.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, image, '', this.background);
 				// If not set, the image will repeat horizontally and vertically (4x4).
-				bg.tileScale.setTo(4, 4);
-			});
+				bg.tileScale.set(4, 4);
+			}, this);
 
 		var monsterData = [
 			{ name: 'Aerocephal', image: 'aerocephal', maxHealth: 10 },
@@ -94,9 +98,9 @@ game.state.add('play', {
 		this.monsters = this.game.add.group();
 
 		var monster;
-		monsterData.forEach(function (data) {
+		monsterData.forEach((data) => {
 			// Create a sprite for them off scrren.
-			monster = state.monsters.create(1500, state.game.world.centerY, data.image);
+			monster = this.monsters.create(1500, this.game.world.centerY, data.image);
 			// Center sprite anchor.
 			monster.anchor.setTo(0.5);
 			// Reference to the data.
@@ -104,12 +108,12 @@ game.state.add('play', {
 			// Phaser has health/combat functionality built into the engine.
 			monster.health = monster.maxHealth = data.maxHealth;
 			// Phaser includes killed/revived functionality.
-			monster.events.onKilled.add(state.onKilledMonster, state);
-			monster.events.onRevived.add(state.onRevivedMonster, state);
+			monster.events.onKilled.add(this.onKilledMonster, this);
+			monster.events.onRevived.add(this.onRevivedMonster, this);
 			// Enable clicking.
 			monster.inputEnabled = true;
-			monster.events.onInputDown.add(state.onClickMonster, state);
-		});
+			monster.events.onInputDown.add(this.onClickMonster, this);
+		}, this);
 
 		this.currentMonster = this.monsters.getRandom();
 		this.currentMonster.position.set(this.game.world.centerX + 100, this.game.world.centerY);
@@ -126,12 +130,12 @@ game.state.add('play', {
 
 		this.monsterInfoUI = this.game.add.group();
 		this.monsterInfoUI.position.setTo(this.currentMonster.x - 220, this.currentMonster.y + 120);
-		this.monsterNameText = this.monsterInfoUI.addChild(this.game.add.text(0, 0, this.currentMonster.details.name, {
+		this.monsterNameText = this.monsterInfoUI.add(this.game.add.text(0, 0, this.currentMonster.details.name, {
 			font: '48px Arial Black',
 			fill: '#fff',
 			strokeThickness: 4
 		}));
-		this.monsterHealthText = this.monsterInfoUI.addChild(this.game.add.text(0, 80, Math.round(this.currentMonster.health) + ' HP', {
+		this.monsterHealthText = this.monsterInfoUI.add(this.game.add.text(0, 80, Math.round(this.currentMonster.health) + ' HP', {
 			font: '32px Arial Black',
 			fill: '#f00',
 			strokeThickness: 4
@@ -149,7 +153,7 @@ game.state.add('play', {
 			// Don't draw them until we need to.
 			dmgText.exists = false;
 			// The text will start where we click and fly off in a random direction, over the course of 1000 ms.
-			dmgText.tween = game.add.tween(dmgText)
+			dmgText.tween = this.game.add.tween(dmgText)
 				.to({
 					alpha: 0,
 					y: 100,
@@ -176,7 +180,7 @@ game.state.add('play', {
 		});
 
 		this.upgradePanel = this.game.add.image(10, 70, this.game.cache.getBitmapData('upgradePanel'));
-		var upgradeButtons = this.upgradePanel.addChild(this.game.add.group());
+		var upgradeButtons: any = this.upgradePanel.addChild(this.game.add.group());
 		upgradeButtons.position.setTo(8, 8);
 
 		var upgradeButtonsData = [
@@ -193,27 +197,28 @@ game.state.add('play', {
 		];
 
 		// Create a button to upgrade the player's click damage.
-		var button;
-		upgradeButtonsData.forEach(function (buttonData, index) {
-			button = state.game.add.button(0, 50 * index, state.game.cache.getBitmapData('button'));
-			button.icon = button.addChild(state.game.add.image(6, 6, buttonData.icon));
-			button.text = button.addChild(state.game.add.text(42, 6, buttonData.name + ': ' + buttonData.level, { font: '16px Arial Black' }));
+		var button: any;
+		upgradeButtonsData.forEach((buttonData, index) => {
+			button = this.game.add.button(0, 50 * index);
+			button.loadTexture(this.game.cache.getBitmapData('button'));
+			button.icon = button.addChild(this.game.add.image(6, 6, buttonData.icon));
+			button.text = button.addChild(this.game.add.text(42, 6, buttonData.name + ': ' + buttonData.level, { font: '16px Arial Black' }));
 			button.details = buttonData;
-			button.costText = button.addChild(state.game.add.text(42, 24, 'Cost: ' + buttonData.cost, { font: '16px Arial Black' }));
-			button.events.onInputDown.add(state.onUpgradeButtonClick, state);
+			button.costText = button.addChild(this.game.add.text(42, 24, 'Cost: ' + buttonData.cost, { font: '16px Arial Black' }));
+			button.events.onInputDown.add(this.onUpgradeButtonClick, this);
 			// Add the button to the collection of upgrade buttons.
 			upgradeButtons.addChild(button);
-		});
+		}, this);
 
 		// Display the current world level.
 		this.levelUI = this.game.add.group();
 		this.levelUI.position.setTo(this.game.world.centerX, 30);
-		this.levelText = this.levelUI.addChild(this.game.add.text(0, 0, 'Level: ' + this.level, {
+		this.levelText = this.levelUI.add(this.game.add.text(0, 0, 'Level: ' + this.level, {
 			font: '24px Arial Black',
 			fill: '#fff',
 			strokeThickness: 4
 		}));
-		this.levelKillsText = this.levelUI.addChild(this.game.add.text(0, 30, 'Kills: ' + this.levelKills + '/' + this.levelKillsRequired, {
+		this.levelKillsText = this.levelUI.add(this.game.add.text(0, 30, 'Kills: ' + this.levelKills + '/' + this.levelKillsRequired, {
 			font: '24px Arial Black',
 			fill: '#fff',
 			strokeThickness: 4
@@ -228,9 +233,32 @@ game.state.add('play', {
 		// Set the rotation point to the center of the image, instead of the top left (0, 0).
 		skeletonSprite.anchor.setTo(0.5, 0.5);
 		*/
-	},
+	}
 
-	render: function () {
+	update() {
+
+	}
+
+	paused() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState paused()');
+
+	}
+
+	pauseUpdate() {
+
+	}
+
+	resumed() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState resumed()');
+
+	}
+
+	shutdown() {
+		console.log((new Date).toISOString() + ' : Entered ExampleState shutdown()');
+
+	}
+
+	render() {
 		/*
 		game.debug.text(
 			this.currentMonster.details.name,
@@ -238,9 +266,9 @@ game.state.add('play', {
 			this.game.world.centerY + this.currentMonster.height / 2);
 		*/
 		//game.debug.text('Adventure Awaits!', 250, 250);
-	},
-	
-	onClickMonster: function (monster, pointer) {
+	}
+
+	onClickMonster(monster, pointer) {
 		// Apply click damage to the monster.
 		this.currentMonster.damage(this.player.clickDmg);
 
@@ -261,9 +289,9 @@ game.state.add('play', {
 		this.currentMonster = this.monsters.getRandom();
 		this.currentMonster.position.set(this.game.world.centerX + 100, this.game.world.centerY);
 		*/
-	},
+	}
 
-	onKilledMonster: function (monster) {
+	onKilledMonster(monster) {
 		// Move the monster off screen.
 		monster.position.set(1500, this.game.world.centerY);
 
@@ -290,17 +318,17 @@ game.state.add('play', {
 		this.currentMonster.maxHealth = Math.ceil(this.currentMonster.details.maxHealth + ((this.level - 1) * 10.6))
 		// Start them off fully healed.
 		this.currentMonster.revive(this.currentMonster.maxHealth);
-	},
+	}
 
-	onRevivedMonster: function (monster) {
+	onRevivedMonster(monster) {
 		// Move it into the world.
 		monster.position.set(this.game.world.centerX + 100, this.game.world.centerY);
 		// Update the text display.
 		this.monsterNameText.text = monster.details.name;
 		this.monsterHealthText.text = monster.health + ' HP';
-	},
+	}
 
-	onClickCoin: function (coin) {
+	onClickCoin(coin) {
 		// Make sure it's still alive. This may be an issue if we try to automatically collect a coin that has been clicked on.
 		if (!coin.alive) {
 			return;
@@ -309,9 +337,9 @@ game.state.add('play', {
 		this.player.gold += coin.goldValue;
 		this.playerGoldText.text = 'Gold: ' + this.player.gold;
 		coin.kill();
-	},
+	}
 
-	onUpgradeButtonClick: function (button, pointer) {
+	onUpgradeButtonClick(button, pointer) {
 		// This functionality is here so it's updated after purchases.
 		function getAdjustedCost() {
 			return Math.ceil(button.details.cost + (button.details.level * 1.46));
@@ -325,9 +353,9 @@ game.state.add('play', {
 			button.costText.text = 'Cost: ' + getAdjustedCost();
 			button.details.purchaseHandler.call(this, button, this.player);
 		}
-	},
+	}
 	
-	onDPS: function () {
+	onDPS() {
 		if (this.player.dps > 0) {
 			if (this.currentMonster && this.currentMonster.alive) {
 				var dmg = this.player.dps / 10;
@@ -337,6 +365,4 @@ game.state.add('play', {
 			}
 		}
 	}
-});
-
-game.state.start('play');
+}
