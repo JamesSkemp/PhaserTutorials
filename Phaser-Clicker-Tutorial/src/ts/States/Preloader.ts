@@ -1,3 +1,5 @@
+import PlayState from './Play';
+
 export default class Preloader extends Phaser.State {
 	/**
 	 * Unique name of the state.
@@ -48,7 +50,6 @@ export default class Preloader extends Phaser.State {
 		console.log((new Date).toISOString() + ' : Entered Preloader create()');
 
 		// Once the assets have been preloaded you can move to the next state.
-		//this.game.state.start(PlayState.Name, true, false);
-		this.game.state.start('play', true, false);
+		this.game.state.start(PlayState.Name, true, false);
 	}
 }
