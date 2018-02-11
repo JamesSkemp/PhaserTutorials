@@ -10,18 +10,7 @@ As I've worked through the various tutorials I've created two templates that I u
 
 ### _Starter
 
-Of special note is the **_Starter** project which I'll be using as my base project, and will be updating as needed in the future.
-
-The base project uses TypeScript with Phaser (2.6.2).
-
-Other variants use the free [Visual Studio Code][vs-code] and include:
-
-- _Starter VS Code
-	- Uses Visual Studio Code and Phaser 2.6.2, the last official release.
-- _Starter VS Code CE
-	- Uses Visual Studio Code and Phaser Community Edition.
-- _starter-node-ce
-	- Uses Visual Studio Code, Phaser Community Edition, and [Node.js](https://nodejs.org/en/).
+These templates have been moved to the [Phaser Starter Templates project](https://github.com/JamesSkemp/phaser-starter-templates) on GitHub, and [mirror on GitLab](https://gitlab.com/strivinglife/phaser-starter-templates).
 
 ### _Starter Simple
 

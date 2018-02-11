@@ -1,7 +1,0 @@
-{
-	"compilerOptions": {
-		"target": "es5",
-		"sourceMap": false,
-		"outFile": "app.js"
-	}
-}
