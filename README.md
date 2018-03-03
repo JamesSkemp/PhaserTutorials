@@ -55,6 +55,7 @@ In case it provides any benefit, the following is the order in which I completed
 | LevelSelection-TypeScript | *April 2016* |
 | 2dPlatformer-TypeScript | *December 2016* |
 | DungeonRaid-TypeScript | *January 2017* |
+| phaser-3-official | *March 2018* |
 
 These tutorials do not cover Phaser per-se, but may still be relevant to the framework in some way.
 
